@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Models.template{
+namespace Models.Template{
 
 
     public class Template{
