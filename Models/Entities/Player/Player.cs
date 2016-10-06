@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 namespace Models.Entities
 {
-
-
     public class Player
     {
         public int PlayerId { get; set; }
@@ -22,3 +20,4 @@ namespace Models.Entities
 
     }
 }
+
