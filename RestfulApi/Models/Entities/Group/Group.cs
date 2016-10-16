@@ -7,6 +7,14 @@ namespace Models.Entities
 {
     public class Group
     {
+
+        private Group() { }
+
+        public static GroupBuilder Build()
+        {
+            return new GroupBuilder(new Group());
+        }
+
         public int GroupId { get; set; }
 
         public Guid GroupGuid { get; set; }
@@ -23,13 +31,14 @@ namespace Models.Entities
 
         public override bool Equals(object obj)
         {
-            Group objPlayer = (Group)obj;
+            Group group = (Group)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.GroupId == this.GroupId;
+                return group.GroupId == this.GroupId;
 
             return false;
         }
+
         public override int GetHashCode()
         {
             return base.GetHashCode();

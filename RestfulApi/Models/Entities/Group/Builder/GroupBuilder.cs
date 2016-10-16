@@ -6,54 +6,69 @@ namespace Models.Entities
 {
     public class GroupBuilder : IGroupBuilder
     {
+        private Group _group;
+
+        public GroupBuilder (Group group)
+        {
+          _group = group;
+        }
         public Group Build()
         {
-            throw new NotImplementedException();
+            return _group;
         }
 
         public IGroupBuilder Players(List<Player> input)
         {
-            throw new NotImplementedException();
+           _group.Players = input;
+           return this;
         }
 
         public IGroupBuilder SetCreated(DateTime input)
         {
-            throw new NotImplementedException();
+            _group.Created = input;
+            return this;
         }
 
         public IGroupBuilder SetEvents(List<Event> input)
         {
-            throw new NotImplementedException();
+            _group.Events = input;
+            return this;
         }
 
         public IGroupBuilder SetGroupGuid(Guid input)
         {
-            throw new NotImplementedException();
+           _group.GroupGuid = input;
+           return this;
         }
 
         public IGroupBuilder SetGroupId(int input)
         {
-            throw new NotImplementedException();
+            _group.GroupId = input;
+            return this;
         }
 
         public IGroupBuilder SetName(string input)
         {
-            throw new NotImplementedException();
+            _group.Name = input;
+            return this;
         }
 
         public IGroupBuilder SetRoles(List<Role> input)
         {
-            throw new NotImplementedException();
+            _group.Roles = input;
+            return this;
         }
 
         public IGroupBuilder SetUpdated(DateTime input)
         {
-            throw new NotImplementedException();
+            _group.Updated = input;
+            return this;
         }
 
         public IGroupBuilder SetVisibilty(Visibilty input)
         {
-            throw new NotImplementedException();
+            _group.Visibilty = input;
+            return this;
         }
     }
 }

@@ -6,12 +6,13 @@ namespace Models.Entities
 {
     public class Game
     {
-        private Game (){} 
-        public static GameBuilder Builder(){
+        private Game() { }
+        public static GameBuilder Builder()
+        {
             return new GameBuilder(new Game());
         }
         public int GameId { get; set; }
-        
+
         public string Name { get; set; }
         public Guid GameGuid { get; set; }
         public DateTime Created { get; set; }
@@ -23,14 +24,15 @@ namespace Models.Entities
 
         public override bool Equals(object obj)
         {
-            Game objPlayer = (Game)obj;
+            Game game = (Game)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.GameId == this.GameId;
+                return game.GameId == this.GameId;
 
             return false;
         }
-         public override int GetHashCode()
+
+        public override int GetHashCode()
         {
             return base.GetHashCode();
         }
