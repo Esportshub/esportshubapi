@@ -13,6 +13,7 @@ namespace Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public Visibilty Visibilty { get; set; }
+
         public List<Role> Roles { get; set; }
         public List<Player> Players { get; set; }
         public List<Event> Events { get; set; }

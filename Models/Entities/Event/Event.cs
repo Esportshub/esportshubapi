@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Models.Entities {
 
     public class Event {
-                public int id { get; set; }
+                public int EventId { get; set; }
                 public string Name { get; set; }
                 public Guid Guid { get; set; }
                 public DateTime Start { get; set; }
