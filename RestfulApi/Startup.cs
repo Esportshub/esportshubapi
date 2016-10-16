@@ -13,7 +13,6 @@ using MySQL.Data.EntityFrameworkCore.Extensions;
 using System.IO;
 using Models;
 
-
 namespace esportshubapi
 {
     public class Startup

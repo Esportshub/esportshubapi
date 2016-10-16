@@ -5,6 +5,8 @@ namespace Models.Entities
 {
     public class Player
     {
+        public Player() { }
+
         public int PlayerId { get; set; }
 
         public Guid PlayerGuid { get; set; }
