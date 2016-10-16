@@ -30,6 +30,7 @@ namespace Models.Repositories
 
         public virtual Player GetByID(object id)
         {
+            return new Player()
             return dbSet.Single( x => x.Equals(id));
         }
 
