@@ -13,8 +13,6 @@ namespace Models.Entities
         public string Password { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
-
-
         public Player Player { get; set; }
     }
 
