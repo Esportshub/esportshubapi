@@ -11,11 +11,10 @@ namespace esportshubapi.Controllers
     public class PlayerController : Controller
     {
         internal IPlayerRepository _playerRepository;
-        public TemplateController(IPlayerRepository playerRepository) 
+        public PlayerController(IPlayerRepository playerRepository) 
         {
             _playerRepository = playerRepository;
         }
-
 
         // GET api/values
         [HttpGet]

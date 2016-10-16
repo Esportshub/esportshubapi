@@ -1,7 +1,7 @@
 using Xunit;
 using Moq;
 
-namespace Api.Repositories
+namespace RestfulApi.Controllers
 {
     public class PlayerControllerTest
     {
@@ -18,7 +18,13 @@ namespace Api.Repositories
         }
 
          [Fact]
-        public void GetTest()
+        public void PutTest()
+        {
+            Assert.Equal(5, Add(2, 2));
+        }
+
+         [Fact]
+        public void DeleteTest()
         {
             Assert.Equal(5, Add(2, 2));
         }
