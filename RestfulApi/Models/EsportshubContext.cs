@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
-using MySQL.Data.EntityFrameworkCore.Extensions;
-using System.Data.Common;
 
 namespace Models {
     public class EsportshubContext : DbContext
