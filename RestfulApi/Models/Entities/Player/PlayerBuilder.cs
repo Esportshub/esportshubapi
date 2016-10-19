@@ -7,137 +7,65 @@ namespace Models.Entities
 {
     public class PlayerBuilder : IPlayerBuilder
     {
-        Account IPlayerBuilder.Account
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+        private Player _player;
 
-            set
-            {
-                throw new NotImplementedException();
-            }
+        public PlayerBuilder() {
+            _player = new Player();
         }
 
-        List<Activity> IPlayerBuilder.Activities
+        //@TODO: Throw the correct exceptions/validate correctly
+        public Player Build()
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return _player;
         }
 
-        List<Player> IPlayerBuilder.Followers
+        public IPlayerBuilder SetAccount(Account input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            _player.Account = input;
+            return this;
         }
 
-        List<Game> IPlayerBuilder.Games
+        public IPlayerBuilder SetActivities(List<Activity> input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        List<Group> IPlayerBuilder.Groups
+        public IPlayerBuilder SetFollowers(List<Player> input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        List<Integration> IPlayerBuilder.Integrations
+        public IPlayerBuilder SetGames(List<Game> input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        string IPlayerBuilder.Nickname
+        public IPlayerBuilder SetGroups(List<Group> input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        Guid IPlayerBuilder.PlayerGuid
+        public IPlayerBuilder SetIntegrations(List<Integration> input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        int IPlayerBuilder.PlayerId
+        public IPlayerBuilder SetNickname(string input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        List<Team> IPlayerBuilder.Teams
+        public IPlayerBuilder SetPlayerGuid(Guid input)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return this;
         }
 
-        Player IBuilder<Player>.Build()
+        public IPlayerBuilder SetPlayerId(int input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPlayerBuilder SetTeams(List<Team> input)
         {
             throw new NotImplementedException();
         }

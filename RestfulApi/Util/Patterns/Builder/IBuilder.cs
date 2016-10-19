@@ -1,4 +1,0 @@
-namespace Util.Patterns.Builder 
-{
-    
-}
