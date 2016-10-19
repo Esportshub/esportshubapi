@@ -1,8 +1,10 @@
 using Xunit;
 using Moq;
-using esportshubapi.Controllers;
-using esportshubapi.Repositories;
-using esportshubapi.Models;
+using EsportshubApi.Controllers;
+using EsportshubApi.Models.Repositories;
+using EsportshubApi.Models;
+using EsportshubApi.Models.Entities;
+
 
 
 namespace RestfulApi.Test.Controllers
@@ -13,7 +15,9 @@ namespace RestfulApi.Test.Controllers
          public void PostTest()
          {
              var mockRepo = new Mock<IPlayerRepository>();
-             mockRepo.Setup(repo => repo.Insert(Player player)).Returns(Task.FromResult((Player) null));
+             Player player = new Player();
+            mockRepo.Setup(repo => repo.Insert(player)).;
+            //mockRepo.Setup(repo => repo.Insert(player)).Returns(Task.FromResult((Player) null));
              var PlayerController = new PlayerController(mockRepo);
              Assert.Equal(4, Add(2, 2));             
          }
