@@ -15,6 +15,11 @@ namespace EsportshubApi.Models.Entities
             return _gameEvent;
         }
 
+        public GameEvent Build(RestfulApi.Models.Validator.IValidator validator)
+        {
+            throw new NotImplementedException();
+        }
+
         public IGameEventBuilder SetEvent(Event input)
         {
           _gameEvent.Event = input;

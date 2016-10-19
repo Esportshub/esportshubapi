@@ -1,4 +1,6 @@
 using System;
+using RestfulApi.Models.Validator;
+
 namespace EsportshubApi.Models.Entities
 {
     public class EventBuilder : IEventBuilder
@@ -13,6 +15,11 @@ namespace EsportshubApi.Models.Entities
         public Event Build()
         {
             return _event;
+        }
+
+        public Event Build(IValidator validator)
+        {
+            throw new NotImplementedException();
         }
 
         public IEventBuilder SetCreated(DateTime input)

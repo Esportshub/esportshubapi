@@ -11,11 +11,17 @@ namespace EsportshubApi.Models.Entities
             _player = new Player();
         }
 
-        //@TODO: Throw the correct exceptions/validate correctly
         public Player Build()
         {
-            return _player;
+           return _player;
         }
+
+        public Player Build(RestfulApi.Models.Validator.IValidator validator)
+        {
+           return _player;
+        }
+
+        //@TODO: Throw the correct exceptions/validate correctly
 
         public IPlayerBuilder SetAccount(Account input)
         {
