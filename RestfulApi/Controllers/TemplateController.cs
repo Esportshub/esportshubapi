@@ -14,7 +14,6 @@ namespace esportshubapi.Controllers
             _playerRepository = playerRepository;
         }
 
-
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
