@@ -3,10 +3,10 @@ namespace RestfulAPI.Tests.Entities
 {
     public class Game
     {
-       /** [Fact]*/
+       [Fact]
         public void GameBuilder()
         {
-
+            var game = Game.Builder();
         }
     
     }
