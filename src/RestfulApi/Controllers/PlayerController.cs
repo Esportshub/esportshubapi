@@ -1,15 +1,14 @@
-using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Models.Repositories;
 
-namespace esportshubapi.Controllers
+namespace EsportshubApi.Controllers
 {
     [Route("api/[controller]")]
-    public class TemplateController : Controller
+    public class PlayerController : Controller
     {
         internal IPlayerRepository _playerRepository;
-        public TemplateController(IPlayerRepository playerRepository) 
+        public PlayerController(IPlayerRepository playerRepository) 
         {
             _playerRepository = playerRepository;
         }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Models.Repositories;
 
-namespace esportshubapi.Controllers
+namespace EsportshubApi.Controllers
 {
     [Route("api/[controller]")]
     public class TemplateController : Controller

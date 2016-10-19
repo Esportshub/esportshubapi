@@ -1,19 +1,14 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Models.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace esportshubapi.Controllers
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace EsportshubApi.Controllers
 {
     [Route("api/[controller]")]
-    public class TemplateController : Controller
+    public class AccountController : Controller
     {
-        internal IPlayerRepository _playerRepository;
-        public TemplateController(IPlayerRepository playerRepository) 
-        {
-            _playerRepository = playerRepository;
-        }
-
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()

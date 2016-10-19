@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Linq.Expressions;
-using Models.Repositories;
-using Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using EsportshubApi.Models.Entities;
+using EsportshubApi.Models.Models;
 
-namespace Models.Repositories
+namespace EsportshubApi.Models.Repositories
 {
     public class MockPlayerRepository : GenericRepository<Player>, IPlayerRepository
     {
