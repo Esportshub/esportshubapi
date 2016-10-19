@@ -1,4 +1,7 @@
 using Xunit;
+using esportshubapi.Controllers;
+using esportshubapi.Repositories;
+using esportshubapi.Models;
 namespace RestfulAPI.Tests.Entities
 {
     public class Game
@@ -7,6 +10,7 @@ namespace RestfulAPI.Tests.Entities
         public void GameBuilder()
         {
             var game = Game.Builder();
+            
         }
     
     }

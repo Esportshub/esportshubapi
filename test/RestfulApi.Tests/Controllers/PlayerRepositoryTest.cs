@@ -15,7 +15,7 @@ namespace RestfulApi.Test.Controllers
              var mockRepo = new Mock<IPlayerRepository>();
              mockRepo.Setup(repo => repo.Insert(Player player)).Returns(Task.FromResult((Player) null));
              var PlayerController = new PlayerController(mockRepo);
-             Assert.Equal(4, Add(2, 2));
+             Assert.Equal(4, Add(2, 2));             
          }
 
         // [Fact]
