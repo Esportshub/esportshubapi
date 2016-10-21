@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using RestfulApi.Models.Entities.Game.Valiadator;
+using RestfulApi.Models.Validator;
+
 namespace EsportshubApi.Models.Entities
 {
     public class GameBuilder : IGameBuilder
@@ -9,10 +12,22 @@ namespace EsportshubApi.Models.Entities
         {
             _game = game;
         }
+
         public Game Build()
-        {            
+        {
+             return _game;
+        }
+
+        public Game Build(IValidator validator)
+        {
+            validator.Validate(_game);           
             return _game;
         }
+        // public IGameBuilder SetValidator(IGameValidator validator) {
+        //     System.Environment = Production 
+        //         throw new Exception() 
+        //         else return this;
+        // }
 
         public IGameBuilder SetCreated(DateTime input)
         {
@@ -20,7 +35,7 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
-        public IGameBuilder SetGameEvents(List<Event> input)
+        public IGameBuilder SetGameEvents(List<GameEvent> input)
         {
             _game.GameEvents = input;
             return this;

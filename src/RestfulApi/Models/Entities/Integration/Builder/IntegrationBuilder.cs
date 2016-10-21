@@ -1,5 +1,5 @@
 using System;
-
+using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -12,6 +12,11 @@ namespace EsportshubApi.Models.Entities
         }
 
         public Integration Build()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Integration Build(IValidator validator)
         {
             return _integration;
         }

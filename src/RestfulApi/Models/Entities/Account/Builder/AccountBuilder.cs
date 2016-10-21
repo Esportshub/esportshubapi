@@ -1,16 +1,23 @@
 using System;
+using RestfulApi.Models.Validator;
+
 namespace EsportshubApi.Models.Entities
 {
     public class AccountBuilder : IAccountBuilder
     {
         private Account _account;
+        
         public AccountBuilder(Account account)
         {
             _account = account;
         }
+        public Account Build(IValidator validator)
+        {
+           return _account;
+        }
         public Account Build()
         {
-            return _account;
+           return _account;
         }
 
         public IAccountBuilder AccountId(int input)
@@ -73,5 +80,7 @@ namespace EsportshubApi.Models.Entities
             _account.Verified = input;
             return this;
         }
+
+        
     }
 }

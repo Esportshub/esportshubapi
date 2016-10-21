@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Models.Entites;
+using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -12,7 +13,13 @@ namespace EsportshubApi.Models.Entities
         {
           _group = group;
         }
+
         public Group Build()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Group Build(IValidator validator)
         {
             return _group;
         }

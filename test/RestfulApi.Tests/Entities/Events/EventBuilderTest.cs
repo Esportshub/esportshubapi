@@ -1,6 +1,6 @@
 namespace Test.RestFul.Entities
 {
-    public class Event
+    public class EventBuilderTest
     {
         
     }

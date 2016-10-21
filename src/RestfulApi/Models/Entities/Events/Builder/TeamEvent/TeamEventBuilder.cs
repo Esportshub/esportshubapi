@@ -16,6 +16,11 @@ namespace EsportshubApi.Models.Entities
            return _teamEvent;
         }
 
+        public TeamEvent Build(RestfulApi.Models.Validator.IValidator validator)
+        {
+            throw new NotImplementedException();
+        }
+
         public ITeamEventBuilder SetEvent(Event input)
         {
             _teamEvent.Event = input;
