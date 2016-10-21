@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MySQL.Data.EntityFrameworkCore.Extensions;
 using System.IO;
-using EsportshubApi.Models.Models;
+using EsportshubApi.Models;
 
 namespace esportshubapi
 {

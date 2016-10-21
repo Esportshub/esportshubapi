@@ -6,7 +6,7 @@ namespace RestfulAPI.Tests.Entities
        [Fact]
         public void GameBuilder()
         {
-            var game = Game.Builder();
+           // var game = Game.Builder();
         }
     
     }

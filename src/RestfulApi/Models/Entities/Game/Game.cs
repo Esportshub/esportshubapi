@@ -4,7 +4,7 @@ using EsportshubApi.Extensions;
 
 namespace EsportshubApi.Models.Entities
 {
-    public class Game
+    public class Game : EsportshubEntity
     {
         private Game() { }
         public static GameBuilder Builder()
@@ -21,6 +21,13 @@ namespace EsportshubApi.Models.Entities
         public List<Event> GameEvents { get; set; }
         public List<Player> Players { get; set; }
 
+        public int Id
+        {
+            get
+            {
+                return GameId;
+            }
+        }
 
         public override bool Equals(object obj)
         {

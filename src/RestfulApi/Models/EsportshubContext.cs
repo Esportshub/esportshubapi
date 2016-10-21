@@ -1,7 +1,8 @@
 using EsportshubApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EsportshubApi.Models.Models {
+namespace EsportshubApi.Models 
+{
     public class EsportshubContext : DbContext
     {
         public DbSet<Player> Players { get; set; }
