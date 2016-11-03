@@ -3,7 +3,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities 
 {
-    public interface IActivityBuilder : IBuilder<Activity>
+    public interface IActivityBuilder : IBuilder<Activity,ActivityValidator>
     {
          IActivityBuilder SetActivityId(int input);
          IActivityBuilder SetActivityGuid(Guid input);

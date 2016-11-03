@@ -1,5 +1,6 @@
 using System;
 using RestfulApi.Models.Validator;
+using System.ComponentModel.DataAnnotations;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -16,8 +17,9 @@ namespace EsportshubApi.Models.Entities
             return _activity;
         }
 
-        public Activity Build(IValidator validator)
+        public Activity Build(ActivityValidator validator)
         {
+            validator.Validate(_activity);
             return _activity;
         }
 

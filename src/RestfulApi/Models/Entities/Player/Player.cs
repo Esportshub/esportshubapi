@@ -18,7 +18,7 @@ namespace EsportshubApi.Models.Entities
 
         public List<Player> Followers { get; set; }
 
-        public List<Game> Games { get; set; }
+        public List<Group> Games { get; set; }
 
         public List<Team> Teams { get; set; }
         public List<Integration> Integrations { get; set; }

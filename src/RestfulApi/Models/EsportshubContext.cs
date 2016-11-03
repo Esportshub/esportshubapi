@@ -7,7 +7,7 @@ namespace EsportshubApi.Models
     {
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Group> Games { get; set; }
         public DbSet<Integration> Integrations { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Activity> Activities { get; set; }
@@ -46,9 +46,9 @@ namespace EsportshubApi.Models
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Group);
 
-            modelBuilder.Entity<Game>().HasMany(g => g.Players);
-            modelBuilder.Entity<Game>().HasMany(g => g.Teams);
-            modelBuilder.Entity<Game>().HasMany(g => g.GameEvents);
+            modelBuilder.Entity<Group>().HasMany(g => g.Players);
+            modelBuilder.Entity<Group>().HasMany(g => g.Teams);
+            modelBuilder.Entity<Group>().HasMany(g => g.GameEvents);
 
             modelBuilder.Entity<Integration>().HasOne(i => i.Player);
         }

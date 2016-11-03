@@ -16,8 +16,9 @@ namespace EsportshubApi.Models.Entities
             throw new NotImplementedException();
         }
 
-        public Integration Build(IValidator validator)
+        public Integration Build(IntegrationValidator validator)
         {
+            validator.Validate(_integration);
             return _integration;
         }
 
