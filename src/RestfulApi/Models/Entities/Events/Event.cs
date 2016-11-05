@@ -3,7 +3,7 @@ using EsportshubApi.Extensions;
 
 namespace EsportshubApi.Models.Entities
 {
-    public class Event
+    public class Event : EsportshubEntity
     {
         // private Event() { }
 
@@ -19,6 +19,14 @@ namespace EsportshubApi.Models.Entities
         public DateTime End { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+
+        public int Id
+        {
+            get
+            {
+                return EventId;
+            }
+        }
 
         public override bool Equals(object obj)
         {

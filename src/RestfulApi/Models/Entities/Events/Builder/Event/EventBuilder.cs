@@ -17,9 +17,10 @@ namespace EsportshubApi.Models.Entities
             return _event;
         }
 
-        public Event Build(IValidator validator)
+        public Event Build(EventValidator validator)
         {
-            throw new NotImplementedException();
+            validator.Validate(_event);
+            return _event;
         }
 
         public IEventBuilder SetCreated(DateTime input)

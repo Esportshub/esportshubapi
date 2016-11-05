@@ -3,7 +3,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
 {
-    public interface IIntegrationBuilder : IBuilder<Integration>
+    public interface IIntegrationBuilder : IBuilder<Integration,IntegrationValidator>
     {
         IIntegrationBuilder SetIntegrationId(int input);
         IIntegrationBuilder SetIntegrationGuid(Guid input);

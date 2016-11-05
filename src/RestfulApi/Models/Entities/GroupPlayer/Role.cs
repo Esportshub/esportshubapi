@@ -2,7 +2,7 @@ using System;
 
 namespace EsportshubApi.Models.Entities{
 
-    public class Role
+    public class Role 
     {
 
         public int RoleId { get; set; }
@@ -16,5 +16,7 @@ namespace EsportshubApi.Models.Entities{
         public DateTime Updated { get; set; }
         public Player Player { get; set; }
         public Group Group { get; set; }
+
+        
     }
 }

@@ -5,7 +5,7 @@ using EsportshubApi.Models.Entites;
 
 namespace EsportshubApi.Models.Entities
 {
-    public class Group
+    public class Group : EsportshubEntity
     {
 
         private Group() { }
@@ -14,6 +14,7 @@ namespace EsportshubApi.Models.Entities
         {
             return new GroupBuilder(new Group());
         }
+        public int Id => GroupId;
 
         public int GroupId { get; set; }
 
@@ -28,6 +29,10 @@ namespace EsportshubApi.Models.Entities
         public List<Role> Roles { get; set; }
         public List<Player> Players { get; set; }
         public List<Event> Events { get; set; }
+        public List<GroupEvent> GroupEvents { get; set; }
+
+
+
 
         public override bool Equals(object obj)
         {

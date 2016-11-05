@@ -1,5 +1,7 @@
-namespace EsportshubApi.Models.Entities {
-    public interface EsportshubEntity {
+namespace EsportshubApi.Models.Entities 
+{
+    public interface EsportshubEntity 
+    {
         int Id { get; }
     }
 }

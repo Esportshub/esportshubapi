@@ -1,5 +1,5 @@
 using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Models;
+using EsportshubApi.Models;
 
 namespace EsportshubApi.Models.Repositories
 {

@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using  System.Threading.Tasks;
 
 namespace EsportshubApi.Models.Repositories
 {
-    public interface IRepository<TEntity> {
-            IEnumerable<TEntity> Get( Expression<Func<TEntity, bool>> filter = null,
-            string includeProperties = "");
-             TEntity GetById(object id);
-             void Insert(TEntity entity);
-             void Delete(object id);
-             void Update(TEntity entityToUpdate);
+    public interface IRepository<TEntity>
+    {
+             Task<IEnumerable<TEntity>> GetAsync( Expression<Func<TEntity, bool>> filter = null, string includeProperties = "");
+             Task<TEntity> GetByIdAsync(int id);
+             Task InsertAsync(TEntity entity);
+             Task DeleteAsync(int id);
+             Task<TEntity> UpdateAsync(TEntity entity);
     }
 }

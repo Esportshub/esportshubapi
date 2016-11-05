@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EsportshubApi.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using EsportshubApi.Models.Entities;
+using System.Threading.Tasks;
 
 namespace EsportshubApi.Models.Repositories
 {
-    public abstract class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, EsportshubEntity 
     {
         internal EsportshubContext context;
         internal DbSet<TEntity> dbSet;
@@ -18,51 +19,52 @@ namespace EsportshubApi.Models.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> Get(
-            Expression<Func<TEntity, bool>> filter = null,
-            string includeProperties = "")
+        public async virtual Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
 
             if (filter != null)
                 query = query.Where(filter);
                 
-            return query.ToList();
-
+            return await query.ToListAsync();
         }
 
-        public virtual TEntity GetById(object id)
+        public async virtual Task<TEntity> GetByIdAsync(int id)
         {
-            return dbSet.Single(x => x.Equals(id));
+            return await dbSet.SingleAsync(x => x.Equals(id));
         }
 
-        public virtual void Insert(TEntity entity)
+        public async virtual Task InsertAsync(TEntity entity)
         {
-            dbSet.Add(entity);
-
+             dbSet.Add(entity);
+             await context.SaveChangesAsync();
         }
 
-        public virtual void Delete(object id)
+        public async virtual Task DeleteAsync(int id)
         {
-            TEntity entityToDelete = dbSet.Single(x => x.Equals(id));
-            Delete(entityToDelete);
+            TEntity entityToDelete = await dbSet.SingleAsync(x => x.Equals(id));
+            await DeleteAsync(entityToDelete);
         }
 
-        public virtual void Update(TEntity entityToUpdate)
-        {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
-        }
-
-
-        private void Delete(TEntity entityToDelete)
+         private async Task DeleteAsync(TEntity entityToDelete)
         {
             if (context.Entry(entityToDelete).State == EntityState.Detached)
                 dbSet.Attach(entityToDelete);
-
             dbSet.Remove(entityToDelete);
+            await context.SaveChangesAsync();
         }
 
+        public async virtual Task<TEntity> UpdateAsync(TEntity entityToUpdate)
+        {
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return entityToUpdate;
+        }
 
+        public void OnCompleted(Action continuation)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

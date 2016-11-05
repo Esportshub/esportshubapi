@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Extensions;
-using RestfulApi.Models.Entities.Game.Valiadator;
-
 namespace EsportshubApi.Models.Entities
 {
-    public class Game
+    public class Game : EsportshubEntity
     {
         private Game() { }
         public static GameBuilder Builder()
@@ -19,9 +17,16 @@ namespace EsportshubApi.Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public List<Team> Teams { get; set; }
-        public List<Event> GameEvents { get; set; }
+        public List<GameEvent> GameEvents { get; set; }
         public List<Player> Players { get; set; }
 
+        public int Id
+        {
+            get
+            {
+                return GameId;
+            }
+        }
 
         public override bool Equals(object obj)
         {

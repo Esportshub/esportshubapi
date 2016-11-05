@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using EsportshubApi.Models.Entites;
 using Patterns.Builder;
 
-namespace EsportshubApi.Models.Entities
+namespace  EsportshubApi.Models.Entities
 {
-    public interface IGroupBuilder : IBuilder<Group>
+    public interface IGroupBuilder : IBuilder<Group,GroupValidator>
     {
         IGroupBuilder SetGroupId(int input);
         IGroupBuilder SetGroupGuid(Guid input);

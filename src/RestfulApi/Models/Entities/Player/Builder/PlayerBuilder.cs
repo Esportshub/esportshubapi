@@ -16,8 +16,9 @@ namespace EsportshubApi.Models.Entities
            return _player;
         }
 
-        public Player Build(RestfulApi.Models.Validator.IValidator validator)
+        public Player Build(PlayerValidator validator)
         {
+            validator.Validate(_player);
            return _player;
         }
 
@@ -41,7 +42,7 @@ namespace EsportshubApi.Models.Entities
              return this;
         }
 
-        public IPlayerBuilder SetGames(List<Game> input)
+        public IPlayerBuilder SetGames(List<Group> input)
         {
              _player.Games = input;
              return this;
