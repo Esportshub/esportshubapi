@@ -9,6 +9,7 @@ namespace EsportshubApi.Models.Entities
     {
         public void Validate(Game entity)
         {
+            //
             throw new NotImplementedException();
         }
     }
