@@ -16,9 +16,10 @@ namespace EsportshubApi.Models.Entities
            return _groupEvent;
         }
 
-        public GroupEvent Build(RestfulApi.Models.Validator.IValidator validator)
+        public GroupEvent Build(GroupEventValidator validator)
         {
-            throw new NotImplementedException();
+            validator.Validate(_groupEvent);
+            return _groupEvent;
         }
 
         public IGroupEventBuilder SetEvent(Event input)

@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using RestfulApi.Models.Validator;
+using System;
 
-namespace RestfulApi.Models.Entities.Game.Valiadator
+namespace EsportshubApi.Models.Entities
 {
-    public interface IGameValidator: IValidator<Game>
+    public interface IGameValidator: IValidator<Game> 
     {
-        void ValidateGameId(int input);
-        void ValidateName(string input);
-        void ValidateGameGuid(Guid input);
-        void ValidateCreated(DateTime input);
-        void ValidateUpdated(DateTime input);
+       
     }
 }

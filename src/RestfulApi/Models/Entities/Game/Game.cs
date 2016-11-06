@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Extensions;
-using RestfulApi.Models.Entities.Game.Valiadator;
-
 namespace EsportshubApi.Models.Entities
 {
     public class Game : EsportshubEntity
@@ -19,7 +17,7 @@ namespace EsportshubApi.Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public List<Team> Teams { get; set; }
-        public List<Event> GameEvents { get; set; }
+        public List<GameEvent> GameEvents { get; set; }
         public List<Player> Players { get; set; }
 
         public int Id
