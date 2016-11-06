@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Patterns.Builder;
 using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities
-{
+namespace EsportshubApi.Models.Entities {
     public class GameBuilder : IGameBuilder
     {
         private Game _game;
@@ -17,6 +16,11 @@ namespace EsportshubApi.Models.Entities
         public Game Build()
         {
              return _game;
+        }
+
+        public Game Build(IValidator<Game> validator)
+        {
+            throw new NotImplementedException();
         }
 
         public Game Build(GameValidator validator)

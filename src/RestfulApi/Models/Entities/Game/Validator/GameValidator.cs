@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using EsportshubApi.Models.Entities;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -9,7 +8,6 @@ namespace EsportshubApi.Models.Entities
     {
         public void Validate(Game entity)
         {
-            
             throw new NotImplementedException();
         }
     }

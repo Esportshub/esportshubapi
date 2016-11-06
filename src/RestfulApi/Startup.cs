@@ -12,6 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using MySQL.Data.EntityFrameworkCore.Extensions;
 using System.IO;
 using EsportshubApi.Models;
+using Moq;
+using EsportshubApi.Models.Repositories;
+using EsportshubApi.Models.Entities;
+
 
 namespace esportshubapi
 {
@@ -25,7 +29,11 @@ namespace esportshubapi
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
             string connection = config["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(connection)); 
+            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(connection));
+            IPlayerBuilder playerBuild = new PlayerBuilder();
+            Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+            playerRepository.Setup(x => x.GetByIdAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build())); 
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +45,11 @@ namespace esportshubapi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            app.UseMvc(routes =>
+                 routes.MapRoute("player", "{controller=Player}/{action=Get}/{id?}")
+            );     
 
             app.Run(async (context) =>
             {

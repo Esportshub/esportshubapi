@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities 
 {
@@ -14,6 +15,11 @@ namespace EsportshubApi.Models.Entities
         public Player Build()
         {
            return _player;
+        }
+
+        public Player Build(IValidator<Player> validator)
+        {
+            throw new NotImplementedException();
         }
 
         public Player Build(PlayerValidator validator)
@@ -42,7 +48,7 @@ namespace EsportshubApi.Models.Entities
              return this;
         }
 
-        public IPlayerBuilder SetGames(List<Group> input)
+        public IPlayerBuilder SetGames(List<Game> input)
         {
              _player.Games = input;
              return this;

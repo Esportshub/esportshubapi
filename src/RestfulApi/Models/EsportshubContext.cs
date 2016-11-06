@@ -48,7 +48,7 @@ namespace EsportshubApi.Models
 
             modelBuilder.Entity<Group>().HasMany(g => g.Players);
             //modelBuilder.Entity<Group>().HasMany(g => g.Teams);
-            modelBuilder.Entity<Group>().HasMany(g => g.GroupEvents);
+           // modelBuilder.Entity<Group>().HasMany(g => g.GroupEvents);
 
             modelBuilder.Entity<Integration>().HasOne(i => i.Player);
         }
