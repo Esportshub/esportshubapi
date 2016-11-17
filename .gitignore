@@ -7,7 +7,6 @@ project.fragment.lock.json
 artifacts/
 **/Properties/launchSettings.json
 #RiderC#
-.idea/
 **/.idea
 ./idea
 *.*.iml
