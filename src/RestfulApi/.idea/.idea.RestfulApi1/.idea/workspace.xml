@@ -1,58 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d086a5b-2a37-4251-83ce-9c32e8a425f7" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Account/Valiadator/AccountValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Account/Validator/AccountValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Account/Valiadator/IAccountValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Account/Validator/IAccountValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Activity/Valiadator/ActivityValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Activity/Validator/ActivityValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Activity/Valiadator/IActivityValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Activity/Validator/IActivityValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/Event/EventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/Event/EventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/Event/IEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/Event/IEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/GameEvent/GameEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/GameEvent/GameEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/GameEvent/IGameEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/GameEvent/IGameEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/GroupEvent/GroupEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/GroupEvent/GroupEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/GroupEvent/IGroupEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/GroupEvent/IGroupEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/TeamEvent/ITeamEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/TeamEvent/ITeamEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Valiadator/TeamEvent/TeamEventValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Validator/TeamEvent/TeamEventValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Game/Valiadator/GameValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Game/Validator/GameValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Game/Valiadator/IGameValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Game/Validator/IGameValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Valiadator/GroupValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Validator/GroupValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Valiadator/IGroupValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Validator/IGroupValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Integration/Valiadator/IIntegrationValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Integration/Validator/IIntegrationValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Integration/Valiadator/IntegrationValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Integration/Validator/IntegrationValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Player/Valiadator/IPlayerValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Player/Validator/IPlayerValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Player/Valiadator/PlayerValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Player/Validator/PlayerValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Team/Valiadator/ITeamValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Team/Validator/ITeamValidator.cs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../../Models/Entities/Team/Valiadator/TeamValidator.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Team/Validator/TeamValidator.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Account/Builder/AccountBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Account/Builder/AccountBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Activity/Builder/ActivityBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Activity/Builder/ActivityBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Activity/Builder/IActivityBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Activity/Builder/IActivityBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/Event/EventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/Event/EventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GameEvent/GameEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GameEvent/GameEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GameEvent/IGameEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GameEvent/IGameEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GroupEvent/GroupEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/GroupEvent/GroupEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/TeamEvent/TeamEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/Builder/TeamEvent/TeamEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Events/GameEvent.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Events/GameEvent.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Game/Builder/GameBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Game/Builder/GameBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Builder/GroupBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Builder/GroupBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Builder/IGroupBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Builder/IGroupBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Group.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Group.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Group/Visibilty.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Group/Visibilty.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Integration/Builder/IIntegrationBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Integration/Builder/IIntegrationBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Integration/Builder/IntegrationBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Integration/Builder/IntegrationBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Player/Builder/IPlayerBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Player/Builder/IPlayerBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Player/Builder/PlayerBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Player/Builder/PlayerBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Player/Player.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Player/Player.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Team/Builder/ITeamBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Team/Builder/ITeamBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Team/Builder/TeamBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Team/Builder/TeamBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Entities/Team/Team.cs" afterPath="$PROJECT_DIR$/../../Models/Entities/Team/Team.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/EsportshubContext.cs" afterPath="$PROJECT_DIR$/../../Models/EsportshubContext.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Patterns/Builder/IBuilder.cs" afterPath="$PROJECT_DIR$/../../Patterns/Builder/IBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Startup.cs" afterPath="$PROJECT_DIR$/../../Startup.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../project.json" afterPath="$PROJECT_DIR$/../../project.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../test/RestfulApi.Tests/Controllers/PlayerControllerTest.cs" afterPath="$PROJECT_DIR$/../../../../test/RestfulApi.Tests/Controllers/PlayerControllerTest.cs" />
-    </list>
+    <list default="true" id="7d086a5b-2a37-4251-83ce-9c32e8a425f7" name="Default" comment="" />
     <ignored path="RestfulApi1.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -115,7 +64,7 @@
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (restoring packages...)" />
+              <option name="myItemId" value="RestfulApi" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
           </PATH>
@@ -129,7 +78,7 @@
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (restoring packages...)" />
+              <option name="myItemId" value="RestfulApi" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -147,7 +96,7 @@
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (restoring packages...)" />
+              <option name="myItemId" value="RestfulApi" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -200,12 +149,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1479423023178</updated>
-      <workItem from="1479423026719" duration="124000" />
+      <workItem from="1479423026719" duration="192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124000" />
+    <option name="totallyTimeSpent" value="192000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
