@@ -9,7 +9,7 @@ namespace EsportshubApi.Models.Entities
         IGameEventBuilder SetGameEventId(int input);
         IGameEventBuilder SetGameEventGuid(Guid input);
         IGameEventBuilder SetEvent(Event input);
-        IGameEventBuilder SetGame(Group input);
+        IGameEventBuilder SetGame(Game input);
 
     }
 }

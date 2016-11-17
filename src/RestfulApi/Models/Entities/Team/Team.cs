@@ -24,7 +24,7 @@ namespace EsportshubApi.Models.Entities
 
         public DateTime Updated { get; set; }
 
-        public Group Game { get; set; }
+        public Game Game { get; set; }
 
         public List<Event> TeamEvents { get; set; }
 

@@ -83,11 +83,16 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
+        public Account Build(IValidator<Account> validator)
+        {
+            throw new NotImplementedException();
+        }
+
         //public Account Build(IValidator<Account> validator)
         //{
         //    throw new NotImplementedException();
         //}
 
-       
+
     }
 }

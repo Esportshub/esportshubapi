@@ -1,4 +1,4 @@
-namespace EsportshubApi.Models.Entites 
+namespace EsportshubApi.Models.Entities
 {
     public enum Visibilty 
     {

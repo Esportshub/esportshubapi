@@ -16,7 +16,8 @@
     "Microsoft.AspNetCore.Mvc":"1.0.0",
     "Microsoft.EntityFrameworkCore": "1.0.1",
     "MySql.Data.Core": "7.0.4-ir-191",
-    "MySql.Data.EntityFrameworkCore": "7.0.4-ir-191"
+    "MySql.Data.EntityFrameworkCore": "7.0.4-ir-191",
+     "moq":  "4.6.38-alpha"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final",

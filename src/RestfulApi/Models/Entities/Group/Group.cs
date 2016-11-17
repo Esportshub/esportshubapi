@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Extensions;
-using EsportshubApi.Models.Entites;
 
 namespace EsportshubApi.Models.Entities
 {

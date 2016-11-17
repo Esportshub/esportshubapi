@@ -16,8 +16,14 @@ namespace EsportshubApi.Models.Entities
         public Team Build()
         {
             return _team;
+        }
+         
+
+        public Team Build(IValidator<Team> validator)
+        {
             throw new NotImplementedException();
         }
+
 
         public Team Build(TeamValidator validator)
         {
@@ -33,11 +39,11 @@ namespace EsportshubApi.Models.Entities
 
         public ITeamBuilder SetEvents(List<Event> input)
         {
-           _team.TeamEvents = input;
-           return this;
+            _team.TeamEvents = input;
+            return this;
         }
-
-        public ITeamBuilder SetGame(Group input)
+         
+        public ITeamBuilder SetGame(Game input)
         {
            _team.Game = input;
            return this;

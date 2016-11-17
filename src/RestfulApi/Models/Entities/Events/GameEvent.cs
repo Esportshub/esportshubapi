@@ -14,7 +14,7 @@ namespace EsportshubApi.Models.Entities
         public int GameEventId { get; set; }
         public Guid GameEventGuid { get; set; }
         public Event Event { get; set; }
-        public Group Game { get; set; }
+        public Game Game { get; set; }
 
 
         public override bool Equals(object obj)
