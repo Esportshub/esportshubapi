@@ -1,4 +1,6 @@
+using System;
 using EsportshubApi.Models.Entities;
+using EsportshubApi.Models.Entities.mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace EsportshubApi.Models 
@@ -18,39 +20,40 @@ namespace EsportshubApi.Models
         public DbSet<GameEvent> GameEvent { get; set; }
 
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options) {}
+        public EsportshubContext() {}
         
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
-            modelBuilder.Entity<Account>().HasOne(a => a.Player);
-
-            modelBuilder.Entity<Player>().HasOne(p => p.Account);
-            modelBuilder.Entity<Player>().HasMany(p => p.Games);
-            modelBuilder.Entity<Player>().HasMany(p => p.Activities);
-            modelBuilder.Entity<Player>().HasMany(p => p.Integrations);
-            modelBuilder.Entity<Player>().HasMany(p => p.Teams);
-            modelBuilder.Entity<Player>().HasMany(p => p.Groups);
-            modelBuilder.Entity<Player>().HasMany(p => p.Followers);
-
-            modelBuilder.Entity<Team>().HasMany(t => t.TeamEvents);
-            modelBuilder.Entity<Team>().HasOne(t => t.Game);
-            modelBuilder.Entity<Team>().HasMany(t => t.Players);
-
-            modelBuilder.Entity<Activity>().HasOne(a => a.Player);
-
+            //One-to-one
+            modelBuilder.Entity<Account>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
+            modelBuilder.Entity<Group>().HasOne(g => g.Role).WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
-
             modelBuilder.Entity<TeamEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<TeamEvent>().HasOne(e => e.Team);
-
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Group);
 
-            modelBuilder.Entity<Group>().HasMany(g => g.Players);
-            //modelBuilder.Entity<Group>().HasMany(g => g.Teams);
-           // modelBuilder.Entity<Group>().HasMany(g => g.GroupEvents);
+            //one-to-many
+            modelBuilder.Entity<Player>().HasMany(p => p.Integrations).WithOne(i => i.Player);
+            modelBuilder.Entity<Player>().HasMany(p => p.Followers);
+            modelBuilder.Entity<Player>().HasMany(p => p.Activities).WithOne(a => a.Player);
+            modelBuilder.Entity<Game>().HasMany(g => g.GameEvents).WithOne(ge => ge.Game);
+            modelBuilder.Entity<Game>().HasMany(g => g.Teams).WithOne(t => t.Game);
+            modelBuilder.Entity<Team>().HasMany(t => t.TeamEvents).WithOne(te => te.Team);
+            modelBuilder.Entity<Group>().HasMany(g => g.GroupEvents);
 
-            modelBuilder.Entity<Integration>().HasOne(i => i.Player);
+            //many to many
+            modelBuilder.Entity<PlayerGames>().HasKey(pg => new {pg.PlayerId, pg.GameId});
+            modelBuilder.Entity<PlayerTeams>().HasKey(pt => new {pt.PlayerId, pt.TeamId});
+            modelBuilder.Entity<PlayerGroups>().HasKey(pg => new {pg.PlayerId, pg.GroupId});
+
+            //discriminator values
+            modelBuilder.Entity<Event>()
+                .HasDiscriminator<string>("Type")
+                .HasValue<GameEvent>("GameEvent")
+                .HasValue<GroupEvent>("GroupEvent")
+                .HasValue<TeamEvent>("TeamEvent");
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EsportshubApi.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace EsportshubApi.Controllers
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)
         {
+            Console.WriteLine("This endpoint was hit");
             Player player = await _playerRepository.GetByIdAsync(id);
             return Json(player);
         }

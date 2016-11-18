@@ -3,15 +3,8 @@ using EsportshubApi.Extensions;
 
 namespace EsportshubApi.Models.Entities
 {
-    public class Event : EsportshubEntity
+    public abstract class Event : EsportshubEntity
     {
-        // private Event() { }
-
-        public static EventBuilder Builder()
-        {
-            return new EventBuilder(new Event());
-        }
-
         public int EventId { get; set; }
         public string Name { get; set; }
         public Guid EventGuid { get; set; }

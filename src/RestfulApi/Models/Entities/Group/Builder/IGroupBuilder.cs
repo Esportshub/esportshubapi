@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Entities.mappings;
 using Patterns.Builder;
 
 namespace  EsportshubApi.Models.Entities
@@ -12,9 +13,9 @@ namespace  EsportshubApi.Models.Entities
         IGroupBuilder SetCreated(DateTime input);
         IGroupBuilder SetUpdated(DateTime input);
         IGroupBuilder SetVisibilty(Visibilty input);
-        IGroupBuilder SetRoles(List<Role> input);
-        IGroupBuilder Players(List<Player> input);
-        IGroupBuilder SetEvents(List<Event> input);
+        IGroupBuilder SetRole(Role input);
+        IGroupBuilder SetPlayerGroups(List<PlayerGroups> input);
+        IGroupBuilder SetGroupEvents(List<GroupEvent> input);
 
     }
 

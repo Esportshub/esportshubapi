@@ -31,6 +31,7 @@ namespace EsportshubApi.Models.Repositories
 
         public async virtual Task<TEntity> GetByIdAsync(int id)
         {
+            Console.WriteLine("The player repository was hit!");
             return await dbSet.SingleAsync(x => x.Equals(id));
         }
 

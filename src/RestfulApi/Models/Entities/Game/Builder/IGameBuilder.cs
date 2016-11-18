@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Entities.mappings;
 using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
@@ -13,8 +14,7 @@ namespace EsportshubApi.Models.Entities
         IGameBuilder SetUpdated(DateTime input);
         IGameBuilder SetTeams(List<Team> input);
         IGameBuilder SetGameEvents(List<GameEvent> input);
-        IGameBuilder SetPlayers(List<Player> input);
-
+        IGameBuilder SetPlayerGames(List<PlayerGames> input);
     }
 
 }

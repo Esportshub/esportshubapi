@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Entities.mappings;
 using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities 
@@ -11,10 +12,10 @@ namespace EsportshubApi.Models.Entities
         IPlayerBuilder SetNickname(string input);
         IPlayerBuilder SetAccount(Account input);
         IPlayerBuilder SetFollowers(List<Player> input);
-        IPlayerBuilder SetGames(List<Game> input);
-        IPlayerBuilder SetTeams(List<Team> input);
+        IPlayerBuilder SetPlayerGames(List<PlayerGames> input);
+        IPlayerBuilder SetPlayerTeams(List<PlayerTeams> input);
         IPlayerBuilder SetActivities(List<Activity> input);
-        IPlayerBuilder SetGroups(List<Group> input);
+        IPlayerBuilder SetPlayerGroups(List<PlayerGroups> input);
         IPlayerBuilder SetIntegrations(List<Integration> input);
     }
 

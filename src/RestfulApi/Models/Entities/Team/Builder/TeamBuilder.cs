@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Entities.mappings;
 using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
@@ -37,7 +38,7 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
-        public ITeamBuilder SetEvents(List<Event> input)
+        public ITeamBuilder SetTeamEvents(List<TeamEvent> input)
         {
             _team.TeamEvents = input;
             return this;
@@ -55,9 +56,9 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
-        public ITeamBuilder SetPlayers(List<Player> input)
+        public ITeamBuilder SetPlayerTeams(List<PlayerTeams> input)
         {
-           _team.Players = input;
+           _team.PlayerTeams = input;
            return this;
         }
 

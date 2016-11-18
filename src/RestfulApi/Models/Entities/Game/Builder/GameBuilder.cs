@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EsportshubApi.Models.Entities.mappings;
 using Patterns.Builder;
 using RestfulApi.Models.Validator;
 
@@ -64,9 +65,9 @@ namespace EsportshubApi.Models.Entities {
             return this;
         }
 
-        public IGameBuilder SetPlayers(List<Player> input)
+        public IGameBuilder SetPlayerGames(List<PlayerGames> input)
         {
-            _game.Players = input;
+            _game.PlayerGames = input;
             return this;
         }
 

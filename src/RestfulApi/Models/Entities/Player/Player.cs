@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Extensions;
+using EsportshubApi.Models.Entities.mappings;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -15,24 +16,19 @@ namespace EsportshubApi.Models.Entities
         public string Nickname { get; set; }
 
         public Account Account { get; set; }
+        public int AccountForeignKey { get; set; }
 
         public List<Player> Followers { get; set; }
 
-        public List<Game> Games { get; set; }
+        public List<PlayerGames> PlayerGames { get; set; }
 
-        public List<Team> Teams { get; set; }
+        public List<PlayerTeams> PlayerTeams { get; set; }
         public List<Integration> Integrations { get; set; }
         public List<Activity> Activities { get; set; }
 
-        public List<Group> Groups { get; set; }
+        public List<PlayerGroups> PlayerGroups { get; set; }
 
-        int EsportshubEntity.Id
-        {
-            get
-            {
-                return PlayerId;
-            }
-        }
+        int EsportshubEntity.Id => PlayerId;
 
         public override bool Equals (object obj)
         {

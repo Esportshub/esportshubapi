@@ -16,7 +16,6 @@ namespace EsportshubApi.Models.Entities
         public Event Event { get; set; }
         public Game Game { get; set; }
 
-
         public override bool Equals(object obj)
         {
             GameEvent gameEvent = (GameEvent)obj;

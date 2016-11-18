@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EsportshubApi.Models.Entities.mappings;
 using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
@@ -29,9 +30,9 @@ namespace EsportshubApi.Models.Entities
             return _group;
         }
 
-        public IGroupBuilder Players(List<Player> input)
+        public IGroupBuilder SetPlayerGroups(List<PlayerGroups> input)
         {
-           _group.Players = input;
+           _group.PlayerGroups = input;
            return this;
         }
 
@@ -41,9 +42,9 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
-        public IGroupBuilder SetEvents(List<Event> input)
+        public IGroupBuilder SetGroupEvents(List<GroupEvent> input)
         {
-            _group.Events = input;
+            _group.GroupEvents = input;
             return this;
         }
 
@@ -65,9 +66,9 @@ namespace EsportshubApi.Models.Entities
             return this;
         }
 
-        public IGroupBuilder SetRoles(List<Role> input)
+        public IGroupBuilder SetRole(Role input)
         {
-            _group.Roles = input;
+            _group.Role = input;
             return this;
         }
 
