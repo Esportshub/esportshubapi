@@ -2,7 +2,6 @@ using System;
 using Xunit;
 using Moq;
 using EsportshubApi.Models.Repositories;
-using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
 using EsportshubApi.Controllers;
 using System.Threading.Tasks;
