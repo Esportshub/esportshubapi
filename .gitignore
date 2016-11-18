@@ -3,3 +3,14 @@ appsettings.json
 project.lock.json
 bin/
 obj/
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+#RiderC#
+**/.idea
+./idea
+*.*.iml
+**/*.sln
+*.sln
+**/*.xproj
+*.xproj
