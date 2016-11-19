@@ -4,7 +4,7 @@ using System;
 
 namespace EsportshubApi.Models.Entities
 {
-    public interface IAccountValidator: IValidator<Account>
+    public interface IApplicationUserValidator: IValidator<ApplicationUser>
     {
 
     }

@@ -1,35 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using SapientGuardian.MySql.Data;
 using System.IO;
 using EsportshubApi.Models;
-using Moq;
-using EsportshubApi.Models.Repositories;
 using EsportshubApi.Models.Entities;
+using EsportshubApi.Models.Repositories;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
+using RestfulApi.Services;
 
-namespace esportshubapi
+namespace RestfulApi
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore();
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
-            string connection = config["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(connection));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvcCore();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
             services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -39,8 +40,16 @@ namespace esportshubapi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
+                }
             }
 
+            app.UseIdentity();
 
             app.UseMvc(routes =>
                  routes.MapRoute("player", "{controller=Player}/{action=Get}/{id?}")

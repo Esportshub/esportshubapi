@@ -15,15 +15,20 @@
     "Microsoft.Extensions.Configuration.CommandLine": "1.1.0",
     "Microsoft.AspNetCore.Mvc":"1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
-    //"MySql.Data.Core": "7.0.4-ir-191",
-    //"MySql.Data.EntityFrameworkCore": "7.0.4-ir-191",
     "SapientGuardian.EntityFrameworkCore.MySql": "7.1.14",
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
+    "Microsoft.AspNetCore.Identity":"1.1.0",
     "moq":  "4.6.38-alpha",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.EntityFrameworkCore.Relational": "1.1.0",
+<<<<<<< HEAD
     "Microsoft.EntityFrameworkCore.UnitOfWork": "1.0.0"
   },
+=======
+    "Microsoft.AspNetCore.Mvc.DataAnnotations" : "1.1.0"
+},
+>>>>>>> ce71db73cb0c0893f3c4914e1a20cf41ed4ba54e
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
     "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",

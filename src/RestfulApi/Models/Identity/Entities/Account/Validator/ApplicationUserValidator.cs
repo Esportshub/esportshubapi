@@ -5,9 +5,9 @@ using EsportshubApi.Models.Entities;
 
 namespace EsportshubApi.Models.Entities
 {
-    public class AccountValidator : IAccountValidator
+    public class AccountValidator : IApplicationUserValidator
     {
-        public void Validate(Account entity)
+        public void Validate(ApplicationUser entity)
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,7 @@
 using System;
 using EsportshubApi.Models.Entities;
 using EsportshubApi.Models.Entities.mappings;
+using Microsoft.CodeAnalysis.Emit;
 using Microsoft.EntityFrameworkCore;
 
 namespace EsportshubApi.Models 
@@ -11,7 +12,6 @@ namespace EsportshubApi.Models
         public DbSet<Team> Teams { get; set; }
         public DbSet<Group> Games { get; set; }
         public DbSet<Integration> Integrations { get; set; }
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
@@ -21,12 +21,12 @@ namespace EsportshubApi.Models
 
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options) {}
         public EsportshubContext() {}
-        
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //One-to-one
-            modelBuilder.Entity<Account>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
-            modelBuilder.Entity<Group>().HasOne(g => g.Role).WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
+            //modelBuilder.Entity<Account>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
+            modelBuilder.Entity<Group>().HasOne(g => g.Role);//.WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
             modelBuilder.Entity<TeamEvent>().HasOne(e => e.Event);
@@ -54,6 +54,7 @@ namespace EsportshubApi.Models
                 .HasValue<GameEvent>("GameEvent")
                 .HasValue<GroupEvent>("GroupEvent")
                 .HasValue<TeamEvent>("TeamEvent");
+
         }
     }
 }
