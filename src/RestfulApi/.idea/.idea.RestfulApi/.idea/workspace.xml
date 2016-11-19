@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53dedadd-f523-417b-86ae-a7f166a6a042" name="Default" comment="" />
+    <list default="true" id="f70d31ff-d0d8-4a48-807a-acbc85141c7d" name="Default" comment="" />
     <ignored path="RestfulApi.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -15,25 +15,75 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="RestfulApi" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="ActivityViewModel.cs" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/../../ViewModels/ActivityViewModel.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="289">
+                  <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+                  <folding>
+                    <marker date="1479571645939" expanded="true" signature="6:58" ph="..." />
+                    <marker date="1479571645939" expanded="true" signature="131:475" ph="{...}" />
+                    <marker date="1479571645939" expanded="true" signature="294:426" ph="[...]" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Activity.cs" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/../../Models/Entities/Activity/Activity.cs">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding>
+                    <marker date="1478362502760" expanded="true" signature="6:45" ph="..." />
+                    <marker date="1478362502760" expanded="true" signature="133:1092" ph="{...}" />
+                    <marker date="1478362502760" expanded="true" signature="218:294" ph="{...}" />
+                    <marker date="1478362502760" expanded="true" signature="782:983" ph="{...}" />
+                    <marker date="1478362502760" expanded="true" signature="1026:1085" ph="{...}" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../../RestfulApi.xproj" />
+        <option value="$PROJECT_DIR$/../../Models/Entities/Account/Account.cs" />
+        <option value="$PROJECT_DIR$/../../project.json" />
+        <option value="$PROJECT_DIR$/../../UnitOfWork/UnitOfWork.cs" />
+        <option value="$PROJECT_DIR$/../../ViewModels/ActivityViewModel.cs" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="59" />
-    <option name="y" value="24" />
-    <option name="width" value="1861" />
-    <option name="height" value="1056" />
+    <option name="x" value="49" />
+    <option name="y" value="18" />
+    <option name="width" value="1999" />
+    <option name="height" value="1134" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -79,20 +129,11 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../project.json" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$USER_HOME$/RiderProjects/RegExpress/RegExpress.sln" />
   </component>
   <component name="RunManager" selected=".NET Project.Default">
-    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="DotNetProject" factoryName=".NET Project">
       <option name="PROJECT_PATH" value="" />
       <option name="PROJECT_KIND" value="None" />
@@ -125,20 +166,22 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="53dedadd-f523-417b-86ae-a7f166a6a042" name="Default" comment="" />
-      <created>1479435276453</created>
+      <changelist id="f70d31ff-d0d8-4a48-807a-acbc85141c7d" name="Default" comment="" />
+      <created>1479561435720</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1479435276453</updated>
-      <workItem from="1479435280375" duration="243000" />
-      <workItem from="1479435524347" duration="30000" />
-      <workItem from="1479435688279" duration="93000" />
-      <workItem from="1479481891934" duration="42000" />
+      <updated>1479561435720</updated>
+      <workItem from="1479561439740" duration="21000" />
+      <workItem from="1479561507829" duration="389000" />
+      <workItem from="1479563395063" duration="10000" />
+      <workItem from="1479563444043" duration="7447000" />
+      <workItem from="1479571641072" duration="32000" />
+      <workItem from="1479571719986" duration="14000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="408000" />
+    <option name="totallyTimeSpent" value="7913000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -150,21 +193,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="59" y="24" width="1861" height="1056" extended-state="6" />
-    <editor active="false" />
+    <frame x="49" y="18" width="1999" height="1134" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26115704" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12656328" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors in solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962963" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32957748" sideWeight="0.4982491" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32957748" sideWeight="0.6598299" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32966483" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="UnitTesting" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962963" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="UnitTesting" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32957748" sideWeight="0.3401701" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32957748" sideWeight="0.6598299" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -184,11 +227,283 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../RestfulApi.xproj">
+    <entry file="file://$PROJECT_DIR$/../../ViewModels/ActivityViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <marker date="1479571645939" expanded="true" signature="6:58" ph="..." />
+            <marker date="1479571645939" expanded="true" signature="131:475" ph="{...}" />
+            <marker date="1479571645939" expanded="true" signature="294:426" ph="[...]" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Entities/Activity/Activity.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1478362502760" expanded="true" signature="6:45" ph="..." />
+            <marker date="1478362502760" expanded="true" signature="133:1092" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="218:294" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="782:983" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="1026:1085" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../ViewModels/ActivityViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
+          <folding>
+            <marker date="1479571645939" expanded="true" signature="6:58" ph="..." />
+            <marker date="1479571645939" expanded="true" signature="131:475" ph="{...}" />
+            <marker date="1479571645939" expanded="true" signature="294:426" ph="[...]" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Entities/Activity/Activity.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1478362502760" expanded="true" signature="6:45" ph="..." />
+            <marker date="1478362502760" expanded="true" signature="133:1092" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="218:294" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="782:983" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="1026:1085" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../project.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479565259478" expanded="true" signature="0:1997" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="20:1127" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="51:109" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="722:814" ph="/* &quot;MySql.Data.Core&quot;: &quot;7.0.4-ir-191&quot;, ... */" />
+            <marker date="1479565259478" expanded="true" signature="1140:1365" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1383:1523" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1408:1519" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1431:1511" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1543:1615" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1637:1705" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1663:1701" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1727:1791" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1744:1787" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1806:1935" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1950:1995" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../project.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479565259478" expanded="true" signature="0:1997" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="20:1127" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="51:109" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="722:814" ph="/* &quot;MySql.Data.Core&quot;: &quot;7.0.4-ir-191&quot;, ... */" />
+            <marker date="1479565259478" expanded="true" signature="1140:1365" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1383:1523" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1408:1519" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1431:1511" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1543:1615" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1637:1705" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1663:1701" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1727:1791" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1744:1787" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1806:1935" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1950:1995" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Entities/Account/Account.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="30" column="18" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
+          <folding>
+            <marker date="1479564177330" expanded="true" signature="6:73" ph="..." />
+            <marker date="1479564177330" expanded="true" signature="244:318" ph="{...}" />
+            <marker date="1479564177330" expanded="true" signature="845:1040" ph="{...}" />
+            <marker date="1479564177330" expanded="true" signature="1083:1142" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../default.appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <marker date="1476883356989" expanded="true" signature="27:161" ph="{...}" />
+            <marker date="1476883356989" expanded="true" signature="178:248" ph="{...}" />
+            <marker date="1476883356989" expanded="true" signature="200:242" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <marker date="1479563580702" expanded="true" signature="27:161" ph="{...}" />
+            <marker date="1479563580702" expanded="true" signature="178:248" ph="{...}" />
+            <marker date="1479563580702" expanded="true" signature="200:242" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/share/JetBrains/Shared/v07/DecompilerCache/decompiler/B004CFF6-238D-4ED0-8011-AF53475172BF/15/7aea9717/DbContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1606">
+          <caret line="162" column="11" selection-start-line="162" selection-start-column="11" selection-end-line="162" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Entities/Events/GroupEvent.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <marker date="1479565179972" expanded="true" signature="6:45" ph="..." />
+            <marker date="1479565179972" expanded="true" signature="124:849" ph="{...}" />
+            <marker date="1479565179972" expanded="true" signature="214:294" ph="{...}" />
+            <marker date="1479565179972" expanded="true" signature="520:733" ph="{...}" />
+            <marker date="1479565179972" expanded="true" signature="784:843" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../project.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
+          <folding>
+            <marker date="1479565259478" expanded="true" signature="0:1997" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="20:1127" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="51:109" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="722:814" ph="/* &quot;MySql.Data.Core&quot;: &quot;7.0.4-ir-191&quot;, ... */" />
+            <marker date="1479565259478" expanded="true" signature="1140:1365" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1383:1523" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1408:1519" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1431:1511" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1543:1615" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1637:1705" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1663:1701" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1727:1791" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1744:1787" ph="[...]" />
+            <marker date="1479565259478" expanded="true" signature="1806:1935" ph="{...}" />
+            <marker date="1479565259478" expanded="true" signature="1950:1995" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Startup.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479561228359" expanded="true" signature="6:568" ph="..." />
+            <marker date="1479561228359" expanded="true" signature="593:1597" ph="{...}" />
+            <marker date="1479561228359" expanded="true" signature="620:1595" ph="{...}" />
+            <marker date="1479561228359" expanded="true" signature="693:1168" ph="{...}" />
+            <marker date="1479561228359" expanded="true" signature="1279:1589" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479561228379" expanded="true" signature="6:108" ph="..." />
+            <marker date="1479561228379" expanded="true" signature="133:729" ph="{...}" />
+            <marker date="1479561228379" expanded="true" signature="160:727" ph="{...}" />
+            <marker date="1479561228379" expanded="true" signature="213:721" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../UnitOfWork/UnitOfWork.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <marker date="1479568074985" expanded="true" signature="6:153" ph="..." />
+            <marker date="1479568074985" expanded="true" signature="439:495" ph="{...}" />
+            <marker date="1479568074985" expanded="true" signature="524:594" ph="{...}" />
+            <marker date="1479568074985" expanded="true" signature="625:711" ph="{...}" />
+            <marker date="1479568074985" expanded="true" signature="764:910" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Repositories/IRepository.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479561229119" expanded="true" signature="6:109" ph="..." />
+            <marker date="1479561229119" expanded="true" signature="198:530" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Repositories/Repository.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479561229127" expanded="true" signature="6:201" ph="..." />
+            <marker date="1479561229127" expanded="true" signature="365:2270" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="515:620" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="764:972" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="1037:1185" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="1248:1347" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="1402:1550" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="1615:1846" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="1926:2141" ph="{...}" />
+            <marker date="1479561229127" expanded="true" signature="2195:2264" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Entities/Activity/Activity.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1478362502760" expanded="true" signature="6:45" ph="..." />
+            <marker date="1478362502760" expanded="true" signature="133:1092" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="218:294" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="782:983" ph="{...}" />
+            <marker date="1478362502760" expanded="true" signature="1026:1085" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../ViewModels/ActivityViewModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <marker date="1479571645939" expanded="true" signature="6:58" ph="..." />
+            <marker date="1479571645939" expanded="true" signature="131:475" ph="{...}" />
+            <marker date="1479571645939" expanded="true" signature="294:426" ph="[...]" />
+          </folding>
         </state>
       </provider>
     </entry>
