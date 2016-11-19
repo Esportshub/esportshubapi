@@ -10,7 +10,7 @@ namespace EsportshubApi.Models.Entities
         IPlayerBuilder SetPlayerId(int input);
         IPlayerBuilder SetPlayerGuid(Guid input);
         IPlayerBuilder SetNickname(string input);
-        IPlayerBuilder SetAccount(Account input);
+        IPlayerBuilder SetAccount(ApplicationUser input);
         IPlayerBuilder SetFollowers(List<Player> input);
         IPlayerBuilder SetPlayerGames(List<PlayerGames> input);
         IPlayerBuilder SetPlayerTeams(List<PlayerTeams> input);

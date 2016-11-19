@@ -31,9 +31,9 @@ namespace EsportshubApi.Models.Entities
 
         //@TODO: Throw the correct exceptions/validate correctly
 
-        public IPlayerBuilder SetAccount(Account input)
+        public IPlayerBuilder SetAccount(ApplicationUser input)
         {
-            _player.Account = input;
+            _player.ApplicationUser = input;
             return this;
         }
 

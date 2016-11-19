@@ -15,8 +15,8 @@ namespace EsportshubApi.Models.Entities
 
         public string Nickname { get; set; }
 
-        public Account Account { get; set; }
-        public int AccountForeignKey { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public string AccountForeignKey { get; set; }
 
         public List<Player> Followers { get; set; }
 
