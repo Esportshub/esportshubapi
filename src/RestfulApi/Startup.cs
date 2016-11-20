@@ -17,22 +17,22 @@ namespace RestfulApi
 {
     public class Startup
     {
+    public IConfigurationRoot Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
 
-            services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext<ApplicationUser>>(options =>
+            services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext<ApplicationUser>>()
-                .AddDefaultTokenProviders();
+          /*  services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>() //,int
+                .AddDefaultTokenProviders();*/
 
-            services.AddMvcCore();
             services.AddMvc();
-            services.AddDbContext<ApplicationDbContext<ApplicationUser>>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));
             services.AddDbContext<EsportshubContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
             services.AddTransient<IPlayerRepository, PlayerRepository>();
@@ -71,7 +71,7 @@ namespace RestfulApi
 
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext<ApplicationUser>>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }

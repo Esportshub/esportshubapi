@@ -1,10 +1,11 @@
 using System;
 using EsportshubApi.Models.Entities;
 using EsportshubApi.Models.Entities.mappings;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.EntityFrameworkCore;
 
-namespace EsportshubApi.Models 
+namespace EsportshubApi.Models
 {
     public class EsportshubContext : DbContext
     {
@@ -21,6 +22,7 @@ namespace EsportshubApi.Models
 
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options) {}
         public EsportshubContext() {}
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

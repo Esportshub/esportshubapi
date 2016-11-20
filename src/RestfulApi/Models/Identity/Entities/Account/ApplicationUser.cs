@@ -1,11 +1,14 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using EsportshubApi.Models;
+using EsportshubApi.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EsportshubApi.Models.Entities
 {
+
     public class ApplicationUser : IdentityUser
     {
         public ApplicationUser() { }
@@ -14,8 +17,8 @@ namespace EsportshubApi.Models.Entities
         {
             return new ApplicationUserBuilder(new ApplicationUser());
         }
-        public override String Id { get; set; }
-        public String AccountId { get; set; }
+
+        public int AccountId { get; set; }
         public Guid AccountGuid { get; set; }
         public string Salt { get; set; }
         public bool Verified { get; set; }
@@ -24,4 +27,5 @@ namespace EsportshubApi.Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
     }
+
 }

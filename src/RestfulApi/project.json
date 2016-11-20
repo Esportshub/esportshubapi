@@ -22,7 +22,7 @@
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.EntityFrameworkCore.Relational": "1.1.0",
-    "Microsoft.AspNetCore.Mvc.DataAnnotations" : "1.1.0"
+    "Microsoft.EntityFrameworkCore.UnitOfWork": "1.0.0"
 },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
