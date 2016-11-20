@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
@@ -21,16 +22,43 @@ namespace RestfulApi
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
+
+            services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext<ApplicationUser>>(options =>
+                    options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext<ApplicationUser>>()
                 .AddDefaultTokenProviders();
 
             services.AddMvcCore();
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddMvc();
+            services.AddDbContext<ApplicationDbContext<ApplicationUser>>(options =>
                     options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));
             services.AddDbContext<EsportshubContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -43,8 +71,8 @@ namespace RestfulApi
 
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext<ApplicationUser>>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }

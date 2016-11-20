@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace EsportshubApi.Models.Entities
 {
@@ -12,8 +14,8 @@ namespace EsportshubApi.Models.Entities
         {
             return new ApplicationUserBuilder(new ApplicationUser());
         }
-
-        public string AccountId { get; set; }
+        public override String Id { get; set; }
+        public String AccountId { get; set; }
         public Guid AccountGuid { get; set; }
         public string Salt { get; set; }
         public bool Verified { get; set; }
@@ -22,5 +24,4 @@ namespace EsportshubApi.Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
     }
-
 }
