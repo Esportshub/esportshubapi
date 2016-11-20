@@ -20,13 +20,7 @@ namespace EsportshubApi.Models.Entities
         public DateTime Updated { get; set; }
         public Player Player { get; set; }
 
-        public int Id
-        {
-            get
-            {
-                return ActivityId;
-            }
-        }
+        public int Id => ActivityId;
 
         public override bool Equals(object obj)
         {

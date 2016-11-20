@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
@@ -16,13 +17,15 @@ namespace RestfulApi
 {
     public class Startup
     {
+    public IConfigurationRoot Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext,int>()
                 .AddDefaultTokenProviders();
 
             services.AddMvcCore();
@@ -43,8 +46,8 @@ namespace RestfulApi
 
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }
