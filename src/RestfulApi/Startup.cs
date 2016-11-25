@@ -27,14 +27,18 @@ namespace RestfulApi
             services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
 
-          /*  services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>() //,int
-                .AddDefaultTokenProviders();*/
-
             services.AddMvc();
-            services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
             services.AddDbContext<EsportshubContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
+            services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
 
@@ -64,11 +68,12 @@ namespace RestfulApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
+            app.UseIdentity();
+
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
@@ -77,7 +82,7 @@ namespace RestfulApi
                 }
             }
 
-            app.UseIdentity();
+
 
             app.UseMvc(routes =>
                  routes.MapRoute("player", "{controller=Player}/{action=Get}/{id?}")
