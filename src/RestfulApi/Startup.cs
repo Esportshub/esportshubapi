@@ -17,19 +17,20 @@ namespace RestfulApi
 {
     public class Startup
     {
-    public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; set; }
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = new ConfigurationBuilder()
+            Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
+            services.AddOptions();
 
             services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext>(options =>
-                    options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
+                    options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvc();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
-            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(config["ConnectionStrings:DefaultConnection"]));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 6;
@@ -68,20 +69,21 @@ namespace RestfulApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            app.UseIdentity();
 
+            app.UseIdentity();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
+
                     serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }
-
+            ApplicationDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
 
 
             app.UseMvc(routes =>

@@ -26,8 +26,15 @@ namespace EsportshubApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Ignore <IdentityUserLogin<string>>();
+            modelBuilder.Ignore <IdentityUserRole<string>>();
+            modelBuilder.Ignore<IdentityUserClaim<string>>();
+            modelBuilder.Ignore<IdentityUserToken<string>>();
+            modelBuilder.Ignore<IdentityUser<string>>();
+            modelBuilder.Ignore<ApplicationUser>();
             //One-to-one
-            //modelBuilder.Entity<Account>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
+            //modelBuilder.Entity<ApplicationUser>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
             modelBuilder.Entity<Group>().HasOne(g => g.Role);//.WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
@@ -56,7 +63,6 @@ namespace EsportshubApi.Models
                 .HasValue<GameEvent>("GameEvent")
                 .HasValue<GroupEvent>("GroupEvent")
                 .HasValue<TeamEvent>("TeamEvent");
-
         }
     }
 }

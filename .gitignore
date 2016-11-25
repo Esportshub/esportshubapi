@@ -8,6 +8,7 @@ artifacts/
 **/Properties/launchSettings.json
 #RiderC#
 **/.idea
+**/.idea.RestfulApi
 ./idea
 *.*.iml
 **/*.sln
