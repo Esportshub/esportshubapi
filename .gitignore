@@ -15,3 +15,5 @@ artifacts/
 **/*.xproj
 *.xproj
 **/appsettings.Development.json
+**/appsettings.Production.json
+**/azure.txt

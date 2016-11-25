@@ -1,29 +1,30 @@
-﻿using EsportshubApi.Models.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography.X509Certificates;
+using EsportshubApi.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using MySQL.Data.Entity.Extensions;
 
 
 namespace EsportshubApi.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
+//    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
+        public ApplicationDbContext()
+        {
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ApplicationUserLogin>(entity =>
-            {
-                entity.Property(s => s.UserId);
-                entity.HasKey(s => s.UserId);
-            });
-            modelBuilder.Entity<ApplicationUser>().HasKey(r => r.Id);
-            modelBuilder.Entity<ApplicationUserRole>().HasKey(r => new {r.RoleId, r.UserId});
         }
     }
 }
+
