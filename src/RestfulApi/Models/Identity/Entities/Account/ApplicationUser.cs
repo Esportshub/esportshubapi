@@ -1,13 +1,9 @@
 using System;
-using EsportshubApi.Models;
-using EsportshubApi.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EsportshubApi.Models.Entities
 {
+
 
     public class ApplicationUser : IdentityUser
     {

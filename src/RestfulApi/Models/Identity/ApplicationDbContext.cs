@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MySQL.Data.Entity.Extensions;
 
 
 namespace EsportshubApi.Models
 {
+//    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,int>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -56,24 +56,6 @@ namespace EsportshubApi.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            /*modelBuilder.Entity<IdentityUserLogin<string>>()
-                .Property(login => login.UserId)
-                .ForMySQLHasColumnType("PK")
-                .UseSqlServerIdentityColumn()
-                .UseMySQLAutoIncrementColumn("AI");
-
-            modelBuilder.Entity<IdentityUserLogin<string>>()
-                .HasKey(iul => iul.UserId);
-            modelBuilder.Entity<IdentityUserLogin<string>>()
-                .Property(iul => iul.UserId).HasValueGenerator()
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
-                .HasColumnName("CustomIdName");*/
-
-            /*        modelBuilder.Entity<IdentityUserLogin<int>>()
-                        .HasDiscriminator<string>("user_login_type")
-                        .HasValue<IdentityUserLogin<int>>("user_login_base")
-                        .HasValue<ApplicationUserLogin>("application_user_login");*/
         }
     }
 }

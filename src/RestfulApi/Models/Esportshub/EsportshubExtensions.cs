@@ -11,14 +11,12 @@ namespace EsportshubApi.Models
             {
                 if (!context.Players.Any())
                 {
-
-                    //context.Products.AddRange(
-                    //  new Player().);
-
+                    var player = Player.Builder()
+                        .SetNickname("Sjuften").
+                        Build();
+                    context.Players.Add(player);
                     context.SaveChanges();
                 }
-
-
             }
         }
     }

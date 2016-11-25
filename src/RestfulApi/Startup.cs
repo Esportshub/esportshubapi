@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MySQL.Data.Entity.Extensions;
 using RestfulApi.Services;
 
 namespace RestfulApi
@@ -18,19 +17,23 @@ namespace RestfulApi
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", false, true);
+            Configuration = builder.Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json").Build();
-            services.AddOptions();
-
-            services.AddEntityFrameworkSqlServer().AddMySQL().AddDbContext<ApplicationDbContext>(options =>
-                    options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
-
+            services.AddDbContext<EsportshubContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddMvc();
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddDbContext<EsportshubContext>(options => options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
+
             services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 6;
@@ -75,20 +78,15 @@ namespace RestfulApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }
             ApplicationDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
-
-
-            app.UseMvc(routes =>
-                 routes.MapRoute("player", "{controller=Player}/{action=Get}/{id?}")
-            );
         }
     }
 }

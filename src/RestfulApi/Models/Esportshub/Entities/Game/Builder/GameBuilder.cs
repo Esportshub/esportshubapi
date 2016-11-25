@@ -5,30 +5,28 @@ using EsportshubApi.Models.Entities.mappings;
 using Patterns.Builder;
 using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities {
+namespace EsportshubApi.Models.Entities
+{
     public class GameBuilder : IGameBuilder
     {
         private Game _game;
+
         public GameBuilder(Game game)
         {
             _game = game;
         }
 
-        public Game Build()
-        {
-             return _game;
-        }
-
         public Game Build(IValidator<Game> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Game Build(GameValidator validator)
         {
             validator.Validate(_game);
             return _game;
         }
+
+        public Game Build()
+        {
+            return _game;
+        }
+
 
         public IGameBuilder SetCreated(DateTime input)
         {

@@ -9,6 +9,11 @@ namespace EsportshubApi.Models.Entities
     {
         public Player() { }
 
+        public static PlayerBuilder Builder()
+        {
+            return new PlayerBuilder(new Player());
+        }
+
         public int PlayerId { get; set; }
 
         public Guid PlayerGuid { get; set; }

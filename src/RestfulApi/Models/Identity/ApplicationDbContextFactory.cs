@@ -1,20 +1,19 @@
 ﻿using EsportshubApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using MySQL.Data.Entity.Extensions;
+using RestfulApi;
 
 
 namespace EsportshubApi.Models
 {
-    public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
+    /*public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext Create(DbContextFactoryOptions options)
         {
-            string connection =
-                "server=localhost;userid=root;pwd=denlilleiceman20;port=3306;database=esportshub_api;sslmode=none;";
+            string connection = Startup.Configuration["ConnectionStrings:DefaultConnection"];
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseMySQL(connection);
+            builder.UseSqlServer(connection);
             return new ApplicationDbContext(builder.Options);
         }
-    }
+    }*/
 }
