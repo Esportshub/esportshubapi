@@ -1,4 +1,4 @@
-appsettings.json
+ppsettings.json
 .vscode/
 project.lock.json
 bin/
@@ -14,3 +14,4 @@ artifacts/
 *.sln
 **/*.xproj
 *.xproj
+**/appsettings.Development.json

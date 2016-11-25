@@ -7,18 +7,16 @@ namespace EsportshubApi.Models
     {
         public static void EnsureSeedData(this EsportshubContext context)
         {
-            if (context.AllMigrationsApplied())
+//            if (context.AllMigrationsApplied())
             {
                 if (!context.Players.Any())
                 {
-
-                    //context.Products.AddRange(
-                    //  new Player().);
-
+                    var player = Player.Builder()
+                        .SetNickname("Sjuften").
+                        Build();
+                    context.Players.Add(player);
                     context.SaveChanges();
                 }
-
-
             }
         }
     }

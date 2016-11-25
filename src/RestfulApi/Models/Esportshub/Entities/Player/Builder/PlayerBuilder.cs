@@ -9,8 +9,8 @@ namespace EsportshubApi.Models.Entities
     {
         private Player _player;
 
-        public PlayerBuilder() {
-            _player = new Player();
+        public PlayerBuilder(Player player) {
+            _player = player;
         }
 
         public Player Build()

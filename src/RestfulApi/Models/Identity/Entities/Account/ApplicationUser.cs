@@ -1,10 +1,5 @@
 using System;
-using EsportshubApi.Models;
-using EsportshubApi.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -21,10 +16,10 @@ public sealed class ApplicationRole : IdentityRole<int>
     public ApplicationRole(string name) { Name = name; }
 }
 
-public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, int>
-{
-    public ApplicationUserStore(ApplicationDbContext context) : base(context) { }
-}
+//public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, int>
+//{
+//    public ApplicationUserStore(ApplicationDbContext context) : base(context) { }
+//}V
 
 public class ApplicationRoleStore : RoleStore<ApplicationRole, ApplicationDbContext, int>
 {
