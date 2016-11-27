@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RestfulApi.Migrations
 {
-    public partial class mssql : Migration
+    public partial class applicationusers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

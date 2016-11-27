@@ -16,7 +16,7 @@ namespace RestfulApi
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; set; }
+        public  IConfiguration Configuration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -29,7 +29,6 @@ namespace RestfulApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EsportshubContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddMvc();
@@ -41,7 +40,7 @@ namespace RestfulApi
                 opts.Password.RequireLowercase = false;
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<EsportshubContext>();
 
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -82,11 +81,10 @@ namespace RestfulApi
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
-                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }
-            ApplicationDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }

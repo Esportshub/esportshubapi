@@ -1,14 +1,17 @@
 using System;
-using System.Security.Principal;
+using System.Threading.Tasks;
 using EsportshubApi.Models.Entities;
 using EsportshubApi.Models.Entities.mappings;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace EsportshubApi.Models
 {
-    public class EsportshubContext : DbContext
+    public class EsportshubContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
@@ -20,22 +23,16 @@ namespace EsportshubApi.Models
         public DbSet<GroupEvent> GroupEvents { get; set; }
         public DbSet<TeamEvent> TeamEvents { get; set; }
         public DbSet<GameEvent> GameEvent { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options) {}
         public EsportshubContext() {}
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Ignore <IdentityUserLogin<string>>();
-            modelBuilder.Ignore <IdentityUserRole<string>>();
-            modelBuilder.Ignore<IdentityUserClaim<string>>();
-            modelBuilder.Ignore<IdentityUserToken<string>>();
-            modelBuilder.Ignore<IdentityUser<string>>();
-            modelBuilder.Ignore<ApplicationUser>();
+
             //One-to-one
-            //modelBuilder.Entity<ApplicationUser>().HasOne(a => a.Player).WithOne(p => p.Account).HasForeignKey<Player>(p => p.AccountForeignKey);
             modelBuilder.Entity<Group>().HasOne(g => g.Role);//.WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
@@ -43,6 +40,10 @@ namespace EsportshubApi.Models
             modelBuilder.Entity<TeamEvent>().HasOne(e => e.Team);
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Group);
+            modelBuilder.Entity<Player>().HasOne(p => p.ApplicationUser).WithOne(p => p.Player).HasForeignKey<Player>(p => p.AccountForeignKey);
+            modelBuilder.Entity<Game>().Property(g => g.Created).HasDefaultValueSql("getutcdate()").IsRequired();
+            modelBuilder.Entity<Game>().Property(g => g.Updated).HasComputedColumnSql("getutcdate()").IsRequired();
+
 
             //one-to-many
             modelBuilder.Entity<Player>().HasMany(p => p.Integrations).WithOne(i => i.Player);
@@ -64,6 +65,32 @@ namespace EsportshubApi.Models
                 .HasValue<GameEvent>("GameEvent")
                 .HasValue<GroupEvent>("GroupEvent")
                 .HasValue<TeamEvent>("TeamEvent");
+        }
+
+        public static async Task CreateAdminAccount(IServiceProvider serviceProvider, IConfiguration configuration) {
+            UserManager<ApplicationUser> userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+            RoleManager<IdentityRole> roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+            string username = configuration["Data:AdminUser:Name"];
+            string email = configuration["Data:AdminUser:Email"];
+            string password = configuration["Data:AdminUser:Password"];
+            string role = configuration["Data:AdminUser:Role"];
+
+            if (await userManager.FindByNameAsync(username) == null) {
+                if (await roleManager.FindByNameAsync(role) == null) {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+
+                ApplicationUser user = new ApplicationUser {
+                    UserName = username,
+                    Email = email
+                };
+
+                IdentityResult result = await userManager
+                    .CreateAsync(user, password);
+                if (result.Succeeded) {
+                    await userManager.AddToRoleAsync(user, role);
+                }
+            }
         }
     }
 }
