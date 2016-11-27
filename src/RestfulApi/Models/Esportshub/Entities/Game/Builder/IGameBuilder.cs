@@ -5,7 +5,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
 {
-    public interface IGameBuilder : IBuilder<Game,GameValidator>
+    public interface IGameBuilder : IBuilder<Game>
     {
         IGameBuilder SetGameId(int input);
         IGameBuilder SetName(string input);

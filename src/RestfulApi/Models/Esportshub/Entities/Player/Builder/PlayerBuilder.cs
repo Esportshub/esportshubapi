@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Models.Entities.mappings;
-using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities 
+namespace EsportshubApi.Models.Entities
 {
     public class PlayerBuilder : IPlayerBuilder
     {
@@ -18,16 +17,6 @@ namespace EsportshubApi.Models.Entities
            return _player;
         }
 
-        public Player Build(IValidator<Player> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Player Build(PlayerValidator validator)
-        {
-            validator.Validate(_player);
-           return _player;
-        }
 
         //@TODO: Throw the correct exceptions/validate correctly
 

@@ -5,7 +5,7 @@ using Patterns.Builder;
 
 namespace  EsportshubApi.Models.Entities
 {
-    public interface IGroupBuilder : IBuilder<Group, GroupValidator>
+    public interface IGroupBuilder : IBuilder<Group>
     {
         IGroupBuilder SetGroupId(int input);
         IGroupBuilder SetGroupGuid(Guid input);

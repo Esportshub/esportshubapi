@@ -1,5 +1,4 @@
 using System;
-using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -16,16 +15,6 @@ namespace EsportshubApi.Models.Entities
             throw new NotImplementedException();
         }
 
-        public Integration Build(IValidator<Integration> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Integration Build(IntegrationValidator validator)
-        {
-            validator.Validate(_integration);
-            return _integration;
-        }
 
         public IIntegrationBuilder SetCreated(DateTime input)
         {

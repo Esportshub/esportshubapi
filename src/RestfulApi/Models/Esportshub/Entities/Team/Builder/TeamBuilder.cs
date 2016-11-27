@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EsportshubApi.Models.Entities.mappings;
-using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -19,19 +18,6 @@ namespace EsportshubApi.Models.Entities
             return _team;
         }
          
-
-        public Team Build(IValidator<Team> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public Team Build(TeamValidator validator)
-        {
-            validator.Validate(_team);
-           return _team;
-        }
-
         public ITeamBuilder SetCreated(DateTime input)
         {
             _team.Created = input;

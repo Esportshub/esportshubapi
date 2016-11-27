@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using EsportshubApi.Models.Entities.mappings;
-using Patterns.Builder;
-using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -14,12 +11,6 @@ namespace EsportshubApi.Models.Entities
         public GameBuilder(Game game)
         {
             _game = game;
-        }
-
-        public Game Build(IValidator<Game> validator)
-        {
-            validator.Validate(_game);
-            return _game;
         }
 
         public Game Build()

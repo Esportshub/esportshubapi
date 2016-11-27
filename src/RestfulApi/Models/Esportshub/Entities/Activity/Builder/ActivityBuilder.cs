@@ -1,5 +1,4 @@
 using System;
-using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities {
     public class ActivityBuilder : IActivityBuilder
@@ -15,16 +14,6 @@ namespace EsportshubApi.Models.Entities {
             return _activity;
         }
 
-        public Activity Build(IValidator<Activity> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Activity Build(ActivityValidator validator)
-        {
-            validator.Validate(_activity);
-            return _activity;
-        }
 
         public IActivityBuilder SetActivityGuid(Guid input)
         {

@@ -18,13 +18,7 @@ namespace EsportshubApi.Models.Entities
         public DateTime Updated { get; set; }
         public Player Player { get; set; }
 
-        public int Id
-        {
-            get
-            {
-                return IntegrationId;
-            }
-        }
+        public int Id => IntegrationId;
 
         public override bool Equals(object obj)
         {

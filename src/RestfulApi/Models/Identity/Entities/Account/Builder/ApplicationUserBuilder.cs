@@ -1,6 +1,4 @@
 using System;
-using RestfulApi.Models.Validator;
-using System.ComponentModel.DataAnnotations;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -15,11 +13,6 @@ namespace EsportshubApi.Models.Entities
         public ApplicationUser Build()
         {
            return _applicationUser;
-        }
-        public ApplicationUser Build(AccountValidator validator)
-        {
-            validator.Validate(_applicationUser);
-            return _applicationUser;
         }
 
         /*public IAccountBuilder AccountId(string input)
@@ -76,17 +69,6 @@ namespace EsportshubApi.Models.Entities
             _applicationUser.Verified = input;
             return this;
         }
-
-        public ApplicationUser Build(IValidator<ApplicationUser> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public Account Build(IValidator<Account> validator)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
 
     }
 }

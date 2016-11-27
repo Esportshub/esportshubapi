@@ -1,11 +1,8 @@
-using RestfulApi.Models.Validator;
-using System.ComponentModel.DataAnnotations;
 
 namespace Patterns.Builder 
 {
-    public interface IBuilder<TEntity,TValidator> 
+    public interface IBuilder<TEntity>
     {
-        TEntity Build(IValidator<TEntity> validator);
-        TEntity Build();      
+        TEntity Build();
     }
 }

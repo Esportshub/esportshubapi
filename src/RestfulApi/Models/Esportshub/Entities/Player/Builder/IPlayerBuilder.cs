@@ -5,7 +5,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities 
 {
-    public interface IPlayerBuilder : IBuilder<Player, PlayerValidator>
+    public interface IPlayerBuilder : IBuilder<Player>
     {
         IPlayerBuilder SetPlayerId(int input);
         IPlayerBuilder SetPlayerGuid(Guid input);

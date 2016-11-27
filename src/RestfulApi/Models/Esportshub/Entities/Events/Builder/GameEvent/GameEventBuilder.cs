@@ -1,5 +1,4 @@
 using System;
-using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -16,16 +15,6 @@ namespace EsportshubApi.Models.Entities
             return _gameEvent;
         }
 
-        public GameEvent Build(IValidator<GameEvent> validator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GameEvent Build(GameEventValidator validator)
-        {
-            validator.Validate(_gameEvent);
-            return _gameEvent;
-        }
 
         public IGameEventBuilder SetEvent(Event input)
         {

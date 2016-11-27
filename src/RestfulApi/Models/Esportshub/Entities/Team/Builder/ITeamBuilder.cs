@@ -5,7 +5,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities 
 {
-    public interface ITeamBuilder : IBuilder<Team, TeamValidator>
+    public interface ITeamBuilder : IBuilder<Team>
     {
         ITeamBuilder TeamId(int input);
         ITeamBuilder TeamGuid(Guid input);

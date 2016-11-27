@@ -3,7 +3,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities 
 {
-    public interface IApplicationUserBuilder : IBuilder<ApplicationUser, AccountValidator>
+    public interface IApplicationUserBuilder : IBuilder<ApplicationUser>
     {
         IApplicationUserBuilder SetAccountGuid(Guid input);
         IApplicationUserBuilder SetEmail(string input);

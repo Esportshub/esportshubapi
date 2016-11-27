@@ -3,7 +3,7 @@ using Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
 {
-    public interface ITeamEventBuilder : IBuilder<TeamEvent,TeamEventValidator>
+    public interface ITeamEventBuilder : IBuilder<TeamEvent>
     { 
         ITeamEventBuilder SetTeamEventId(int input);
         ITeamEventBuilder SetTeamEventGuid(Guid input);
