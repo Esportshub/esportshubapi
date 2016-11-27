@@ -1,5 +1,6 @@
 using System;
-using EsportshubApi.Extensions;
+using RestfulApi.Extensions.Entities;
+using RestfulApi.Models.Esportshub.Entities.Team;
 
 namespace EsportshubApi.Models.Entities
 {

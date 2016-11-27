@@ -1,7 +1,7 @@
 using EsportshubApi.Models.Entities;
-using EsportshubApi.Models;
+using RestfulApi.Models.Esportshub;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Activty
 {
     public class ActivityRepository : GenericRepository<Activity>, IAcitivtyRepository
     {

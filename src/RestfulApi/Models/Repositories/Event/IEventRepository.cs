@@ -1,8 +1,6 @@
-using EsportshubApi.Models.Entities;
-
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Event
  {
-    public interface IEventRepository : IRepository<Event>
+    public interface IEventRepository : IRepository<EsportshubApi.Models.Entities.Event>
     {
     
     }

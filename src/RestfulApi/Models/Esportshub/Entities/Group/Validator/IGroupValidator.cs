@@ -1,11 +1,6 @@
-﻿using EsportshubApi.Models.Entities;
-using RestfulApi.Models.Validator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities
+namespace RestfulApi.Models.Esportshub.Entities.Group.Validator
 {
    public interface IGroupValidator: IValidator<Group>
     {

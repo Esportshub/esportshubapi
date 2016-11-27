@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Entities.mappings;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub.Entities.Group.Validator;
+using RestfulApi.Models.Esportshub.Entities.GroupPlayer;
+using RestfulApi.Models.Esportshub.Entities.mappings;
 using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities
+namespace RestfulApi.Models.Esportshub.Entities.Group.Builder
 {
     public class GroupBuilder : IGroupBuilder
     {
@@ -36,12 +39,6 @@ namespace EsportshubApi.Models.Entities
            return this;
         }
 
-        public IGroupBuilder SetCreated(DateTime input)
-        {
-            _group.Created = input;
-            return this;
-        }
-
         public IGroupBuilder SetGroupEvents(List<GroupEvent> input)
         {
             _group.GroupEvents = input;
@@ -54,12 +51,6 @@ namespace EsportshubApi.Models.Entities
            return this;
         }
 
-        public IGroupBuilder SetGroupId(int input)
-        {
-            _group.GroupId = input;
-            return this;
-        }
-
         public IGroupBuilder SetName(string input)
         {
             _group.Name = input;
@@ -69,12 +60,6 @@ namespace EsportshubApi.Models.Entities
         public IGroupBuilder SetRole(Role input)
         {
             _group.Role = input;
-            return this;
-        }
-
-        public IGroupBuilder SetUpdated(DateTime input)
-        {
-            _group.Updated = input;
             return this;
         }
 

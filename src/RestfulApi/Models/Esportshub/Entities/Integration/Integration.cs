@@ -1,7 +1,9 @@
 using System;
-using EsportshubApi.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Extensions.Entities;
 
-namespace EsportshubApi.Models.Entities
+namespace RestfulApi.Models.Esportshub.Entities.Integration
 {
     public class Integration : EsportshubEntity
     {
@@ -11,11 +13,19 @@ namespace EsportshubApi.Models.Entities
         {
             return new IntegrationBuilder(new Integration());
         }
-        public int IntegrationId { get; set; }
+
+        public int IntegrationId { get; private set; }
+
         public Guid IntegrationGuid { get; set; }
+
         public Name Name { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Created { get; private set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Updated { get; private set; }
+
         public Player Player { get; set; }
 
         public int Id

@@ -1,17 +1,15 @@
 using System;
-using Patterns.Builder;
+using RestfulApi.Models.Esportshub.Entities.Integration;
+using RestfulApi.Models.Esportshub.Entities.Player;
+using RestfulApi.Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
 {
     public interface IIntegrationBuilder : IBuilder<Integration, IntegrationValidator>
     {
-        IIntegrationBuilder SetIntegrationId(int input);
         IIntegrationBuilder SetIntegrationGuid(Guid input);
         IIntegrationBuilder SetName(Name input);
-        IIntegrationBuilder SetCreated(DateTime input);
-        IIntegrationBuilder SetUpdated(DateTime input);
         IIntegrationBuilder SetPlayer(Player input);
-
     }
 
 }

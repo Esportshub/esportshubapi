@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Extensions;
-using EsportshubApi.Models.Entities.mappings;
+using System.ComponentModel.DataAnnotations.Schema;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Extensions.Entities;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Models.Esportshub.Entities.Player.Builder;
 
-namespace EsportshubApi.Models.Entities
+namespace RestfulApi.Models.Esportshub.Entities.Player
 {
     public class Player : EsportshubEntity
     {
@@ -14,11 +17,16 @@ namespace EsportshubApi.Models.Entities
             return new PlayerBuilder(new Player());
         }
 
-        public int PlayerId { get; set; }
+        public int PlayerId { get; private set; }
 
         public Guid PlayerGuid { get; set; }
 
         public string Nickname { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Created { get; private set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Updated { get; private set; }
 
         public ApplicationUser ApplicationUser { get; set; }
         public string AccountForeignKey { get; set; }
@@ -28,11 +36,12 @@ namespace EsportshubApi.Models.Entities
         public List<PlayerGames> PlayerGames { get; set; }
 
         public List<PlayerTeams> PlayerTeams { get; set; }
-        public List<Integration> Integrations { get; set; }
+        public List<Integration.Integration> Integrations { get; set; }
         public List<Activity> Activities { get; set; }
 
         public List<PlayerGroups> PlayerGroups { get; set; }
 
+        [NotMapped]
         int EsportshubEntity.Id => PlayerId;
 
         public override bool Equals (object obj)

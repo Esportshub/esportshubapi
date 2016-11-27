@@ -1,4 +1,4 @@
-namespace EsportshubApi.Models.Entities 
+namespace RestfulApi.Models.Esportshub.Entities
 {
     public interface EsportshubEntity 
     {

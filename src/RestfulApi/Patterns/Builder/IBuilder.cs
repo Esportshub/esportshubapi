@@ -1,7 +1,6 @@
 using RestfulApi.Models.Validator;
-using System.ComponentModel.DataAnnotations;
 
-namespace Patterns.Builder 
+namespace RestfulApi.Patterns.Builder
 {
     public interface IBuilder<TEntity,TValidator> 
     {

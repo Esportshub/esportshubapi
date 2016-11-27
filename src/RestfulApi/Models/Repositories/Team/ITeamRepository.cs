@@ -1,8 +1,6 @@
-using EsportshubApi.Models.Entities;
-
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Team
  {
-    public interface ITeamRepository : IRepository<Team>
+    public interface ITeamRepository : IRepository<Esportshub.Entities.Team.Team>
     {
     
     }

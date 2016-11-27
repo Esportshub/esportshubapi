@@ -1,10 +1,11 @@
 ﻿using System;
-using EsportshubApi.Models;
 using System.Collections.Generic;
 using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Repositories;
+using RestfulApi.Models.Esportshub;
+using RestfulApi.Models.Esportshub.Entities;
+using RestfulApi.Models.Repositories;
 
-namespace esportshubapi.UnitOfWork
+namespace RestfulApi.UnitOfWork
 {
     public class UnitOfWork: IDisposable
     {

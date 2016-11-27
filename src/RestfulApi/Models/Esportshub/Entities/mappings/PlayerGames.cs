@@ -1,4 +1,6 @@
-﻿namespace EsportshubApi.Models.Entities.mappings
+﻿using EsportshubApi.Models.Entities;
+
+namespace RestfulApi.Models.Esportshub.Entities.mappings
 {
     public class PlayerGames
     {

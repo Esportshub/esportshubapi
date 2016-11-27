@@ -1,15 +1,19 @@
 using System;
 using System.Threading.Tasks;
 using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Entities.mappings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RestfulApi.Models.Esportshub.Entities.Group;
+using RestfulApi.Models.Esportshub.Entities.GroupPlayer;
+using RestfulApi.Models.Esportshub.Entities.Integration;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Models.Esportshub.Entities.Player;
+using RestfulApi.Models.Esportshub.Entities.Team;
 
-
-namespace EsportshubApi.Models
+namespace RestfulApi.Models.Esportshub
 {
     public class EsportshubContext : IdentityDbContext<ApplicationUser>
     {
@@ -33,17 +37,11 @@ namespace EsportshubApi.Models
             base.OnModelCreating(modelBuilder);
 
             //One-to-one
-            modelBuilder.Entity<Group>().HasOne(g => g.Role);//.WithOne(r => r.Group).HasForeignKey<Role>(r => r.GroupForeignKey);
-            modelBuilder.Entity<GameEvent>().HasOne(e => e.Event);
+            modelBuilder.Entity<Group>().HasOne(g => g.Role);
             modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
-            modelBuilder.Entity<TeamEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<TeamEvent>().HasOne(e => e.Team);
-            modelBuilder.Entity<GroupEvent>().HasOne(e => e.Event);
             modelBuilder.Entity<GroupEvent>().HasOne(e => e.Group);
             modelBuilder.Entity<Player>().HasOne(p => p.ApplicationUser).WithOne(p => p.Player).HasForeignKey<Player>(p => p.AccountForeignKey);
-            modelBuilder.Entity<Game>().Property(g => g.Created).HasDefaultValueSql("getutcdate()").IsRequired();
-            modelBuilder.Entity<Game>().Property(g => g.Updated).HasComputedColumnSql("getutcdate()").IsRequired();
-
 
             //one-to-many
             modelBuilder.Entity<Player>().HasMany(p => p.Integrations).WithOne(i => i.Player);
@@ -59,12 +57,45 @@ namespace EsportshubApi.Models
             modelBuilder.Entity<PlayerTeams>().HasKey(pt => new {pt.PlayerId, pt.TeamId});
             modelBuilder.Entity<PlayerGroups>().HasKey(pg => new {pg.PlayerId, pg.GroupId});
 
+            //game
+            modelBuilder.Entity<Game>().Property(g => g.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Game>().Property(g => g.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //player
+            modelBuilder.Entity<Player>().Property(p => p.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Player>().Property(p => p.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //group
+            modelBuilder.Entity<Group>().Property(g => g.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Group>().Property(g => g.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //activity
+            modelBuilder.Entity<Activity>().Property(a => a.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Activity>().Property(a => a.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //integration
+            modelBuilder.Entity<Integration>().Property(i => i.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Integration>().Property(i => i.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //team
+            modelBuilder.Entity<Team>().Property(t => t.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Team>().Property(t => t.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //applicationUser
+            modelBuilder.Entity<ApplicationUser>().Property(au => au.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<ApplicationUser>().Property(au => au.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
+            //role
+            modelBuilder.Entity<Role>().Property(r => r.Created).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Role>().Property(r => r.Updated).HasDefaultValueSql("getutcdate()").ValueGeneratedOnAddOrUpdate();
+
             //discriminator values
             modelBuilder.Entity<Event>()
                 .HasDiscriminator<string>("Type")
                 .HasValue<GameEvent>("GameEvent")
                 .HasValue<GroupEvent>("GroupEvent")
                 .HasValue<TeamEvent>("TeamEvent");
+
         }
 
         public static async Task CreateAdminAccount(IServiceProvider serviceProvider, IConfiguration configuration) {

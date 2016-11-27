@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Entities.mappings;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Models.Esportshub.Entities.Player.Validator;
 using RestfulApi.Models.Validator;
 
-namespace EsportshubApi.Models.Entities 
+namespace RestfulApi.Models.Esportshub.Entities.Player.Builder
 {
     public class PlayerBuilder : IPlayerBuilder
     {
@@ -61,7 +63,7 @@ namespace EsportshubApi.Models.Entities
              return this;
         }
 
-        public IPlayerBuilder SetIntegrations(List<Integration> input)
+        public IPlayerBuilder SetIntegrations(List<Integration.Integration> input)
         {
              _player.Integrations = input;
              return this;
@@ -77,12 +79,6 @@ namespace EsportshubApi.Models.Entities
         {
              _player.PlayerGuid = input;
             return this;
-        }
-
-        public IPlayerBuilder SetPlayerId(int input)
-        {
-             _player.PlayerId = input;
-             return this;
         }
 
         public IPlayerBuilder SetPlayerTeams(List<PlayerTeams> input)

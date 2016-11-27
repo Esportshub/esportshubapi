@@ -1,4 +1,6 @@
 using System;
+using RestfulApi.Models.Esportshub.Entities.Integration;
+using RestfulApi.Models.Esportshub.Entities.Player;
 using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities
@@ -27,21 +29,9 @@ namespace EsportshubApi.Models.Entities
             return _integration;
         }
 
-        public IIntegrationBuilder SetCreated(DateTime input)
-        {
-           _integration.Created = input;
-           return this;
-        }
-
         public IIntegrationBuilder SetIntegrationGuid(Guid input)
         {
             _integration.IntegrationGuid = input;
-            return this;
-        }
-
-        public IIntegrationBuilder SetIntegrationId(int input)
-        {
-            _integration.IntegrationId = input;
             return this;
         }
 
@@ -54,12 +44,6 @@ namespace EsportshubApi.Models.Entities
         public IIntegrationBuilder SetPlayer(Player input)
         {
             _integration.Player = input;
-            return this;
-        }
-
-        public IIntegrationBuilder SetUpdated(DateTime input)
-        {
-            _integration.Updated = input;
             return this;
         }
     }

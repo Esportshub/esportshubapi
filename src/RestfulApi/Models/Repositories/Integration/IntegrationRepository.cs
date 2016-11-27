@@ -1,8 +1,8 @@
-using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Integration
 {
-    public class IntegrationRepository : GenericRepository<Integration>, IIntegrationRepository
+    public class IntegrationRepository : GenericRepository<Esportshub.Entities.Integration.Integration>, IIntegrationRepository
     {
         public IntegrationRepository(EsportshubContext context) : base(context)
         {

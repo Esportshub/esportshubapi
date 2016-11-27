@@ -2,24 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using EsportshubApi.Models.Entities;
 using System.Threading.Tasks;
+using EsportshubApi.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using RestfulApi.Models.Esportshub;
+using RestfulApi.Models.Esportshub.Entities;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories
 {
-    public abstract class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, EsportshubEntity 
+    public abstract class GenericRepository<TEntity> : RestfulApi.Models.Repositories.IRepository<TEntity> where TEntity : class, EsportshubEntity 
     {
         internal EsportshubContext context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(EsportshubContext context)
+        protected GenericRepository(EsportshubContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
         }
 
-        public async virtual Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
 
@@ -29,21 +31,20 @@ namespace EsportshubApi.Models.Repositories
             return await query.ToListAsync();
         }
 
-        public async virtual Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            Console.WriteLine("The player repository was hit!");
-            return await dbSet.SingleAsync(x => x.Equals(id));
+            return await dbSet.SingleAsync(x => x.Id == id);
         }
 
-        public async virtual Task InsertAsync(TEntity entity)
+        public virtual async Task InsertAsync(TEntity entity)
         {
              dbSet.Add(entity);
              await context.SaveChangesAsync();
         }
 
-        public async virtual Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
-            TEntity entityToDelete = await dbSet.SingleAsync(x => x.Equals(id));
+            TEntity entityToDelete = await dbSet.SingleAsync(x => x.Id == id);
             await DeleteAsync(entityToDelete);
         }
 
@@ -55,7 +56,7 @@ namespace EsportshubApi.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async virtual Task<TEntity> UpdateAsync(TEntity entityToUpdate)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;

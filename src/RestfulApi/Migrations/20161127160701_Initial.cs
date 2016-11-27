@@ -15,11 +15,11 @@ namespace RestfulApi.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    AccountGuid = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<int>(nullable: false),
+                    ApplicationUserGuid = table.Column<Guid>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: true),
                     Checksum = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
@@ -33,7 +33,7 @@ namespace RestfulApi.Migrations
                     Salt = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    Updated = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     Verified = table.Column<bool>(nullable: false)
                 },
@@ -51,7 +51,7 @@ namespace RestfulApi.Migrations
                     Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     GameGuid = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Updated = table.Column<DateTime>(nullable: false, computedColumnSql: "getutcdate()")
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -64,10 +64,10 @@ namespace RestfulApi.Migrations
                 {
                     RoleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Permission = table.Column<int>(nullable: false),
                     RoleGuid = table.Column<Guid>(nullable: false),
-                    Updated = table.Column<DateTime>(nullable: false)
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -109,9 +109,11 @@ namespace RestfulApi.Migrations
                     PlayerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccountForeignKey = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Nickname = table.Column<string>(nullable: true),
                     PlayerGuid = table.Column<Guid>(nullable: false),
-                    PlayerId1 = table.Column<int>(nullable: true)
+                    PlayerId1 = table.Column<int>(nullable: true),
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -177,11 +179,11 @@ namespace RestfulApi.Migrations
                 {
                     TeamId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     GameId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     TeamGuid = table.Column<Guid>(nullable: false),
-                    Updated = table.Column<DateTime>(nullable: false)
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -200,11 +202,11 @@ namespace RestfulApi.Migrations
                 {
                     GroupId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     GroupGuid = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     RoleId = table.Column<int>(nullable: true),
-                    Updated = table.Column<DateTime>(nullable: false),
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Visibilty = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -270,11 +272,11 @@ namespace RestfulApi.Migrations
                     ActivityId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ActivityGuid = table.Column<Guid>(nullable: false),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Description = table.Column<string>(nullable: true),
                     PlayerId = table.Column<int>(nullable: true),
                     Title = table.Column<string>(nullable: true),
-                    Updated = table.Column<DateTime>(nullable: false)
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
@@ -293,11 +295,11 @@ namespace RestfulApi.Migrations
                 {
                     IntegrationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Created = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     IntegrationGuid = table.Column<Guid>(nullable: false),
                     Name = table.Column<int>(nullable: false),
                     PlayerId = table.Column<int>(nullable: true),
-                    Updated = table.Column<DateTime>(nullable: false)
+                    Updated = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {

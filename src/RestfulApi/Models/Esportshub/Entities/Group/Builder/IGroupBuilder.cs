@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Entities.mappings;
-using Patterns.Builder;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub.Entities.Group.Validator;
+using RestfulApi.Models.Esportshub.Entities.GroupPlayer;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Patterns.Builder;
 
-namespace  EsportshubApi.Models.Entities
+namespace  RestfulApi.Models.Esportshub.Entities.Group.Builder
 {
     public interface IGroupBuilder : IBuilder<Group, GroupValidator>
     {
-        IGroupBuilder SetGroupId(int input);
         IGroupBuilder SetGroupGuid(Guid input);
         IGroupBuilder SetName(string input);
-        IGroupBuilder SetCreated(DateTime input);
-        IGroupBuilder SetUpdated(DateTime input);
         IGroupBuilder SetVisibilty(Visibilty input);
         IGroupBuilder SetRole(Role input);
         IGroupBuilder SetPlayerGroups(List<PlayerGroups> input);

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestfulApi.Models.Esportshub.Entities.Integration;
 
 namespace EsportshubApi.Models.Entities
 {

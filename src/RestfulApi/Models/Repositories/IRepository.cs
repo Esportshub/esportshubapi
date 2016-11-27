@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using  System.Threading.Tasks;
+using System.Threading.Tasks;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories
 {
     public interface IRepository<TEntity>
     {

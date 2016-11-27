@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Extensions;
-using EsportshubApi.Models.Entities.mappings;
+using System.ComponentModel.DataAnnotations.Schema;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Extensions.Entities;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Models.Esportshub.Entities.Team.Builder;
 
-namespace EsportshubApi.Models.Entities
+namespace RestfulApi.Models.Esportshub.Entities.Team
 {
 
     public class Team : EsportshubEntity
@@ -15,15 +18,15 @@ namespace EsportshubApi.Models.Entities
         {
             return new TeamBuilder(new Team());
         }
-        public int TeamId { get; set; }
+        public int TeamId { get; private set; }
 
         public string Name { get; set; }
 
         public Guid TeamGuid { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime Created { get; private set; }
 
-        public DateTime Updated { get; set; }
+        public DateTime Updated { get; private set; }
 
         public Game Game { get; set; }
 
@@ -31,6 +34,7 @@ namespace EsportshubApi.Models.Entities
 
         public List<PlayerTeams> PlayerTeams { get; set; }
 
+        [NotMapped]
         public int Id => TeamId;
 
         public override bool Equals(object obj)

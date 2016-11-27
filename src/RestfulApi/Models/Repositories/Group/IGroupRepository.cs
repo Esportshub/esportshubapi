@@ -1,9 +1,6 @@
-using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Repositories;
-
-namespace esportshubapi.Repositories
+namespace RestfulApi.Models.Repositories.Group
  {
-    public interface IGroupRepository : IRepository<Group>
+    public interface IGroupRepository : IRepository<Esportshub.Entities.Group.Group>
     {
     
     }

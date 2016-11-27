@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RestfulApi.Models.Esportshub;
+using RestfulApi.Models.Repositories.Player;
 using RestfulApi.Services;
 
 namespace RestfulApi
@@ -81,10 +82,12 @@ namespace RestfulApi
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
+                    EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
                     serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
                 }
             }
-            EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+
+            app.UseMvc();
         }
     }
 }

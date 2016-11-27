@@ -1,4 +1,4 @@
-namespace EsportshubApi.Extensions
+namespace RestfulApi.Extensions.Entities
 {
     public static class Extensions
     {

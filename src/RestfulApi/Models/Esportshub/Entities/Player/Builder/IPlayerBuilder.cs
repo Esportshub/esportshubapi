@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Entities.mappings;
-using Patterns.Builder;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Models.Esportshub.Entities.Player.Validator;
+using RestfulApi.Patterns.Builder;
 
-namespace EsportshubApi.Models.Entities 
+namespace RestfulApi.Models.Esportshub.Entities.Player.Builder
 {
     public interface IPlayerBuilder : IBuilder<Player, PlayerValidator>
     {
-        IPlayerBuilder SetPlayerId(int input);
         IPlayerBuilder SetPlayerGuid(Guid input);
         IPlayerBuilder SetNickname(string input);
         IPlayerBuilder SetAccount(ApplicationUser input);
@@ -16,7 +17,7 @@ namespace EsportshubApi.Models.Entities
         IPlayerBuilder SetPlayerTeams(List<PlayerTeams> input);
         IPlayerBuilder SetActivities(List<Activity> input);
         IPlayerBuilder SetPlayerGroups(List<PlayerGroups> input);
-        IPlayerBuilder SetIntegrations(List<Integration> input);
+        IPlayerBuilder SetIntegrations(List<Integration.Integration> input);
     }
 
 }

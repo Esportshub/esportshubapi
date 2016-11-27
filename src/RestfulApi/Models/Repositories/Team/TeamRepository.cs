@@ -1,10 +1,8 @@
-using EsportshubApi.Models.Entities;
-using EsportshubApi.Models.Repositories;
+using RestfulApi.Models.Esportshub;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Team
 {
-
-    public class TeamRepository: GenericRepository<Team>, ITeamRepository
+    public class TeamRepository: GenericRepository<Esportshub.Entities.Team.Team>, ITeamRepository
     {
         public TeamRepository(EsportshubContext context) : base(context)
         {

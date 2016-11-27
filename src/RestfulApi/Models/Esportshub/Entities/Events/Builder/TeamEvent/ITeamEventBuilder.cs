@@ -1,5 +1,6 @@
 using System;
-using Patterns.Builder;
+using RestfulApi.Models.Esportshub.Entities.Team;
+using RestfulApi.Patterns.Builder;
 
 namespace EsportshubApi.Models.Entities
 {

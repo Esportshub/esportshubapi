@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using EsportshubApi.Models.Entities;
 using System.Threading.Tasks;
+using EsportshubApi.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
+using RestfulApi.Models.Esportshub.Entities.Player;
+using RestfulApi.Models.Repositories.Player;
 
-namespace EsportshubApi.Controllers
+namespace RestfulApi.Controllers
 {
     [Route("api/[controller]")]
     public class PlayerController : Controller
@@ -26,7 +27,7 @@ namespace EsportshubApi.Controllers
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)
         {
-            Console.WriteLine("This endpoint was hit");
+            Console.WriteLine("player controller, with id:", id);
             Player player = await _playerRepository.GetByIdAsync(id);
             return Json(player);
         }
@@ -70,7 +71,6 @@ namespace EsportshubApi.Controllers
             {
                 return NotFound();
             }
-            player.PlayerId = _player.PlayerId;
             await _playerRepository.UpdateAsync(player);
             return new NoContentResult();
         }

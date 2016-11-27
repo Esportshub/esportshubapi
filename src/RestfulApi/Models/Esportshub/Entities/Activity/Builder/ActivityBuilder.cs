@@ -1,4 +1,5 @@
 using System;
+using RestfulApi.Models.Esportshub.Entities.Player;
 using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities {
@@ -32,18 +33,6 @@ namespace EsportshubApi.Models.Entities {
             return this;
         }
 
-        public IActivityBuilder SetActivityId(int input)
-        {
-           _activity.ActivityId = input;
-           return this;
-        }
-
-        public IActivityBuilder SetCreated(DateTime input)
-        {
-            _activity.Created = input;
-            return this;
-        }
-
         public IActivityBuilder SetDescription(string input)
         {
             _activity.Description = input;
@@ -59,12 +48,6 @@ namespace EsportshubApi.Models.Entities {
         public IActivityBuilder SetTitle(string input)
         {
             _activity.Title = input;
-            return this;
-        }
-
-        public IActivityBuilder SetUpdated(DateTime input)
-        {
-            _activity.Updated = input;
             return this;
         }
     }

@@ -1,5 +1,8 @@
 using System;
-using EsportshubApi.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
+using RestfulApi.Extensions.Entities;
+using RestfulApi.Models.Esportshub.Entities;
+using RestfulApi.Models.Esportshub.Entities.Player;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -12,14 +15,23 @@ namespace EsportshubApi.Models.Entities
             return new ActivityBuilder(new Activity());
         }
 
-        public int ActivityId { get; set; }
+        public int ActivityId { get; private set; }
+
         public Guid ActivityGuid { get; set; }
+
         public string Title { get; set; }
+
         public string Description { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Created { get; private set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Updated { get; private set; }
+
         public Player Player { get; set; }
 
+        [NotMapped]
         public int Id => ActivityId;
 
         public override bool Equals(object obj)

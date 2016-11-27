@@ -1,9 +1,8 @@
-using EsportshubApi.Models.Entities;
-using EsportshubApi.Models;
+using RestfulApi.Models.Esportshub;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Event
 {
-    public class EventRepository : GenericRepository<Event>, IEventRepository
+    public class EventRepository : GenericRepository<EsportshubApi.Models.Entities.Event>, IEventRepository
     {
         public EventRepository(EsportshubContext context) : base(context)
         {

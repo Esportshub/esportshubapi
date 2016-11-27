@@ -1,13 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EsportshubApi.Models.Entities {
+namespace RestfulApi.Models.Esportshub.Entities.GroupPlayer {
 
     public class Role 
     {
-        public int RoleId { get; set; }
+        public int RoleId { get; private set; }
+
         public Permission Permission { get; set; }
+
         public Guid RoleGuid { get; set; }
-        public  DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public  DateTime Created { get; private set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime Updated { get; private set; }
     }
 }

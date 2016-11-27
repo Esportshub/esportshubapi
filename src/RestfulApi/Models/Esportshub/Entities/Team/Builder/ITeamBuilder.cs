@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
-using EsportshubApi.Models.Entities.mappings;
-using Patterns.Builder;
+using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub.Entities.mappings;
+using RestfulApi.Patterns.Builder;
 
-namespace EsportshubApi.Models.Entities 
+namespace RestfulApi.Models.Esportshub.Entities.Team.Builder
 {
     public interface ITeamBuilder : IBuilder<Team, TeamValidator>
     {
-        ITeamBuilder TeamId(int input);
         ITeamBuilder TeamGuid(Guid input);
         ITeamBuilder SetName(string input);
-        ITeamBuilder SetCreated(DateTime input);
-        ITeamBuilder SetUpdated(DateTime input);
         ITeamBuilder SetGame(Game input);      
         ITeamBuilder SetTeamEvents(List<TeamEvent> input);
         ITeamBuilder SetPlayerTeams(List<PlayerTeams> input);

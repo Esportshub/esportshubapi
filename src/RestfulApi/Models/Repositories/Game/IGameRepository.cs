@@ -1,6 +1,6 @@
 using EsportshubApi.Models.Entities;
 
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Game
  {
     public interface IGameRepository : IRepository<Group>
     {

@@ -1,5 +1,7 @@
 using System;
-using EsportshubApi.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
+using RestfulApi.Extensions.Entities;
+using RestfulApi.Models.Esportshub.Entities;
 
 namespace EsportshubApi.Models.Entities
 {
@@ -13,13 +15,8 @@ namespace EsportshubApi.Models.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
 
-        public int Id
-        {
-            get
-            {
-                return EventId;
-            }
-        }
+        [NotMapped]
+        public int Id => EventId;
 
         public override bool Equals(object obj)
         {

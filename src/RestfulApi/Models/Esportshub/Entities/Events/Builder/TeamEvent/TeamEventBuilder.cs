@@ -1,4 +1,5 @@
 using System;
+using RestfulApi.Models.Esportshub.Entities.Team;
 using RestfulApi.Models.Validator;
 
 namespace EsportshubApi.Models.Entities

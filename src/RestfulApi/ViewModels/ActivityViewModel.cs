@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace esportshubapi.ViewModels
+namespace RestfulApi.ViewModels
 {
     public class ActivityViewModel
     {

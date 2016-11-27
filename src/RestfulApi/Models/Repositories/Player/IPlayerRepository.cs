@@ -1,9 +1,6 @@
-
-using EsportshubApi.Models.Entities;
-
-namespace EsportshubApi.Models.Repositories
+namespace RestfulApi.Models.Repositories.Player
  {
-    public interface IPlayerRepository : IRepository<Player>
+    public interface IPlayerRepository : IRepository<Esportshub.Entities.Player.Player>
     {
         
     }

@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
+using RestfulApi.Models.Esportshub;
 
 namespace RestfulApi.Migrations
 {
     [DbContext(typeof(EsportshubContext))]
-    [Migration("20161127033812_applicationusers")]
-    partial class applicationusers
+    [Migration("20161127160701_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +26,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<Guid>("ActivityGuid");
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description");
 
@@ -33,7 +36,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("ActivityId");
 
@@ -49,16 +54,18 @@ namespace RestfulApi.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<Guid>("AccountGuid");
+                    b.Property<Guid>("ApplicationUserGuid");
 
-                    b.Property<int>("AccountId");
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<string>("Checksum");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -89,7 +96,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -149,7 +158,7 @@ namespace RestfulApi.Migrations
 
                     b.Property<DateTime>("Updated")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasComputedColumnSql("getutcdate()");
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("GameId");
 
@@ -161,7 +170,9 @@ namespace RestfulApi.Migrations
                     b.Property<int>("GroupId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<Guid>("GroupGuid");
 
@@ -169,7 +180,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<int?>("RoleId");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int>("Visibilty");
 
@@ -185,7 +198,9 @@ namespace RestfulApi.Migrations
                     b.Property<int>("IntegrationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<Guid>("IntegrationGuid");
 
@@ -193,7 +208,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<int?>("PlayerId");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("IntegrationId");
 
@@ -248,11 +265,19 @@ namespace RestfulApi.Migrations
 
                     b.Property<string>("AccountForeignKey");
 
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
+
                     b.Property<string>("Nickname");
 
                     b.Property<Guid>("PlayerGuid");
 
                     b.Property<int?>("PlayerId1");
+
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("PlayerId");
 
@@ -269,13 +294,17 @@ namespace RestfulApi.Migrations
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int>("Permission");
 
                     b.Property<Guid>("RoleGuid");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("RoleId");
 
@@ -287,7 +316,9 @@ namespace RestfulApi.Migrations
                     b.Property<int>("TeamId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int?>("GameId");
 
@@ -295,7 +326,9 @@ namespace RestfulApi.Migrations
 
                     b.Property<Guid>("TeamGuid");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.HasKey("TeamId");
 
