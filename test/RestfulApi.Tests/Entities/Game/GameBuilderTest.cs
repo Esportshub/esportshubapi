@@ -1,13 +1,6 @@
 using Xunit;
-using EsportshubApi.Controllers;
-using EsportshubApi.Models.Repositories;
-using EsportshubApi.Models;
-using EsportshubApi.Models.Entities;
-using System;
-using System.Security.Authentication;
 
-
-namespace RestfulAPI.Tests.Entities
+namespace RestfulApi.Tests.Entities.Game
 {
     public class GameBuilderTest
     {

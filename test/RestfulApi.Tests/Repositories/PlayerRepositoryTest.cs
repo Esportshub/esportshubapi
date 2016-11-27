@@ -1,13 +1,13 @@
 using System;
-using Xunit;
-using Moq;
-using EsportshubApi.Models.Repositories;
-using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using RestfulApi.Models.Esportshub;
+using RestfulApi.Models.Esportshub.Entities.Player;
+using RestfulApi.Models.Repositories.Player;
 
-namespace RestfulApi.Tests.Controllers
+namespace RestfulApi.Tests.Repositories
 {
     public class PlayerRepositoryTest : IDisposable
     {
@@ -49,23 +49,5 @@ namespace RestfulApi.Tests.Controllers
         {
            _playerRepository = null;
         }
-
-        // [Fact]
-        // public void GetTest()
-        // {
-        //     Assert.Equal(5, Add(2, 2));
-        // }
-
-        //  [Fact]
-        // public void PutTest()
-        // {
-        //     Assert.Equal(5, Add(2, 2));
-        // }
-
-        //  [Fact]
-        // public void DeleteTest()
-        // {
-        //     Assert.Equal(5, Add(2, 2));
-        // }
     }
 }

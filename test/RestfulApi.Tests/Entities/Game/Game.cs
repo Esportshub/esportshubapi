@@ -1,5 +1,6 @@
 using Xunit;
-namespace RestfulAPI.Tests.Entities
+
+namespace RestfulApi.Tests.Entities.Game
 {
     public class Game
     {
