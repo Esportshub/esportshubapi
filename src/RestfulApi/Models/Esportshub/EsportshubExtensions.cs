@@ -13,13 +13,10 @@ namespace EsportshubApi.Models
             {
                 if (!context.Players.Any())
                 {
-<<<<<<< HEAD
 //                    var player = Player.Builder()
 //                        .SetNickname("Sjuften").
 //                        Build();
 //                    context.Players.Add(player);
-//                    context.SaveChanges();
-=======
                     List<Game> games = new List<Game>()
                     {
                         Game.Builder().SetName("Starcraft 2").Build(),
@@ -35,10 +32,9 @@ namespace EsportshubApi.Models
 
 
                     var player = Player.Builder()
-                        .SetNickname("DenLilleMand").SetAccount(Admin).SetPlayerGames(games).Build();
+                        .SetNickname("DenLilleMand").SetAccount(Admin).SetPlayerGames(playerGames).Build();
                     context.Players.Add(player);
                     context.SaveChanges();
->>>>>>> a7fb2e427bec348e1e1213151d099822e3895f4e
                 }
             }
         }

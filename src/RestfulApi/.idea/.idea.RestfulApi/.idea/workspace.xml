@@ -2,60 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb2e891b-cefa-4bba-8994-3745b192fe07" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Validator/ActivityValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Validator/IActivityValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/Event/EventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/Event/IEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/GameEvent/GameEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/GameEvent/IGameEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/GroupEvent/GroupEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/GroupEvent/IGroupEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/TeamEvent/ITeamEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Validator/TeamEvent/TeamEventValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Validator/GameValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Validator/IGameValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Validator/GroupValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Validator/IGroupValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Validator/IIntegrationValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Validator/IntegrationValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Validator/IPlayerValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Validator/PlayerValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Validator/ITeamValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Validator/TeamValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Validator/ApplicationUserValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Validator/IApplicationUserValidator.cs" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../Patterns/Validator/IValidator.cs" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Controllers/AccountController.cs" afterPath="$PROJECT_DIR$/../../Controllers/AccountController.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Extensions/Entities/Extensions.cs" afterPath="$PROJECT_DIR$/../../Extensions/Entities/Extensions.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Builder/ActivityBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Builder/ActivityBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Builder/IActivityBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Builder/IActivityBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/Event/EventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/Event/EventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/Event/IEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/Event/IEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GameEvent/GameEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GameEvent/GameEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GameEvent/IGameEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GameEvent/IGameEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GroupEvent/GroupEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GroupEvent/GroupEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GroupEvent/IGroupEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/GroupEvent/IGroupEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/TeamEvent/ITeamEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/TeamEvent/ITeamEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/TeamEvent/TeamEventBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Builder/TeamEvent/TeamEventBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Event.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Event.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Builder/GameBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Builder/GameBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Builder/IGameBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Game/Builder/IGameBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Builder/GroupBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Builder/GroupBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Builder/IGroupBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Group/Builder/IGroupBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Builder/IIntegrationBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Builder/IIntegrationBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Builder/IntegrationBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Builder/IntegrationBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Integration.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Integration.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Builder/IPlayerBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Builder/IPlayerBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Builder/PlayerBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Player/Builder/PlayerBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Builder/ITeamBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Builder/ITeamBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Builder/TeamBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/Entities/Team/Builder/TeamBuilder.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Esportshub/EsportshubExtensions.cs" afterPath="$PROJECT_DIR$/../../Models/Esportshub/EsportshubExtensions.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Builder/ApplicationUserBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Builder/ApplicationUserBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Builder/IApplicationUserBuilder.cs" afterPath="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Builder/IApplicationUserBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Patterns/Builder/IBuilder.cs" afterPath="$PROJECT_DIR$/../../Patterns/Builder/IBuilder.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Services/IEmailSender.cs" afterPath="$PROJECT_DIR$/../../Services/IEmailSender.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Services/MessageServices.cs" afterPath="$PROJECT_DIR$/../../Services/MessageServices.cs" />
     </list>
     <ignored path="RestfulApi.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -123,11 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Activity.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Activity.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Activity.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+            <state relative-caret-position="493">
+              <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
               <folding>
                 <marker date="1479602460972" expanded="true" signature="6:45" ph="..." />
                 <marker date="1479602460972" expanded="true" signature="86:1010" ph="{...}" />
@@ -135,6 +82,43 @@
                 <marker date="1479602460972" expanded="true" signature="218:294" ph="{...}" />
                 <marker date="1479602460972" expanded="true" signature="698:899" ph="{...}" />
                 <marker date="1479602460972" expanded="true" signature="942:1001" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EsportshubContext.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/EsportshubContext.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1480264505894" expanded="true" signature="6:27" ph="..." />
+                <marker date="1480264505894" expanded="true" signature="6:347" ph="..." />
+                <marker date="1480264505894" expanded="true" signature="380:4750" ph="{...}" />
+                <marker date="1480264505894" expanded="true" signature="1274:3480" ph="{...}" />
+                <marker date="1480264505894" expanded="true" signature="4390:4484" ph="{...}" />
+                <marker date="1480264505894" expanded="true" signature="4732:4742" ph="{...}" />
+                <marker date="1480264505894" expanded="true" signature="4732:4748" ph="{...}" />
+                <marker date="1480264505894" expanded="true" signature="4732:4750" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EsportshubExtensions.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/EsportshubExtensions.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="30" column="65" selection-start-line="30" selection-start-column="65" selection-end-line="30" selection-end-column="65" />
+              <folding>
+                <marker date="1480264632981" expanded="true" signature="6:135" ph="..." />
+                <marker date="1480264632981" expanded="true" signature="167:1497" ph="{...}" />
+                <marker date="1480264632981" expanded="true" signature="214:1495" ph="{...}" />
+                <marker date="1480264632981" expanded="true" signature="294:1489" ph="{...}" />
+                <marker date="1480264632981" expanded="true" signature="429:617" ph="/* var player = Player.Builder() ... */" />
+                <marker date="1480264632981" expanded="true" signature="694:1006" ph="{...}" />
+                <marker date="1480264632981" expanded="true" signature="1104:1128" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -182,6 +166,7 @@
         <option value="$PROJECT_DIR$/../../Models/Esportshub/Entities/Integration/Builder/IntegrationBuilder.cs" />
         <option value="$PROJECT_DIR$/../../Models/Identity/Entities/Account/Builder/ApplicationUserBuilder.cs" />
         <option value="$PROJECT_DIR$/../../Models/Esportshub/Entities/Events/Event.cs" />
+        <option value="$PROJECT_DIR$/../../Models/Esportshub/EsportshubExtensions.cs" />
       </list>
     </option>
   </component>
@@ -272,96 +257,6 @@
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (1 project)" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Esportshub" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entities" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (1 project)" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Esportshub" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entities" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Activity" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi (1 project)" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RestfulApi" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Models" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Esportshub" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Entities" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Activity" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Builder" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
         <option name="show-file-system" value="false" />
         <option name="show-all-items" value="false" />
@@ -417,12 +312,12 @@
       <updated>1480112165711</updated>
       <workItem from="1480112170335" duration="1023000" />
       <workItem from="1480252484666" duration="979000" />
-      <workItem from="1480260206330" duration="2055000" />
+      <workItem from="1480260206330" duration="2716000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4057000" />
+    <option name="totallyTimeSpent" value="4718000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -435,19 +330,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1176" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970026" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors in solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32970026" sideWeight="0.5018868" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24528302" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="UnitTesting" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32970026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32970026" sideWeight="0.49811321" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -469,13 +364,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../Controllers/TemplateController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Controllers/TeamController.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -802,20 +690,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/EsportshubContext.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1480110297182" expanded="true" signature="6:258" ph="..." />
-            <marker date="1480110297182" expanded="true" signature="290:3434" ph="{...}" />
-            <marker date="1480110297182" expanded="true" signature="339:3432" ph="{...}" />
-            <marker date="1480110297182" expanded="true" signature="1091:3426" ph="{...}" />
-            <marker date="1480110297182" expanded="true" signature="1520:1680" ph="/* One-to-one ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/Entities/EsportshubEntity.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -976,10 +850,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1480107849636" expanded="true" signature="6:70" ph="..." />
-            <marker date="1480107849636" expanded="true" signature="111:717" ph="{...}" />
-            <marker date="1480107849636" expanded="true" signature="163:714" ph="{...}" />
-            <marker date="1480107849636" expanded="true" signature="262:352" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="6:70" ph="..." />
+            <marker date="1480264505894" expanded="true" signature="111:758" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="510:755" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="262:352" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1138,8 +1012,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/Entities/Activity/Activity.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        <state relative-caret-position="493">
+          <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
           <folding>
             <marker date="1479602460972" expanded="true" signature="6:45" ph="..." />
             <marker date="1479602460972" expanded="true" signature="86:1010" ph="{...}" />
@@ -1147,6 +1021,39 @@
             <marker date="1479602460972" expanded="true" signature="218:294" ph="{...}" />
             <marker date="1479602460972" expanded="true" signature="698:899" ph="{...}" />
             <marker date="1479602460972" expanded="true" signature="942:1001" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/EsportshubContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1480264505894" expanded="true" signature="6:27" ph="..." />
+            <marker date="1480264505894" expanded="true" signature="6:347" ph="..." />
+            <marker date="1480264505894" expanded="true" signature="380:4750" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="1274:3480" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="4390:4484" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="4732:4742" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="4732:4748" ph="{...}" />
+            <marker date="1480264505894" expanded="true" signature="4732:4750" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Models/Esportshub/EsportshubExtensions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="65" selection-start-line="30" selection-start-column="65" selection-end-line="30" selection-end-column="65" />
+          <folding>
+            <marker date="1480264632981" expanded="true" signature="6:135" ph="..." />
+            <marker date="1480264632981" expanded="true" signature="167:1497" ph="{...}" />
+            <marker date="1480264632981" expanded="true" signature="214:1495" ph="{...}" />
+            <marker date="1480264632981" expanded="true" signature="294:1489" ph="{...}" />
+            <marker date="1480264632981" expanded="true" signature="429:617" ph="/* var player = Player.Builder() ... */" />
+            <marker date="1480264632981" expanded="true" signature="694:1006" ph="{...}" />
+            <marker date="1480264632981" expanded="true" signature="1104:1128" ph="{...}" />
           </folding>
         </state>
       </provider>
