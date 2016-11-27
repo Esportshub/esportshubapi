@@ -1,5 +1,4 @@
 using System;
-using EsportshubApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
