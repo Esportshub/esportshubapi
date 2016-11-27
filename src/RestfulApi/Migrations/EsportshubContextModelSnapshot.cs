@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using EsportshubApi.Models;
 using EsportshubApi.Models.Entities;
 
-namespace RestfulApi.Migrations.Esportshub
+namespace RestfulApi.Migrations
 {
     [DbContext(typeof(EsportshubContext))]
-    [Migration("20161125204700_initial")]
-    partial class initial
+    partial class EsportshubContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.Activity", b =>
                 {
@@ -38,7 +38,73 @@ namespace RestfulApi.Migrations.Esportshub
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Activity");
+                    b.ToTable("Activities");
+                });
+
+            modelBuilder.Entity("EsportshubApi.Models.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<Guid>("AccountGuid");
+
+                    b.Property<int>("AccountId");
+
+                    b.Property<string>("Checksum");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("Salt");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("Verified");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.Event", b =>
@@ -62,9 +128,9 @@ namespace RestfulApi.Migrations.Esportshub
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Events");
 
-                    b.HasDiscriminator<string>("Type");
+                    b.HasDiscriminator<string>("Type").HasValue("Event");
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.Game", b =>
@@ -72,13 +138,17 @@ namespace RestfulApi.Migrations.Esportshub
                     b.Property<int>("GameId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<Guid>("GameGuid");
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("Updated");
+                    b.Property<DateTime>("Updated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("getutcdate()");
 
                     b.HasKey("GameId");
 
@@ -128,7 +198,7 @@ namespace RestfulApi.Migrations.Esportshub
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Integration");
+                    b.ToTable("Integrations");
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.mappings.PlayerGames", b =>
@@ -185,9 +255,12 @@ namespace RestfulApi.Migrations.Esportshub
 
                     b.HasKey("PlayerId");
 
+                    b.HasIndex("AccountForeignKey")
+                        .IsUnique();
+
                     b.HasIndex("PlayerId1");
 
-                    b.ToTable("Player");
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.Role", b =>
@@ -227,7 +300,114 @@ namespace RestfulApi.Migrations.Esportshub
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Team");
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.GameEvent", b =>
@@ -359,6 +539,10 @@ namespace RestfulApi.Migrations.Esportshub
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.Player", b =>
                 {
+                    b.HasOne("EsportshubApi.Models.Entities.ApplicationUser", "ApplicationUser")
+                        .WithOne("Player")
+                        .HasForeignKey("EsportshubApi.Models.Entities.Player", "AccountForeignKey");
+
                     b.HasOne("EsportshubApi.Models.Entities.Player")
                         .WithMany("Followers")
                         .HasForeignKey("PlayerId1");
@@ -369,6 +553,43 @@ namespace RestfulApi.Migrations.Esportshub
                     b.HasOne("EsportshubApi.Models.Entities.Game", "Game")
                         .WithMany("Teams")
                         .HasForeignKey("GameId");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("EsportshubApi.Models.Entities.ApplicationUser")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("EsportshubApi.Models.Entities.ApplicationUser")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EsportshubApi.Models.Entities.ApplicationUser")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EsportshubApi.Models.Entities.GameEvent", b =>
