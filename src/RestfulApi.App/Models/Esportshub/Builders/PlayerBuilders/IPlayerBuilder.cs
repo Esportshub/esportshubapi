@@ -9,6 +9,7 @@ namespace RestfulApi.App.Models.Esportshub.Builders.PlayerBuilders
     public interface IPlayerBuilder : IBuilder<Player>
     {
         IPlayerBuilder SetPlayerGuid(Guid input);
+        IPlayerBuilder SetPlayerId(int input);
         IPlayerBuilder SetNickname(string input);
         IPlayerBuilder SetAccount(ApplicationUser input);
         IPlayerBuilder SetFollowers(List<Player> input);

@@ -17,7 +17,7 @@ namespace RestfulApi.App.Models.Esportshub.Entities
             return new PlayerBuilder(new Player());
         }
 
-        public int PlayerId { get; private set; }
+        public int PlayerId { get; set; }
 
         public Guid PlayerGuid { get; set; }
 

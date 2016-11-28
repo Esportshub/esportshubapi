@@ -59,6 +59,13 @@ namespace RestfulApi.App.Models.Esportshub.Builders.PlayerBuilders
             return this;
         }
 
+        public IPlayerBuilder SetPlayerId(int input)
+        {
+            _player.PlayerId = input;
+            return this;
+        }
+
+
         public IPlayerBuilder SetNickname(string input)
         {
             _player.Nickname = input;

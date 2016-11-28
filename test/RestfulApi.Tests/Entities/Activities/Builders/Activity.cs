@@ -1,6 +1,7 @@
-using RestfulApi.Models.Esportshub.Entities.Activity;
+using RestfulApi.App.Models.Esportshub.Entities;
 using Xunit;
-namespace RestfulApi.Tests.Entities.Acitvity
+
+namespace RestfulApi.Tests.Entities.Activities.Builders
 {
     public class ActivityBuilderTest
     {
