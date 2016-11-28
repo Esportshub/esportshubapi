@@ -39,40 +39,10 @@ namespace RestfulApi.App
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddMvc();
             services.SetIdentity();
-//            services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
-//            {
-//                opts.User.RequireUniqueEmail = true;
-//                opts.Password.RequiredLength = 6;
-//                opts.Password.RequireNonAlphanumeric = false;
-//                opts.Password.RequireLowercase = false;
-//                opts.Password.RequireUppercase = false;
-//                opts.Password.RequireDigit = false;
-//            }).AddEntityFrameworkStores<EsportshubContext>();
 
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.SetIdentityConfiguration();
-//            services.Configure<IdentityOptions>(options =>
-//            {
-//                // Password settings
-//                options.Password.RequireDigit = true;
-//                options.Password.RequiredLength = 8;
-//                options.Password.RequireNonAlphanumeric = false;
-//                options.Password.RequireUppercase = true;
-//                options.Password.RequireLowercase = false;
-//
-//                // Lockout settings
-//                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-//                options.Lockout.MaxFailedAccessAttempts = 10;
-//
-//                // Cookie settings
-//                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
-//                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
-//                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
-//
-//                // User settings
-//                options.User.RequireUniqueEmail = true;
-//            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
