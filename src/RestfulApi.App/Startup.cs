@@ -18,9 +18,7 @@ namespace RestfulApi.App
 
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", false, true);
+            var builder = new ConfigurationBuilder().SetStartUpConfiguration(env);
             Configuration = builder.Build();
         }
 
@@ -50,10 +48,9 @@ namespace RestfulApi.App
 
             if (!env.IsDevelopment()) return;
             app.UseDeveloperExceptionPage();
-            DbCtxExtensions.Migrate(app);
-            DbCtxExtensions.CreateAdminAccount(app);
-            DbCtxExtensions.SeedData(app);
-
+            app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().Migrate(app);
+            EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().SeedData(app);
         }
     }
 }

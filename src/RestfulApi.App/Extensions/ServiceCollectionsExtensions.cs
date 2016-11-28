@@ -7,7 +7,7 @@ using RestfulApi.App.Models.Identity.Entities;
 
 namespace RestfulApi.App.Extensions
 {
-    public static class IdentityExtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection SetIdentity(this IServiceCollection services)
         {
