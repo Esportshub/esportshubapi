@@ -45,10 +45,9 @@ namespace RestfulApi.App
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-
             app.UseIdentity();
-
             app.UseMvc();
+
             if (!env.IsDevelopment()) return;
             app.UseDeveloperExceptionPage();
             DbCtxExtensions.Migrate(app);
