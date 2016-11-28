@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using RestfulApi.App.Models.Esportshub;
 using RestfulApi.App.Models.Identity.Entities;
 
-namespace RestfulApi.App
+namespace RestfulApi.App.Extensions
 {
-    public static class IServiceExtension
+    public static class IServiceCollectionExtension
     {
         public static IServiceCollection SetIdentity(this IServiceCollection services)
         {
