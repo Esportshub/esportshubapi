@@ -1,7 +1,5 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Extensions;
 using RestfulApi.App.Models.Esportshub;
-using RestfulApi.App.Models.Identity.Entities;
 using RestfulApi.App.Models.Repositories.Players;
 using RestfulApi.App.Services;
 
@@ -17,7 +14,7 @@ namespace RestfulApi.App
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; set; }
+        public static IConfiguration Configuration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -51,20 +48,13 @@ namespace RestfulApi.App
 
             app.UseIdentity();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-
-                using (
-                    var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<EsportshubContext>().Database.Migrate();
-                    EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
-                    serviceScope.ServiceProvider.GetService<EsportshubContext>().EnsureSeedData();
-                }
-            }
-
             app.UseMvc();
+            if (!env.IsDevelopment()) return;
+            app.UseDeveloperExceptionPage();
+            DbCtxExtensions.Migrate(app);
+            DbCtxExtensions.CreateAdminAccount(app);
+            DbCtxExtensions.SeedData(app);
+
         }
     }
 }
