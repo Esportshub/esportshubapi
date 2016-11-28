@@ -32,10 +32,7 @@ namespace RestfulApi.App.Models.Repositories
 
         public async Task<TEntity> GetByIdAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
 
-        public async Task<bool> SaveAsync()
-        {
-            return await _context.SaveChangesAsync() >= 0;
-        }
+        public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() >= 0;
 
         public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
         {
@@ -51,11 +48,10 @@ namespace RestfulApi.App.Models.Repositories
         public void Insert(TEntity entity) => _dbSet.Add(entity);
 
 
-        public TEntity Update(TEntity entityToUpdate)
+        public void Update(TEntity entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
-            return entityToUpdate;
         }
 
         public void Delete(int id)
@@ -63,12 +59,7 @@ namespace RestfulApi.App.Models.Repositories
             var entityToDelete = GetById(id);
             Delete(entityToDelete);
         }
-
-
-        public bool Save()
-        {
-            return _context.SaveChanges() >= 0;
-        }
+        public bool Save() => _context.SaveChanges() >= 0;
 
 
         public void OnCompleted(Action continuation)

@@ -15,7 +15,7 @@ namespace RestfulApi.App.Models.Repositories
         TEntity GetById(int id);
         void Insert(TEntity entity);
         void Delete(int id);
-        TEntity Update(TEntity entity);
+        void Update(TEntity entity);
         bool Save();
     }
 }

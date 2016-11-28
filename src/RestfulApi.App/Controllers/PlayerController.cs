@@ -25,6 +25,7 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Create([FromBody] Player player)
         {
             if (player == null) return BadRequest();
+
             _playerRepository.Insert(player);
             return await _playerRepository.SaveAsync()
                 ? CreatedAtRoute("GetPlayer", new {Id = player.PlayerId}, player)
