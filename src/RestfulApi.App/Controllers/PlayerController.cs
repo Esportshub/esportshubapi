@@ -7,7 +7,7 @@ using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/player")]
     public class PlayerController : Controller
     {
         internal IPlayerRepository _playerRepository;
