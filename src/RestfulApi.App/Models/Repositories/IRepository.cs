@@ -9,9 +9,6 @@ namespace RestfulApi.App.Models.Repositories
     {
         Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "");
         Task<TEntity> GetByIdAsync(int id);
-//         InsertAsync(TEntity entity);
-//        Task DeleteAsync(int id);
-//        Task<TEntity> UpdateAsync(TEntity entity);
         Task<bool> SaveAsync();
 
         IEnumerable<TEntity>  Get(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "");

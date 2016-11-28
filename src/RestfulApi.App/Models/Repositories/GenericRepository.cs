@@ -50,16 +50,11 @@ namespace RestfulApi.App.Models.Repositories
 
         public void Insert(TEntity entity) => _dbSet.Add(entity);
 
-//        public virtual async Task DeleteAsync(int id)
-//        {
-//            var entityToDelete = await GetByIdAsync(id);
-//            Delete(entityToDelete);
-//        }
+
         public TEntity Update(TEntity entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
-//            await _context.SaveChangesAsync(); // Remove
             return entityToUpdate;
         }
 
@@ -86,7 +81,6 @@ namespace RestfulApi.App.Models.Repositories
             if (_context.Entry(entityToDelete).State == EntityState.Detached)
                 _dbSet.Attach(entityToDelete);
             _dbSet.Remove(entityToDelete);
-//            await _context.SaveChangesAsync();//Uncomment
         }
     }
 }
