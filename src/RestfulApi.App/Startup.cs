@@ -18,8 +18,7 @@ namespace RestfulApi.App
 
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder().SetStartUpConfiguration(env);
-            Configuration = builder.Build();
+            Configuration = new ConfigurationBuilder().SetStartUpConfiguration(env).Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -27,15 +26,10 @@ namespace RestfulApi.App
             //Sets the url to lowercase
             //Do we allow Trailling slash?
             services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
-
-            services.AddDbContext<EsportshubContext>(
-                options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddTransient<IPlayerRepository, PlayerRepository>();
-            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddDbContext<EsportshubContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
-            services.SetIdentity();
-
-            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddIdentity();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.SetIdentityConfiguration();
         }

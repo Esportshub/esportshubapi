@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

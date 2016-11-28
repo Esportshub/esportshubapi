@@ -9,7 +9,7 @@ namespace RestfulApi.App.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection SetIdentity(this IServiceCollection services)
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
             {
@@ -20,6 +20,7 @@ namespace RestfulApi.App.Extensions
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<EsportshubContext>();
+
             return services;
         }
 
