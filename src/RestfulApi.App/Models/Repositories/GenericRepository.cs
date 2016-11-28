@@ -20,7 +20,7 @@ namespace RestfulApi.App.Models.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
+        public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
             string includeProperties = "")
         {
             IQueryable<TEntity> query = _dbSet;
@@ -30,22 +30,32 @@ namespace RestfulApi.App.Models.Repositories
             return await query.ToListAsync();
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
-
-        public virtual void Insert(TEntity entity) => _dbSet.Add(entity);
-
-        public virtual async Task DeleteAsync(int id)
-        {
-            var entityToDelete = await GetByIdAsync(id);
-            DeleteFinale(entityToDelete);
-        }
+        public async Task<TEntity> GetByIdAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
 
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public virtual TEntity Update(TEntity entityToUpdate)
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+            return query.ToList();
+        }
+
+        public TEntity GetById(int id) => _dbSet.Single(x => x.Id == id);
+
+        public void Insert(TEntity entity) => _dbSet.Add(entity);
+
+//        public virtual async Task DeleteAsync(int id)
+//        {
+//            var entityToDelete = await GetByIdAsync(id);
+//            Delete(entityToDelete);
+//        }
+        public TEntity Update(TEntity entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
             _context.Entry(entityToUpdate).State = EntityState.Modified;
@@ -53,34 +63,25 @@ namespace RestfulApi.App.Models.Repositories
             return entityToUpdate;
         }
 
-
-        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Delete(int id)
         {
             var entityToDelete = GetById(id);
-            DeleteFinale(entityToDelete);
+            Delete(entityToDelete);
         }
+
 
         public bool Save()
         {
             return _context.SaveChanges() >= 0;
         }
 
+
         public void OnCompleted(Action continuation)
         {
             throw new NotImplementedException();
         }
 
-        private void DeleteFinale(TEntity entityToDelete)
+        private void Delete(TEntity entityToDelete)
         {
             if (_context.Entry(entityToDelete).State == EntityState.Detached)
                 _dbSet.Attach(entityToDelete);

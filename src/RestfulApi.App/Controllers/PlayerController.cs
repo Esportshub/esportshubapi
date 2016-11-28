@@ -17,25 +17,17 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            return Json(await _playerRepository.GetAsync(null, ""));
-        }
+        public async Task<IActionResult> Get() => Json(await _playerRepository.GetAsync(null, ""));
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            Console.WriteLine("player controller, with id:", id);
-            return Json(await _playerRepository.GetByIdAsync(id));
-        }
+        public async Task<IActionResult> Get(int id) => Json(await _playerRepository.GetByIdAsync(id));
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Player player)
         {
             if (player == null) return BadRequest();
-
             _playerRepository.Insert(player);
-            return  _playerRepository.SaveAsync().Result
+            return await _playerRepository.SaveAsync()
                 ? CreatedAtRoute("GetPlayer", new {Id = player.PlayerId}, player)
                 : StatusCode(500, "Error while processing");
         }
@@ -49,7 +41,7 @@ namespace RestfulApi.App.Controllers
             if (_player == null) return NotFound();
 
             _playerRepository.Update(player);
-            return _playerRepository.SaveAsync().Result
+            return await _playerRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()
                 : StatusCode(500, "Error while processing");
         }
@@ -63,7 +55,7 @@ namespace RestfulApi.App.Controllers
             if (_player == null) return NotFound();
 
             _playerRepository.Update(player);
-            return _playerRepository.SaveAsync().Result
+            return await _playerRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()
                 : StatusCode(500, "Error while processing");
         }
@@ -75,9 +67,8 @@ namespace RestfulApi.App.Controllers
             var player = await _playerRepository.GetByIdAsync(id);
 
             if (player == null) return NotFound();
-
-             _playerRepository.Delete(id);
-            return _playerRepository.SaveAsync().Result
+            _playerRepository.Delete(id);
+            return await _playerRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()
                 : StatusCode(500, "Error while processing");
         }
