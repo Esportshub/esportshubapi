@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/group")]
+    [Route("api/groups")]
     public class GroupController : Controller
     {
         // GET api/values

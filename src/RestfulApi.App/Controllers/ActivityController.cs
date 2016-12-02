@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/activity")]
+    [Route("api/activities")]
     public class ActivityController : Controller
     {
         // GET api/values

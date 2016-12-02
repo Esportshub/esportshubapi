@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/event")]
+    [Route("api/events")]
     public class EventController : Controller
     {
         // GET api/values

@@ -1,43 +1,70 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using RestfulApi.App.Models.Esportshub.Entities;
+using RestfulApi.App.Models.Repositories.Games;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/game")]
+    [Route("api/games")]
     public class GameController : Controller
     {
-        // GET api/values
+        private readonly IGameRepository _gameRepository;
+
+        public GameController(IGameRepository gameRepository)
+        {
+            _gameRepository = gameRepository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var games = await _gameRepository.GetAsync(null, "");
+            return Json(games);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id:int:min(1)}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var game = await _gameRepository.GetByIdAsync(id);
+            return Json(game);
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Create([FromBody] Game game)
         {
+            if (game == null) return BadRequest();
+
+            _gameRepository.Insert(game);
+            return await _gameRepository.SaveAsync()
+                ? CreatedAtRoute("GetPlayer", new {Id = game.GameId}, game)
+                : StatusCode(500, "Error while processing");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id:int:min(1)}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Game game)
         {
+            if (game == null || game.GameId != id) return BadRequest();
+
+            var _game = await _gameRepository.GetByIdAsync(id);
+            if (_game == null) return NotFound();
+
+            _gameRepository.Update(game);
+            return await _gameRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:int:min(1)}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var game = await _gameRepository.GetByIdAsync(id);
+
+            if (game == null) return NotFound();
+            _gameRepository.Delete(id);
+            return await _gameRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
     }
 }

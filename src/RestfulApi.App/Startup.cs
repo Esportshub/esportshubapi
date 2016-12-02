@@ -43,8 +43,8 @@ namespace RestfulApi.App
             if (!env.IsDevelopment()) return;
             app.UseDeveloperExceptionPage();
             app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().Migrate(app);
-            EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
             app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().SeedData(app);
+            EsportshubContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
