@@ -1,6 +1,4 @@
-using Xunit;
-
-namespace RestfulAPI.Tests.Entities
+namespace RestfulApi.Tests.Entities.Events
 {
     public class GameEventBuilderTest
     {
