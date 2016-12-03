@@ -1,43 +1,62 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using RestfulApi.App.Models.Esportshub.Entities;
+using RestfulApi.App.Models.Repositories.Integrations;
 
 namespace RestfulApi.App.Controllers
 {
-    [Route("api/integration")]
+    [Route("api/integrations")]
     public class IntegrationController : Controller
     {
-        // GET api/values
+        private readonly IIntegrationRepository _integrationRepository;
+
+        public IntegrationController(IIntegrationRepository integrationRepository)
+        {
+            _integrationRepository = integrationRepository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        public async Task<IActionResult> Get() => Json(await _integrationRepository.GetAsync(null, ""));
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        [HttpGet("{id:int:min(1)}")]
+        public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.GetByIdAsync(id));
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Create([FromBody] Integration integration)
         {
+            if (integration == null) return BadRequest();
+
+            _integrationRepository.Insert(integration);
+            return await _integrationRepository.SaveAsync()
+                ? CreatedAtRoute("GetRepository", new {Id = integration.IntegrationId}, integration)
+                : StatusCode(500, "Error while processing");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPatch("{id:int:min(1)}")]
+        public async Task<IActionResult> Update([FromBody] Integration integration, int id)
         {
+            if (integration == null) return BadRequest();
+
+            var _integration = await _integrationRepository.GetByIdAsync(id);
+            if (_integration == null) return NotFound();
+
+            _integrationRepository.Update(integration);
+            return await _integrationRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:int:min(1)}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var integration = await _integrationRepository.GetByIdAsync(id);
+
+            if (integration == null) return NotFound();
+            _integrationRepository.Delete(id);
+            return await _integrationRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
     }
 }
