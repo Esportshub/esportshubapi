@@ -8,7 +8,13 @@ using Microsoft.Extensions.Logging;
 using RestfulApi.App.Extensions;
 using RestfulApi.App.Logging;
 using RestfulApi.App.Models.Esportshub;
+using RestfulApi.App.Models.Repositories.Activities;
+using RestfulApi.App.Models.Repositories.Events;
+using RestfulApi.App.Models.Repositories.Games;
+using RestfulApi.App.Models.Repositories.Groups;
+using RestfulApi.App.Models.Repositories.Integrations;
 using RestfulApi.App.Models.Repositories.Players;
+using RestfulApi.App.Models.Repositories.Teams;
 using RestfulApi.App.Services;
 
 namespace RestfulApi.App
@@ -32,6 +38,12 @@ namespace RestfulApi.App
             });
             services.AddIdentity();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IIntegrationRepository, IntegrationRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.SetIdentityConfiguration();
         }

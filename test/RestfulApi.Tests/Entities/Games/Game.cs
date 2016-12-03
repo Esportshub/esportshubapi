@@ -7,7 +7,7 @@ namespace RestfulApi.Tests.Entities.Games
        [Fact]
         public void GameBuilder()
         {
-           // var game = Game.Builder();
+
         }
     
     }
