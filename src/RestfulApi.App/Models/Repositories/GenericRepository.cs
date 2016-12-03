@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RestfulApi.App.Models.Esportshub;
@@ -18,11 +20,31 @@ namespace RestfulApi.App.Models.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
+//TODO Should be handled explicit
+        public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter = null,
+            string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+            return await query.ToListAsync();
+        }
+
+        public async Task<TEntity> FindAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
 
         public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() >= 0;
 
-        public TEntity GetById(int id) => _dbSet.Single(x => x.Id == id);
+        public IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+            return query.ToList();
+        }
+
+        public TEntity Find(int id) => _dbSet.Single(x => x.Id == id);
 
         public void Insert(TEntity entity) => _dbSet.Add(entity);
 
@@ -33,9 +55,9 @@ namespace RestfulApi.App.Models.Repositories
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public async void Delete(int id)
         {
-            var entityToDelete = GetById(id);
+            var entityToDelete = await FindAsync(id);
             Delete(entityToDelete);
         }
 

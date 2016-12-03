@@ -20,12 +20,15 @@ namespace RestfulApi.App.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get() => Json(await _playerRepository.FindByAsync(null, ""));
+
         [HttpGet("{id:int:min(1)}")]
         [AllowAnonymous]
         public async Task<IActionResult> Get(int id)
         {
             _logger.LogInformation("Get player was called!!!");
-            return Json(await _playerRepository.GetByIdAsync(id));
+            return Json(await _playerRepository.FindAsync(id));
         }
 
         [HttpPost]
@@ -44,7 +47,7 @@ namespace RestfulApi.App.Controllers
         {
             if (player == null) return BadRequest();
 
-            var _player = await _playerRepository.GetByIdAsync(id);
+            var _player = await _playerRepository.FindAsync(id);
             if (_player == null) return NotFound();
 
             _playerRepository.Update(player);
@@ -56,7 +59,7 @@ namespace RestfulApi.App.Controllers
         [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var player = await _playerRepository.GetByIdAsync(id);
+            var player = await _playerRepository.FindAsync(id);
 
             if (player == null) return NotFound();
             _playerRepository.Delete(id);

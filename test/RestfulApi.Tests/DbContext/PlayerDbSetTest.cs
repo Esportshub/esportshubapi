@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using RestfulApi.App.Models.Esportshub;
 using RestfulApi.App.Models.Esportshub.Entities;
