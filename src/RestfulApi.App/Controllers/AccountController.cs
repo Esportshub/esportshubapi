@@ -1,43 +1,74 @@
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.Extensions.Logging;
+using RestfulApi.App.Models.Identity.Entities;
+using RestfulApi.App.Services;
 
 namespace RestfulApi.App.Controllers
 {
+    [Authorize]
     [Route("api/accounts")]
     public class AccountController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger)
         {
-            return new string[] { "value1", "value2" };
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        [AllowAnonymous]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] ApplicationUser applicationUser)
         {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(applicationUser.Email, applicationUser.Password, isPersistent: true, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation(1, "User logged in.");
+                    return Ok();
+                }
+            }
+            return BadRequest();
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] ApplicationUser applicationUser)
         {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = applicationUser.Email, Email = applicationUser.Email };
+                var result = await _userManager.CreateAsync(user, applicationUser.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User created a new account with password.");
+                    return Ok();
+                }
+            }
+            return BadRequest();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPost]
+        [Route("LogOff")]
+        public async Task<IActionResult> LogOff()
         {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return Ok();
         }
     }
 }

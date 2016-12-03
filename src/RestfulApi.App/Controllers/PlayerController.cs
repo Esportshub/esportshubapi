@@ -1,25 +1,32 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.App.Controllers
 {
+    [Authorize]
     [Route("api/players")]
     public class PlayerController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly ILogger<PlayerController> _logger;
 
-        public PlayerController(IPlayerRepository playerRepository)
+        public PlayerController(IPlayerRepository playerRepository, ILogger<PlayerController> logger)
         {
             _playerRepository = playerRepository;
+            _logger = logger;
         }
 
-        [HttpGet]
-//        public async Task<IActionResult> Get() => Json(await _playerRepository.GetAsync(null, ""));
-
         [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _playerRepository.GetByIdAsync(id));
+        [AllowAnonymous]
+        public async Task<IActionResult> Get(int id)
+        {
+            _logger.LogInformation("Get player was called!!!");
+            return Json(await _playerRepository.GetByIdAsync(id));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Player player)
