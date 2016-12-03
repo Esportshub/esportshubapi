@@ -34,7 +34,7 @@ namespace RestfulApi.Tests.Repositories
          public void PostTest()
          {
              Player player = new Player();
-             _playerRepository.SetupGet(repo => repo.InsertAsync(player));
+//             _playerRepository.SetupGet(repo => repo.InsertAsync(player));
              
             
            
