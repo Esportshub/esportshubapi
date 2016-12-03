@@ -2,9 +2,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using RestfulApi.App.Models.Esportshub;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.Tests.Repositories
 {

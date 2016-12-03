@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.AccountDtos;
 using RestfulApi.App.Models.Identity.Entities;
 using RestfulApi.App.Services;
 
@@ -29,11 +30,11 @@ namespace RestfulApi.App.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] ApplicationUser applicationUser)
+        public async Task<IActionResult> Login([FromBody] AccountLoginDto accountLoginDto)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(applicationUser.Email, applicationUser.Password, isPersistent: true, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(accountLoginDto.Email, accountLoginDto.Password, isPersistent: true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
@@ -46,18 +47,18 @@ namespace RestfulApi.App.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] ApplicationUser applicationUser)
+        public async Task<IActionResult> Register([FromBody] AccountRegisterDto accountRegisterDto)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = applicationUser.Email, Email = applicationUser.Email };
-                var result = await _userManager.CreateAsync(user, applicationUser.Password);
+                var user = new ApplicationUser {UserName = accountRegisterDto.Email, Email = accountRegisterDto.Email};
+                var result = await _userManager.CreateAsync(user, accountRegisterDto.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     return Ok();
-                } else if()
+                }
             }
             return BadRequest();
         }
