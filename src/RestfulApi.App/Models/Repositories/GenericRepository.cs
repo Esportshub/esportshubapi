@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RestfulApi.App.Models.Esportshub;
@@ -18,9 +20,29 @@ namespace RestfulApi.App.Models.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
+//TODO Should be handled explicit
+        public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
+            string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+            return await query.ToListAsync();
+        }
+
         public async Task<TEntity> GetByIdAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
 
         public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() >= 0;
+
+        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+            return query.ToList();
+        }
 
         public TEntity GetById(int id) => _dbSet.Single(x => x.Id == id);
 

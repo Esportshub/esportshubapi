@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Models.Esportshub.Entities;
@@ -17,7 +16,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-//        public async Task<IActionResult> Get() => await _gameRepository.GetAsync(null, "");
+        public async Task<IActionResult> Get() => await _gameRepository.GetAsync(null, "");
 
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)

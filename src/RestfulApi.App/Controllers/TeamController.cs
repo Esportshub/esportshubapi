@@ -17,8 +17,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-//        public async Task<IActionResult> Get() => Json(await _teamRepository.GetAsync(null, ""));
-
+        public async Task<IActionResult> Get() => Json(await _teamRepository.GetAsync(null, ""));
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id) => Json(await _teamRepository.GetByIdAsync(id));
 
