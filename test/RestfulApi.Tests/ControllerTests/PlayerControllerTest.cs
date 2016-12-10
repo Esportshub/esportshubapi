@@ -3,12 +3,13 @@ using Xunit;
 using Moq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestfulApi.App.Controllers;
 using RestfulApi.App.Models.Esportshub.Builders.PlayerBuilders;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Players;
 
-namespace RestfulApi.Tests.Controllers
+namespace RestfulApi.Tests.ControllerTests
 {
     public class PlayerControllerTest : IDisposable
     {
@@ -23,8 +24,8 @@ namespace RestfulApi.Tests.Controllers
             Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
             IPlayerBuilder playerBuild = Player.Builder();
-            playerRepository.Setup(x => x.GetByIdAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
-            PlayerController playerController = new PlayerController(playerRepository.Object);
+            playerRepository.Setup(x => x.FindAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
+            PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
             var player = await playerController.Get(1);
             var contentResult = Assert.IsType<JsonResult>(player);
          }
@@ -32,11 +33,11 @@ namespace RestfulApi.Tests.Controllers
          [Fact]
          public async void Get_ReturnsAJsonResult_WithAPlayer_WithCorrectInput_Test()
          {
-             Mock<IPlayerRepository> _playerRepository = new Mock<IPlayerRepository>();
+             Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
              IPlayerBuilder playerBuild = Player.Builder();
-            _playerRepository.Setup(playerRepository => playerRepository.GetByIdAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
-             PlayerController playerController = new PlayerController(_playerRepository.Object);
+             playerRepository.Setup(x => x.FindAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
+             PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
              JsonResult jsonResult = await playerController.Get(1) as JsonResult;
              Player player = jsonResult.Value as Player;
              Assert.Equal(1, player.PlayerId);
@@ -48,8 +49,8 @@ namespace RestfulApi.Tests.Controllers
              Mock<IPlayerRepository> _playerRepository = new Mock<IPlayerRepository>();
 
              IPlayerBuilder playerBuild = Player.Builder();
-            _playerRepository.Setup(playerRepository => playerRepository.GetByIdAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("DenLilleMand").Build()));
-             PlayerController playerController = new PlayerController(_playerRepository.Object);
+            _playerRepository.Setup(playerRepository => playerRepository.FindAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("DenLilleMand").Build()));
+             PlayerController playerController = new PlayerController(_playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
              JsonResult jsonResult = await playerController.Get(-3) as JsonResult;
              Player player = jsonResult.Value as Player;
              Assert.NotEqual(1, player.PlayerId);
@@ -59,8 +60,8 @@ namespace RestfulApi.Tests.Controllers
          {
              Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
              IPlayerBuilder playerBuild = Player.Builder();
-            playerRepository.Setup(x => x.GetByIdAsync(-3)).Returns(Task.FromResult(playerBuild.SetPlayerId(-3).SetNickname("Hejsa").Build()));
-            PlayerController playerController = new PlayerController(playerRepository.Object);
+             playerRepository.Setup(x => x.FindAsync(-3)).Returns(Task.FromResult(playerBuild.SetPlayerId(-3).SetNickname("Hejsa").Build()));
+             PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
              JsonResult jsonResult = await playerController.Get(2) as JsonResult;
              Player player = jsonResult.Value as Player;
              Assert.NotEqual(-3, player.PlayerId);

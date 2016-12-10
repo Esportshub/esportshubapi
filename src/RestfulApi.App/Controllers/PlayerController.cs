@@ -2,19 +2,24 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Dtos.PlayerDtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.App.Controllers
 {
+//    [Authorize]
     [Route("api/players")]
     public class PlayerController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly ILogger<PlayerController> _logger;
 
-        public PlayerController(IPlayerRepository playerRepository)
+        public PlayerController(IPlayerRepository playerRepository, ILogger<PlayerController> logger)
         {
             _playerRepository = playerRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -24,10 +29,10 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var playerEntity = await _playerRepository.FindAsync(id);
-            if (playerEntity == null) return NotFound();
-
+            if (playerEntity == null) return NotFound("No objects");
             var result = Mapper.Map<PlayerDto>(playerEntity);
             return Json(result);
+
         }
 
         [HttpPost]

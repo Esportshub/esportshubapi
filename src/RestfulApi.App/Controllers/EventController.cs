@@ -1,43 +1,70 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.Extensions.Logging;
+using RestfulApi.App.Models.Esportshub.Entities.Events;
+using RestfulApi.App.Models.Repositories.Events;
 
 namespace RestfulApi.App.Controllers
 {
     [Route("api/events")]
     public class EventController : Controller
     {
-        // GET api/values
+        private readonly ILogger<EventController> _logger;
+        private readonly IEventRepository _eventRepository;
+
+        public EventController(IEventRepository eventRepository, ILogger<EventController> logger)
+        {
+            _logger = logger;
+            _eventRepository = eventRepository;
+        }
+
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get() => Json(await _eventRepository.FindByAsync(null, ""));
+
+        [HttpGet("{id:int:min(1)}")]
+        public async Task<IActionResult> Get(int id)
         {
-            return new string[] { "value1", "value2" };
+            var game = await _eventRepository.FindAsync(id);
+            return Json(game);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Create([FromBody] Event inputEvent)
         {
+            if (inputEvent == null) return BadRequest();
+
+            _eventRepository.Insert(inputEvent);
+            return await _eventRepository.SaveAsync()
+                ? CreatedAtRoute("GetEvent", new {Id = inputEvent.EventId}, inputEvent)
+                : StatusCode(500, "Error while processing");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id:int:min(1)}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Event inputEvent)
         {
+            if (inputEvent == null || inputEvent.EventId != id) return BadRequest();
+
+            var _event = await _eventRepository.FindAsync(id);
+            if (_event == null) return NotFound();
+
+            _eventRepository.Update(inputEvent);
+            return await _eventRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:int:min(1)}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var _event = await _eventRepository.FindAsync(id);
+
+            if (_event == null) return NotFound();
+            _eventRepository.Delete(id);
+            return await _eventRepository.SaveAsync()
+                ? (IActionResult) new NoContentResult()
+                : StatusCode(500, "Error while processing");
         }
     }
 }

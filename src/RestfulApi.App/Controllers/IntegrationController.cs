@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Integrations;
 
@@ -9,10 +10,12 @@ namespace RestfulApi.App.Controllers
     public class IntegrationController : Controller
     {
         private readonly IIntegrationRepository _integrationRepository;
+        private readonly ILogger<IntegrationController> _logger;
 
-        public IntegrationController(IIntegrationRepository integrationRepository)
+        public IntegrationController(IIntegrationRepository integrationRepository, ILogger<IntegrationController> logger)
         {
             _integrationRepository = integrationRepository;
+            _logger = logger;
         }
 
         [HttpGet]

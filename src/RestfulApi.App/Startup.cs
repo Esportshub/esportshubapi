@@ -14,11 +14,18 @@ using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.SocialMediaDtos;
 using RestfulApi.App.Dtos.TeamDtos;
 using RestfulApi.App.Extensions;
+using RestfulApi.App.Logging;
 using RestfulApi.App.Models.Esportshub;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Esportshub.Entities.Events;
 using RestfulApi.App.Models.Esportshub.Entities.Mappings;
+using RestfulApi.App.Models.Repositories.Activities;
+using RestfulApi.App.Models.Repositories.Events;
+using RestfulApi.App.Models.Repositories.Games;
+using RestfulApi.App.Models.Repositories.Groups;
+using RestfulApi.App.Models.Repositories.Integrations;
 using RestfulApi.App.Models.Repositories.Players;
+using RestfulApi.App.Models.Repositories.Teams;
 using RestfulApi.App.Services;
 
 namespace RestfulApi.App
@@ -34,14 +41,23 @@ namespace RestfulApi.App
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Sets the url to lowercase
-            //Do we allow Trailling slash?
             services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
             services.AddDbContext<EsportshubContext>(
                 options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddMvc();
+            services.AddDbContext<EsportshubContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new LogAsyncActionFilter());
+            });
             services.AddIdentity();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IIntegrationRepository, IntegrationRepository>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.SetIdentityConfiguration();
         }

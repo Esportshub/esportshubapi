@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Teams;
 
@@ -10,14 +10,17 @@ namespace RestfulApi.App.Controllers
     public class TeamController : Controller
     {
         private readonly ITeamRepository _teamRepository;
+        private readonly ILogger<TeamController> _logger;
 
-        public TeamController(ITeamRepository teamRepository)
+        public TeamController(ITeamRepository teamRepository, ILogger<TeamController> logger)
         {
             _teamRepository = teamRepository;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _teamRepository.FindByAsync(null, ""));
+
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id) => Json(await _teamRepository.FindAsync(id));
 

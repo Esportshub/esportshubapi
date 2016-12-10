@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Games;
@@ -9,10 +10,12 @@ namespace RestfulApi.App.Controllers
     public class GameController : Controller
     {
         private readonly IGameRepository _gameRepository;
+        private readonly ILogger _logger;
 
-        public GameController(IGameRepository gameRepository)
+        public GameController(IGameRepository gameRepository, ILogger logger)
         {
             _gameRepository = gameRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -32,7 +35,7 @@ namespace RestfulApi.App.Controllers
 
             _gameRepository.Insert(game);
             return await _gameRepository.SaveAsync()
-                ? CreatedAtRoute("GetPlayer", new {Id = game.GameId}, game)
+                ? CreatedAtRoute("GetGame", new {Id = game.GameId}, game)
                 : StatusCode(500, "Error while processing");
         }
 
