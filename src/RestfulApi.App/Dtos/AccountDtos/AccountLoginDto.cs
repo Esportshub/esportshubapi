@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RestfulApi.App.Dtos.AccountDtos
+﻿namespace RestfulApi.App.Dtos.AccountDtos
 {
     public class AccountLoginDto
     {
