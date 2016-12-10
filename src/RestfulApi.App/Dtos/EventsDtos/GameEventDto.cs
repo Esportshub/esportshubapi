@@ -5,9 +5,9 @@ namespace RestfulApi.App.Dtos.EventsDtos
 {
     public class GameEventDto : EventDto
     {
-        public int GameEventDtoId { get; set; }
-        public Guid GameEventDtoGuid { get; set; }
-        public EventDto EventDto { get; set; }
-        public GameDto GameDto { get; set; }
+        public int GameEventId { get; set; }
+        public Guid GameEventGuid { get; set; }
+        public EventDto Event { get; set; }
+        public GameDto Game { get; set; }
     }
 }

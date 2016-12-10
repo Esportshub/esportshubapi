@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.AccountDtos;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.EventsDtos;
 using RestfulApi.App.Dtos.GameDtos;
@@ -19,6 +20,7 @@ using RestfulApi.App.Models.Esportshub;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Esportshub.Entities.Events;
 using RestfulApi.App.Models.Esportshub.Entities.Mappings;
+using RestfulApi.App.Models.Identity.Entities;
 using RestfulApi.App.Models.Repositories.Activities;
 using RestfulApi.App.Models.Repositories.Events;
 using RestfulApi.App.Models.Repositories.Games;
@@ -67,6 +69,8 @@ namespace RestfulApi.App
             loggerFactory.AddConsole();
             AutoMapper.Mapper.Initialize(cfg =>
             {
+                //Account
+                cfg.CreateMap<ApplicationUser, ApplicationUserDto>();
                 //Activity => Dto
                 cfg.CreateMap<Activity, ActivityDto>();
                 //Event => Dto
@@ -89,6 +93,8 @@ namespace RestfulApi.App
                 cfg.CreateMap<SocialMedia, SocialMediaDto>();
                 //Team => Dto
                 cfg.CreateMap<Team, TeamDto>();
+
+
             });
             ;
             app.UseIdentity();

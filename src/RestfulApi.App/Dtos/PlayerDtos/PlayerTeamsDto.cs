@@ -6,8 +6,8 @@ namespace RestfulApi.App.Dtos.PlayerDtos
     {
         public int PlayerId { get; set; }
         public int TeamId { get; set; }
-        public PlayerDto PlayerDto { get; set; }
-        public TeamDto TeamDto { get; set; }
+        public PlayerDto Player { get; set; }
+        public TeamDto Team { get; set; }
 
     }
 }

@@ -5,10 +5,10 @@ namespace RestfulApi.App.Dtos.EventsDtos
 {
     public class TeamEventDto: EventDto
     {
-        public int TeamEventDtoId { get; set; }
-        public Guid TeamEventDtoGuid { get; set; }
-        public EventDto EventDto { get; set; }
-        public TeamDto TeamDto { get; set; }
+        public int TeamEventId { get; set; }
+        public Guid TeamEventGuid { get; set; }
+        public EventDto Event { get; set; }
+        public TeamDto Team { get; set; }
 
     }
 }

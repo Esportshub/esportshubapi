@@ -5,12 +5,12 @@ namespace RestfulApi.App.Dtos.SocialMediaDtos
 {
     public class SocialMediaDto
     {
-        public int SocialMediaDtoId { get; set; }
+        public int SocialMediaId { get; set; }
 
-        public Guid SocialMediaDtoGuid { get; set; }
-
-        public IntegrationDto IntegrationDto { get; set; }
+        public Guid SocialMediaGuid { get; set; }
 
         public string Name { get; set; }
+
+        public IntegrationDto Integration { get; set; }
     }
 }

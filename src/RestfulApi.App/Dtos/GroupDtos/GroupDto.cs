@@ -15,11 +15,11 @@ namespace RestfulApi.App.Dtos.GroupDtos
                 Member
             }
 
-            public int RolesDtoId { get;set; }
+            public int RolesId { get;set; }
 
             public RolesPermission Permission { get; set; }
 
-            public Guid RolesDtoGuid { get; set; }
+            public Guid RolesGuid { get; set; }
 
             public  DateTime Created { get; set; }
 
@@ -34,9 +34,9 @@ namespace RestfulApi.App.Dtos.GroupDtos
 
 
 
-        public int GroupDtoId { get; set; }
+        public int GroupId { get; set; }
 
-        public Guid GroupDtoGuid { get; set; }
+        public Guid GroupGuid { get; set; }
 
         public string Name { get; set; }
 
@@ -44,13 +44,13 @@ namespace RestfulApi.App.Dtos.GroupDtos
 
         public DateTime Updated { get; set; }
 
-        public RolesDto RoleDto { get; set;  }
+        public RolesDto Role { get; set;  }
 
         public Visibilties Visibilty { get; set; }
 
-        public List<PlayerGroupsDto> PlayerGroupsDtos { get; set; }
+        public List<PlayerGroupsDto> PlayerGroups { get; set; }
 
-        public List<GroupEventDto> GroupEventsDtos { get; set; }
+        public List<GroupEventDto> GroupEvents { get; set; }
 
     }
 }

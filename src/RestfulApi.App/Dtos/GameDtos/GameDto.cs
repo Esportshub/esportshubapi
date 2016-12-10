@@ -8,21 +8,21 @@ namespace RestfulApi.App.Dtos.GameDtos
 {
     public class GameDto
     {
-        public int GameDtoId { get;  set; }
+        public int GameId { get;  set; }
 
         public string Name { get; set; }
 
-        public Guid GameDtoGuid { get; set; }
+        public Guid GameGuid { get; set; }
 
         public DateTime Created { get; set; }
 
         public DateTime Updated { get; set; }
 
-        public List<TeamDto> TeamsDtos { get; set; }
+        public List<TeamDto> Teams { get; set; }
 
-        public List<GameEventDto> GameEventsDtos { get; set; }
+        public List<GameEventDto> GameEvents { get; set; }
 
-        public List<PlayerGamesDto> PlayerGamesDtos { get; set; }
+        public List<PlayerGamesDto> PlayerGames { get; set; }
 
 
     }
