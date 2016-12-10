@@ -17,9 +17,9 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _teamRepository.GetAsync(null, ""));
+        public async Task<IActionResult> Get() => Json(await _teamRepository.FindByAsync(null, ""));
         [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _teamRepository.GetByIdAsync(id));
+        public async Task<IActionResult> Get(int id) => Json(await _teamRepository.FindAsync(id));
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Team team)
@@ -37,7 +37,7 @@ namespace RestfulApi.App.Controllers
         {
             if (team == null) return BadRequest();
 
-            var _team = await _teamRepository.GetByIdAsync(id);
+            var _team = await _teamRepository.FindAsync(id);
             if (_team == null) return NotFound();
 
             _teamRepository.Update(team);
@@ -49,7 +49,7 @@ namespace RestfulApi.App.Controllers
         [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var team = await _teamRepository.GetByIdAsync(id);
+            var team = await _teamRepository.FindAsync(id);
 
             if (team == null) return NotFound();
             _teamRepository.Delete(id);

@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Models.Esportshub.Entities;
 using RestfulApi.App.Models.Repositories.Players;
 
@@ -16,10 +18,17 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _playerRepository.GetAsync(null, ""));
+        public async Task<IActionResult> Get() => Json(await _playerRepository.FindByAsync(null, ""));
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _playerRepository.GetByIdAsync(id));
+        public async Task<IActionResult> Get(int id)
+        {
+            var playerEntity = await _playerRepository.FindAsync(id);
+            if (playerEntity == null) return NotFound();
+
+            var result = Mapper.Map<PlayerDto>(playerEntity);
+            return Json(result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Player player)
@@ -37,7 +46,7 @@ namespace RestfulApi.App.Controllers
         {
             if (player == null) return BadRequest();
 
-            var _player = await _playerRepository.GetByIdAsync(id);
+            var _player = await _playerRepository.FindAsync(id);
             if (_player == null) return NotFound();
 
             _playerRepository.Update(player);
@@ -49,7 +58,7 @@ namespace RestfulApi.App.Controllers
         [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var player = await _playerRepository.GetByIdAsync(id);
+            var player = await _playerRepository.FindAsync(id);
 
             if (player == null) return NotFound();
             _playerRepository.Delete(id);

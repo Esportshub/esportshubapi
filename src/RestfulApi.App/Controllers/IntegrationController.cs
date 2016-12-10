@@ -16,10 +16,10 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _integrationRepository.GetAsync(null, ""));
+        public async Task<IActionResult> Get() => Json(await _integrationRepository.FindByAsync(null, ""));
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.GetByIdAsync(id));
+        public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.FindAsync(id));
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Integration integration)
@@ -37,7 +37,7 @@ namespace RestfulApi.App.Controllers
         {
             if (integration == null) return BadRequest();
 
-            var _integration = await _integrationRepository.GetByIdAsync(id);
+            var _integration = await _integrationRepository.FindAsync(id);
             if (_integration == null) return NotFound();
 
             _integrationRepository.Update(integration);
@@ -49,7 +49,7 @@ namespace RestfulApi.App.Controllers
         [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var integration = await _integrationRepository.GetByIdAsync(id);
+            var integration = await _integrationRepository.FindAsync(id);
 
             if (integration == null) return NotFound();
             _integrationRepository.Delete(id);

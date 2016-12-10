@@ -16,12 +16,12 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _gameRepository.GetAsync(null, ""));
+        public async Task<IActionResult> Get() => Json(await _gameRepository.FindByAsync(null, ""));
 
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id)
         {
-            var game = await _gameRepository.GetByIdAsync(id);
+            var game = await _gameRepository.FindAsync(id);
             return Json(game);
         }
 
@@ -41,7 +41,7 @@ namespace RestfulApi.App.Controllers
         {
             if (game == null || game.GameId != id) return BadRequest();
 
-            var _game = await _gameRepository.GetByIdAsync(id);
+            var _game = await _gameRepository.FindAsync(id);
             if (_game == null) return NotFound();
 
             _gameRepository.Update(game);
@@ -53,7 +53,7 @@ namespace RestfulApi.App.Controllers
         [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var game = await _gameRepository.GetByIdAsync(id);
+            var game = await _gameRepository.FindAsync(id);
 
             if (game == null) return NotFound();
             _gameRepository.Delete(id);
