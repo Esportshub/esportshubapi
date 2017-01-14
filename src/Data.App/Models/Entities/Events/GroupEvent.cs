@@ -1,8 +1,8 @@
 using System;
 using Data.App.Extensions.Entities;
-using Data.App.Models.Esportshub.Builders.EventBuilders.GroupEventBuilders;
+using Data.App.Models.Builders.EventBuilders.GroupEventBuilders;
 
-namespace Data.App.Models.Esportshub.Entities.Events
+namespace Data.App.Models.Entities.Events
 {
     public class GroupEvent : Event
     {

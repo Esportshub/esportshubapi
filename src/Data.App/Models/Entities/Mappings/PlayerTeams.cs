@@ -1,4 +1,4 @@
-﻿namespace Data.App.Models.Esportshub.Entities.Mappings
+﻿namespace Data.App.Models.Entities.Mappings
 {
     public class PlayerTeams
     {

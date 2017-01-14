@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
-using Data.App.Models.Esportshub.Builders.PlayerBuilders;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models.Builders.PlayerBuilders;
+using Data.App.Models.Entities.Mappings;
 
-namespace Data.App.Models.Esportshub.Entities
+namespace Data.App.Models.Entities
 {
     public class Player : IEsportshubEntity
     {

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
 
-namespace Data.App.Models.Esportshub.Entities.Events
+namespace Data.App.Models.Entities.Events
 {
     public abstract class Event : IEsportshubEntity
     {

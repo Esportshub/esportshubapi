@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Data.App.Models.Esportshub.Entities;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models.Entities;
+using Data.App.Models.Entities.Mappings;
 
-namespace Data.App.Models.Esportshub.Builders.PlayerBuilders
+namespace Data.App.Models.Builders.PlayerBuilders
 {
 
     public class PlayerBuilder : IPlayerBuilder

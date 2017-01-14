@@ -1,7 +1,7 @@
 using System;
-using Data.App.Models.Esportshub.Entities.Events;
+using Data.App.Models.Entities.Events;
 
-namespace Data.App.Models.Esportshub.Builders.EventBuilders
+namespace Data.App.Models.Builders.EventBuilders
 {
     public interface IEventBuilder : IBuilder<Event>
     { 

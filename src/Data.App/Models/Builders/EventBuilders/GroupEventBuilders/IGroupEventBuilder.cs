@@ -1,8 +1,8 @@
 using System;
-using Data.App.Models.Esportshub.Entities;
-using Data.App.Models.Esportshub.Entities.Events;
+using Data.App.Models.Entities;
+using Data.App.Models.Entities.Events;
 
-namespace Data.App.Models.Esportshub.Builders.EventBuilders.GroupEventBuilders
+namespace Data.App.Models.Builders.EventBuilders.GroupEventBuilders
 {
     public interface IGroupEventBuilder : IBuilder<GroupEvent>
     {

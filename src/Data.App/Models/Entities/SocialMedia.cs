@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data.App.Models.Esportshub.Entities
+namespace Data.App.Models.Entities
 {
     public class SocialMedia
     {

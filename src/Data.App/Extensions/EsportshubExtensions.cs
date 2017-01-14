@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Data.App.Models;
 using Data.App.Models.Entities;
 
-namespace Data.App.Models
+namespace Data.App.Extensions
 {
     public static class EsportshubExtensions
     {

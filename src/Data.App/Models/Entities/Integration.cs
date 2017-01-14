@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
-using Data.App.Models.Esportshub.Builders.IntegrationBuilders;
+using Data.App.Models.Builders.IntegrationBuilders;
 
-namespace Data.App.Models.Esportshub.Entities
+namespace Data.App.Models.Entities
 {
     public class Integration : IEsportshubEntity
     {

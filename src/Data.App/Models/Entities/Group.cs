@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
-using Data.App.Models.Esportshub.Builders.GroupBuilders;
-using Data.App.Models.Esportshub.Entities.Events;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models.Builders.GroupBuilders;
+using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities.Mappings;
 
-namespace Data.App.Models.Esportshub.Entities
+namespace Data.App.Models.Entities
 {
     public class Group : IEsportshubEntity
     {

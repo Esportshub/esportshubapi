@@ -1,5 +1,4 @@
-using Data.App.Models.Esportshub;
-using Data.App.Models.Esportshub.Entities.Events;
+using Data.App.Models.Entities.Events;
 
 namespace Data.App.Models.Repositories.Events
 {

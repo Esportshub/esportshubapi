@@ -1,11 +1,10 @@
-using Data.App.Models.Esportshub.Entities;
-using Data.App.Models.Esportshub.Entities.Events;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models.Entities;
+using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-
-namespace Data.App.Models.Esportshub
+namespace Data.App.Models
 {
     public class EsportshubContext : DbContext
     {

@@ -1,4 +1,4 @@
-namespace Data.App.Models.Esportshub.Builders
+namespace Data.App.Models.Builders
 {
     public interface IBuilder<TEntity>
     {

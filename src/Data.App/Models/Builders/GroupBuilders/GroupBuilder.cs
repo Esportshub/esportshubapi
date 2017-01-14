@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Data.App.Models.Esportshub.Entities;
-using Data.App.Models.Esportshub.Entities.Events;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models.Entities;
+using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities.Mappings;
 
-namespace Data.App.Models.Esportshub.Builders.GroupBuilders
+namespace Data.App.Models.Builders.GroupBuilders
 {
     public class GroupBuilder : IGroupBuilder
     {

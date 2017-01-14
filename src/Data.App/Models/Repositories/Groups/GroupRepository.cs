@@ -1,5 +1,4 @@
-using Data.App.Models.Esportshub;
-using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Entities;
 
 namespace Data.App.Models.Repositories.Groups
 {

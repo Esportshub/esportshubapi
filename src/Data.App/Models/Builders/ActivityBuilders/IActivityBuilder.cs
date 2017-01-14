@@ -1,7 +1,7 @@
 using System;
-using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Entities;
 
-namespace Data.App.Models.Esportshub.Builders.ActivityBuilders
+namespace Data.App.Models.Builders.ActivityBuilders
 {
     public interface IActivityBuilder : IBuilder<Activity>
     {
