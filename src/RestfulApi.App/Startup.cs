@@ -60,27 +60,27 @@ namespace RestfulApi.App
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 //Activity => Dto
-                cfg.CreateMap<Activity, ActivityDto>();
+                cfg.CreateMap<Activity, ActivityDto>().ReverseMap();
                 //Event => Dto
-                cfg.CreateMap<Event, EventDto>();
-                cfg.CreateMap<GameEvent, GameEventDto>();
-                cfg.CreateMap<GroupEvent, GroupEventDto>();
-                cfg.CreateMap<TeamEvent, TeamEventDto>();
+                cfg.CreateMap<Event, EventDto>().ReverseMap();
+                cfg.CreateMap<GameEvent, GameEventDto>().ReverseMap();
+                cfg.CreateMap<GroupEvent, GroupEventDto>().ReverseMap();
+                cfg.CreateMap<TeamEvent, TeamEventDto>().ReverseMap();
                 //Game => Dto
-                cfg.CreateMap<Game, GameDto>();
+                cfg.CreateMap<Game, GameDto>().ReverseMap();
                 //Group =>  Dto
-                cfg.CreateMap<Group, GroupDto>();
+                cfg.CreateMap<Group, GroupDto>().ReverseMap();
                 //Integration => Dto
-                cfg.CreateMap<Integration, IntegrationDto>();
+                cfg.CreateMap<Integration, IntegrationDto>().ReverseMap();
                 //Player => Dto
-                cfg.CreateMap<Player, PlayerDto>();
-                cfg.CreateMap<PlayerGames, PlayerGamesDto>();
-                cfg.CreateMap<PlayerGroups, PlayerGroupsDto>();
-                cfg.CreateMap<PlayerTeams, PlayerTeamsDto>();
+                cfg.CreateMap<Player, PlayerDto>().ReverseMap();
+                cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
+                cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
+                cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
                 //SocialMedia => Dto
-                cfg.CreateMap<SocialMedia, SocialMediaDto>();
+                cfg.CreateMap<SocialMedia, SocialMediaDto>().ReverseMap();
                 //Team => Dto
-                cfg.CreateMap<Team, TeamDto>();
+                cfg.CreateMap<Team, TeamDto>().ReverseMap();
             });
             app.UseMvc();
 
