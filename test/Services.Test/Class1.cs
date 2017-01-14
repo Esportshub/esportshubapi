@@ -1,5 +1,5 @@
 using Xunit;
-
+using Services.App;
 namespace Services.Test
 {
     // see example explanation on xUnit.net website:

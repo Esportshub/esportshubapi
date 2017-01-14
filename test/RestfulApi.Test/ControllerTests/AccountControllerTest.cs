@@ -1,8 +1,7 @@
 ﻿using System;
 using Moq;
 using Xunit;
-
-namespace RestfullApi.Test.ControllerTests
+namespace RestfulApi.Test.ControllerTests
 {
     public class AccountControllerTest : IDisposable
     {

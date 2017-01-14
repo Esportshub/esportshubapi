@@ -1,4 +1,4 @@
-﻿namespace RestfullApi.Test.Dtos
+﻿namespace RestfulApi.Test.Dtos
 {
     public class PlayerDtosTest
     {

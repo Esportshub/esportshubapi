@@ -1,10 +1,15 @@
 using System;
 using System.Threading.Tasks;
+using Data.App.Models.Esportshub.Builders.PlayerBuilders;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Players;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using RestfulApi.App.Controllers;
 using Xunit;
 
-namespace RestfullApi.Test.ControllerTests
+namespace RestfulApi.Test.ControllerTests
 {
     public class PlayerControllerTest : IDisposable
     {
