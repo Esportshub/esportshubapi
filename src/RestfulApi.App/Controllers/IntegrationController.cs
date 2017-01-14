@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Integrations;
 
 namespace RestfulApi.App.Controllers
 {
@@ -20,7 +20,6 @@ namespace RestfulApi.App.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _integrationRepository.FindByAsync(null, ""));
-
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.FindAsync(id));
 

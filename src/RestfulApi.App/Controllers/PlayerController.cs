@@ -1,13 +1,14 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
+using RestfulApi.App.Dtos.PlayerDtos;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.App.Controllers
 {
-    [Authorize]
+//    [Authorize]
     [Route("api/players")]
     public class PlayerController : Controller
     {
@@ -24,11 +25,13 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Get() => Json(await _playerRepository.FindByAsync(null, ""));
 
         [HttpGet("{id:int:min(1)}")]
-        [AllowAnonymous]
         public async Task<IActionResult> Get(int id)
         {
-            _logger.LogInformation("Get player was called!!!");
-            return Json(await _playerRepository.FindAsync(id));
+            var playerEntity = await _playerRepository.FindAsync(id);
+            if (playerEntity == null) return NotFound("No objects");
+            var result = Mapper.Map<PlayerDto>(playerEntity);
+            return Json(result);
+
         }
 
         [HttpPost]
