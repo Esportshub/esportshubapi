@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,7 +19,11 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _teamRepository.FindByAsync(null, ""));
+        public async Task<IActionResult> Get()
+        {
+            var teams = await _teamRepository.FindByAsync(null, "");
+            return Ok(teams);
+        }
 
         [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> Get(int id) => Json(await _teamRepository.FindAsync(id));
