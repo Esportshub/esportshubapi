@@ -1,8 +1,8 @@
 using Data.App.Extensions;
-using Data.App.Models.Esportshub;
-using Data.App.Models.Esportshub.Entities;
-using Data.App.Models.Esportshub.Entities.Events;
-using Data.App.Models.Esportshub.Entities.Mappings;
+using Data.App.Models;
+using Data.App.Models.Entities;
+using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities.Mappings;
 using Data.App.Models.Repositories.Activities;
 using Data.App.Models.Repositories.Events;
 using Data.App.Models.Repositories.Games;

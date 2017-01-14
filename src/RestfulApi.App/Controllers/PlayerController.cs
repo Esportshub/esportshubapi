@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Dtos.PlayerDtos;
