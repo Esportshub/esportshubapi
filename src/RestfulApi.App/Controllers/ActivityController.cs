@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Activities;
 
 namespace RestfulApi.App.Controllers
 {

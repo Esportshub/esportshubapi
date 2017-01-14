@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Castle.Core.Logging;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Games;
 using Microsoft.AspNetCore.Mvc;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Games;
+using Microsoft.Extensions.Logging;
 
 namespace RestfulApi.App.Controllers
 {

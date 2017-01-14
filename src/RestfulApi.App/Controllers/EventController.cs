@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data.App.Models.Esportshub.Entities.Events;
+using Data.App.Models.Repositories.Events;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Models.Esportshub.Entities.Events;
-using RestfulApi.App.Models.Repositories.Events;
 
 namespace RestfulApi.App.Controllers
 {

@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
 using AutoMapper;
+using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Dtos.PlayerDtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Models.Esportshub.Entities;
-using RestfulApi.App.Models.Repositories.Players;
 
 namespace RestfulApi.App.Controllers
 {

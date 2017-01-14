@@ -1,0 +1,34 @@
+{
+    "version": "1.0.0-*",
+    "buildOptions": {
+        "emitEntryPoint": true
+    },
+
+    "dependencies": {
+        "Microsoft.NETCore.App": {
+            "type": "platform",
+            "version": "1.1.0"
+        },
+        "Microsoft.EntityFrameworkCore": "1.1.0",
+        "Microsoft.EntityFrameworkCore.Design": "1.1.0",
+        "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+        "Microsoft.EntityFrameworkCore.Relational": "1.1.0",
+        "Microsoft.Extensions.Configuration": "1.1.0",
+        "Microsoft.Extensions.Configuration.Json": "1.1.0"
+    },
+    "tools": {
+        "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
+        "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
+        "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
+    },
+
+    "frameworks": {
+        "netcoreapp1.1": {
+            "imports": "dnxcore50"
+        }
+    },
+
+    "tooling": {
+        "defaultNamespace": "data.app"
+    }
+}
