@@ -30,7 +30,7 @@ namespace Data.App.Models.Esportshub
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().SetBasePath("/home/sjuften88/realProjects/esportshub/src/Data.App")
+            var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             var connString = config["ConnectionStrings:DefaultConnection"];
