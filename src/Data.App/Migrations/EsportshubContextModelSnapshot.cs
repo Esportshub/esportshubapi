@@ -1,5 +1,5 @@
 ﻿using System;
-using Data.App.Models.Esportshub;
+using Data.App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Data.App.Models.Esportshub.Entities;
+using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

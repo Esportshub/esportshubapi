@@ -1,5 +1,5 @@
 ﻿using System;
-using Data.App.Models.Esportshub;
+using Data.App.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

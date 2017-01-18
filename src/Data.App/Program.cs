@@ -1,5 +1,6 @@
 using System;
-using Data.App.Models.Esportshub;
+using Data.App.Extensions;
+using Data.App.Models;
 using Data.App.Models.Repositories.Players;
 using Microsoft.EntityFrameworkCore;
 

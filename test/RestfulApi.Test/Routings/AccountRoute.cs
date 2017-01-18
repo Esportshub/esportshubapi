@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace RestfullApi.Test.Routings
+namespace RestfulApi.Test.Routings
 {
     public class AccountRoute
     {
