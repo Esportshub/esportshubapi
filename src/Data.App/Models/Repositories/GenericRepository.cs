@@ -19,7 +19,7 @@ namespace Data.App.Models.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-//TODO Should be handled explicit
+        //@TODO: Should be handled explicit
         public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter = null,
             string includeProperties = "")
         {

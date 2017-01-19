@@ -25,7 +25,6 @@ using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.SocialMediaDtos;
 using RestfulApi.App.Dtos.TeamDtos;
 using RestfulApi.App.Extensions;
-using Services.App.Services;
 
 
 namespace RestfulApi.App
@@ -51,7 +50,6 @@ namespace RestfulApi.App
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IIntegrationRepository, IntegrationRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddTransient<IEmailSender, AuthMessageSender>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
