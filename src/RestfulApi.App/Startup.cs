@@ -1,3 +1,4 @@
+using AutoMapper;
 using Data.App.Extensions;
 using Data.App.Models;
 using Data.App.Models.Entities;
@@ -42,6 +43,23 @@ namespace RestfulApi.App
         {
             services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
             services.AddMvc();
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.CreateMap<Activity, ActivityDto>().ReverseMap();
+                cfg.CreateMap<Event, EventDto>().ReverseMap();
+                cfg.CreateMap<GameEvent, GameEventDto>().ReverseMap();
+                cfg.CreateMap<GroupEvent, GroupEventDto>().ReverseMap();
+                cfg.CreateMap<TeamEvent, TeamEventDto>().ReverseMap();
+                cfg.CreateMap<Game, GameDto>().ReverseMap();
+                cfg.CreateMap<Group, GroupDto>().ReverseMap();
+                cfg.CreateMap<Integration, IntegrationDto>().ReverseMap();
+                cfg.CreateMap<Player, PlayerDto>().ReverseMap();
+                cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
+                cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
+                cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
+                cfg.CreateMap<SocialMedia, SocialMediaDto>().ReverseMap();
+                cfg.CreateMap<Team, TeamDto>().ReverseMap();
+            });
             services.AddDbContext<EsportshubContext>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
@@ -55,31 +73,6 @@ namespace RestfulApi.App
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                //Activity => Dto
-                cfg.CreateMap<Activity, ActivityDto>().ReverseMap();
-                //Event => Dto
-                cfg.CreateMap<Event, EventDto>().ReverseMap();
-                cfg.CreateMap<GameEvent, GameEventDto>().ReverseMap();
-                cfg.CreateMap<GroupEvent, GroupEventDto>().ReverseMap();
-                cfg.CreateMap<TeamEvent, TeamEventDto>().ReverseMap();
-                //Game => Dto
-                cfg.CreateMap<Game, GameDto>().ReverseMap();
-                //Group =>  Dto
-                cfg.CreateMap<Group, GroupDto>().ReverseMap();
-                //Integration => Dto
-                cfg.CreateMap<Integration, IntegrationDto>().ReverseMap();
-                //Player => Dto
-                cfg.CreateMap<Player, PlayerDto>().ReverseMap();
-                cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
-                cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
-                cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
-                //SocialMedia => Dto
-                cfg.CreateMap<SocialMedia, SocialMediaDto>().ReverseMap();
-                //Team => Dto
-                cfg.CreateMap<Team, TeamDto>().ReverseMap();
-            });
             app.UseMvc();
 
             if (!env.IsDevelopment()) return;

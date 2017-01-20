@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly IIntegrationRepository _integrationRepository;
         private readonly ILogger<IntegrationController> _logger;
+        private readonly IMapper _mapper;
 
-        public IntegrationController(IIntegrationRepository integrationRepository, ILogger<IntegrationController> logger)
+        public IntegrationController(IIntegrationRepository integrationRepository, ILogger<IntegrationController> logger, IMapper mapper)
         {
             _integrationRepository = integrationRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]

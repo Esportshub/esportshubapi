@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Teams;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly ITeamRepository _teamRepository;
         private readonly ILogger<TeamController> _logger;
+        private readonly IMapper _mapper;
 
-        public TeamController(ITeamRepository teamRepository, ILogger<TeamController> logger)
+        public TeamController(ITeamRepository teamRepository, ILogger<TeamController> logger, IMapper mapper)
         {
             _teamRepository = teamRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]

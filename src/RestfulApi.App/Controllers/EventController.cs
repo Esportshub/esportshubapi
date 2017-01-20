@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities.Events;
 using Data.App.Models.Repositories.Events;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly ILogger<EventController> _logger;
         private readonly IEventRepository _eventRepository;
+        private readonly IMapper _mapper;
 
-        public EventController(IEventRepository eventRepository, ILogger<EventController> logger)
+        public EventController(IEventRepository eventRepository, ILogger<EventController> logger, IMapper mapper)
         {
             _logger = logger;
             _eventRepository = eventRepository;
+            _mapper = mapper;
         }
 
 

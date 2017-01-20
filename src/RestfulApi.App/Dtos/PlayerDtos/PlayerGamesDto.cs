@@ -2,7 +2,7 @@
 
 namespace RestfulApi.App.Dtos.PlayerDtos
 {
-    public class PlayerGamesDto
+    public sealed class PlayerGamesDto
     {
         public int PlayerId { get; set; }
         public int GameId { get; set; }

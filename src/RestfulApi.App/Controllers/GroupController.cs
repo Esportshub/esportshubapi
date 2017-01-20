@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly ILogger<GroupController> _logger;
         private readonly IGroupRepository _groupRepository;
+        private readonly IMapper _mapper;
 
-        public GroupController(IGroupRepository groupRepository, ILogger<GroupController> logger)
+        public GroupController(IGroupRepository groupRepository, ILogger<GroupController> logger, IMapper mapper)
         {
             _groupRepository = groupRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]

@@ -6,7 +6,7 @@ using RestfulApi.App.Dtos.IntegrationsDtos;
 
 namespace RestfulApi.App.Dtos.PlayerDtos
 {
-    public class PlayerDto
+    public sealed class PlayerDto
     {
         public int PlayerId { get; set; }
 

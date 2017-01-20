@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly IActivityRepository _activityRepository;
         private readonly ILogger<ActivityController> _logger;
+        private readonly IMapper _mapper;
 
-        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger)
+        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger, IMapper mapper)
         {
             _activityRepository = activityRepository;
             _logger = logger;
+            _mapper = _mapper;
         }
 
         [HttpGet]

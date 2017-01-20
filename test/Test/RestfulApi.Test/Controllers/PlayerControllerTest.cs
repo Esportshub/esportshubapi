@@ -1,6 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Builders.PlayerBuilders;
 using Data.App.Models.Entities;
 using Data.App.Models.Entities.Mappings;
@@ -16,78 +16,118 @@ namespace Test.RestfulApi.Test.Controllers
 {
     public class PlayerControllerTest : IDisposable
     {
-        public PlayerControllerTest()
-        {
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Player, PlayerDto>().ReverseMap();
-                cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
-                cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
-                cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
-            });
-        }
-
-        public class GetALlPlayersTest
-        {
-
-
-        }
 
         public class GetPlayerTest
         {
-             [Fact]
-             public async void ReturnCorrectType()
-             {
+            private readonly IMapper _mapper;
+
+            public GetPlayerTest()
+            {
+                var config = new MapperConfiguration(cfg => {
+                    cfg.CreateMap<Player, PlayerDto>().ReverseMap();
+                    cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
+                    cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
+                    cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
+                });
+                _mapper = config.CreateMapper();
+            }
+
+            [Theory]
+            [InlineData("1")]
+            [InlineData("37")]
+            [InlineData("50000")]
+            [InlineData("100000")]
+            public async void ReturnCorrectType(string inputId)
+            {
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
                 IPlayerBuilder playerBuild = Player.Builder();
+                int id = int.Parse(inputId);
 
-                playerRepository.Setup(x => x.FindAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
-                var player = await playerController.Get(1);
+                playerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(playerBuild.SetPlayerId(id).SetNickname("Hejsa").Build()));
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                var player = await playerController.Get(inputId);
 
                 Assert.IsType<JsonResult>(player);
-             }
+            }
 
-             [Fact]
-             public async void IdTest()
-             {
-                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-                 IPlayerBuilder playerBuild = Player.Builder();
+            [Theory]
+            [InlineData("1")]
+            [InlineData("37")]
+            [InlineData("50000")]
+            [InlineData("100000")]
+            public async void CorrectIdTest(string inputId)
+            {
+                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+                int id = int.Parse(inputId);
 
-                 playerRepository.Setup(x => x.FindAsync(1)).Returns(Task.FromResult(playerBuild.SetPlayerId(1).SetNickname("Hejsa").Build()));
-                 PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
-                 JsonResult jsonResult = await playerController.Get(1) as JsonResult;
-                 Assert.NotNull(jsonResult);
-                 PlayerDto playerDto = jsonResult.Value as PlayerDto;
+                IPlayerBuilder playerBuild = Player.Builder();
 
-                 Assert.NotNull(playerDto );
-                 Assert.Equal(1, playerDto.PlayerId);
-                 Assert.Equal("DenLilleMand", playerDto.Nickname);
-             }
+                playerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(playerBuild.SetPlayerId(id).SetNickname("DenLilleMand").Build()));
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                JsonResult jsonResult = await playerController.Get(inputId) as JsonResult;
+                Assert.NotNull(jsonResult);
+                PlayerDto playerDto = jsonResult.Value as PlayerDto;
 
-             [Fact]
-             public async void BelowZeroId()
-             {
-                 Mock<IPlayerRepository> _playerRepository = new Mock<IPlayerRepository>();
-                 IPlayerBuilder playerBuild = Player.Builder();
+                Assert.NotNull(playerDto);
+                Assert.Equal(id, playerDto.PlayerId);
+                Assert.Equal("DenLilleMand", playerDto.Nickname);
+            }
 
-                 _playerRepository.Setup(playerRepository => playerRepository.FindAsync(-3))
-                     .Throws<Exception>();
-                 PlayerController playerController = new PlayerController(_playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
-                 JsonResult jsonResult = await playerController.Get(-3) as JsonResult;
-             }
+            [Theory]
+            [InlineData("0")]
+            [InlineData("-1")]
+            [InlineData("-50")]
+            [InlineData("-100000")]
+            public async void ZeroAndBelowIdTest(string inputId)
+            {
+                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+                int id = int.Parse(inputId);
 
-             [Fact]
-             public async void Get_ReturnsAJsonResult_WithPlayers_WithCorrectInput_Test()
-             {
-                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-                 IPlayerBuilder playerBuild = Player.Builder();
-                 playerRepository.Setup(x => x.FindAsync(-3)).Returns(Task.FromResult(playerBuild.SetPlayerId(-3).SetNickname("Hejsa").Build()));
-                 PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()));
-                 JsonResult jsonResult = await playerController.Get(2) as JsonResult;
-                 PlayerDto player = jsonResult.Value as PlayerDto;
-                 Assert.NotEqual(-3, player.PlayerId);
-             }
+                playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+
+                var result = await playerController.Get(inputId) as BadRequestObjectResult;
+
+                Assert.NotNull(result);
+                Assert.IsType<BadRequestObjectResult>(result);
+            }
+
+            [Theory]
+            [InlineData("abdc")]
+            [InlineData("something awesome")]
+            [InlineData("a")]
+            [InlineData("lets go lalalal")]
+            public async void InvalidIdTypeTest(string inputId)
+            {
+                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+
+                playerRepository.Setup(x => x.FindAsync(0)).Throws<Exception>();
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                var result = await playerController.Get("invalid_id_value") as BadRequestObjectResult;
+
+                Assert.NotNull(result);
+                Assert.IsType<BadRequestObjectResult>(result);
+            }
+        }
+
+        public class GetPlayersTest
+        {
+            private readonly IMapper _mapper;
+
+            public GetPlayersTest()
+            {
+                var config = new MapperConfiguration(cfg => {
+                    cfg.CreateMap<Player, PlayerDto>().ReverseMap();
+                    cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
+                    cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
+                    cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
+                });
+                _mapper = config.CreateMapper();
+            }
+
+
+
+
         }
 
         public class CreatePlayerTest
@@ -95,9 +135,6 @@ namespace Test.RestfulApi.Test.Controllers
 
 
         }
-
-
-
 
         public void Dispose()
         {

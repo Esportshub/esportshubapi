@@ -47,7 +47,7 @@ namespace Data.App.Models.Entities
             Player objPlayer = (Player)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.PlayerId == this.PlayerId;
+                return objPlayer.PlayerId == PlayerId;
 
             return false;
         }

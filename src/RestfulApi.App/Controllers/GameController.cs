@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Games;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace RestfulApi.App.Controllers
     {
         private readonly IGameRepository _gameRepository;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public GameController(IGameRepository gameRepository, ILogger logger)
+        public GameController(IGameRepository gameRepository, ILogger logger, IMapper mapper)
         {
             _gameRepository = gameRepository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
