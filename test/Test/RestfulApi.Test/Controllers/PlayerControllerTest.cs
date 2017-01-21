@@ -33,38 +33,36 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Theory]
-            [InlineData("1")]
-            [InlineData("37")]
-            [InlineData("50000")]
-            [InlineData("100000")]
-            public async void ReturnCorrectType(string inputId)
+            [InlineData(1)]
+            [InlineData(37)]
+            [InlineData(50000)]
+            [InlineData(100000)]
+            public async void ReturnCorrectType(int id)
             {
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
                 IPlayerBuilder playerBuild = Player.Builder();
-                int id = int.Parse(inputId);
 
                 playerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(playerBuild.SetPlayerId(id).SetNickname("Hejsa").Build()));
                 PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
-                var player = await playerController.Get(inputId);
+                var player = await playerController.Get(id);
 
                 Assert.IsType<JsonResult>(player);
             }
 
             [Theory]
-            [InlineData("1")]
-            [InlineData("37")]
-            [InlineData("50000")]
-            [InlineData("100000")]
-            public async void CorrectIdTest(string inputId)
+            [InlineData(1)]
+            [InlineData(37)]
+            [InlineData(50000)]
+            [InlineData(100000)]
+            public async void CorrectIdTest(int id)
             {
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-                int id = int.Parse(inputId);
 
                 IPlayerBuilder playerBuild = Player.Builder();
 
                 playerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(playerBuild.SetPlayerId(id).SetNickname("DenLilleMand").Build()));
                 PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
-                JsonResult jsonResult = await playerController.Get(inputId) as JsonResult;
+                JsonResult jsonResult = await playerController.Get(id) as JsonResult;
                 Assert.NotNull(jsonResult);
                 PlayerDto playerDto = jsonResult.Value as PlayerDto;
 
@@ -74,36 +72,18 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Theory]
-            [InlineData("0")]
-            [InlineData("-1")]
-            [InlineData("-50")]
-            [InlineData("-100000")]
-            public async void ZeroAndBelowIdTest(string inputId)
+            [InlineData(0)]
+            [InlineData(-1)]
+            [InlineData(-50)]
+            [InlineData(-100000)]
+            public async void ZeroAndBelowIdTest(int id)
             {
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-                int id = int.Parse(inputId);
 
                 playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
                 PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
 
-                var result = await playerController.Get(inputId) as BadRequestObjectResult;
-
-                Assert.NotNull(result);
-                Assert.IsType<BadRequestObjectResult>(result);
-            }
-
-            [Theory]
-            [InlineData("abdc")]
-            [InlineData("something awesome")]
-            [InlineData("a")]
-            [InlineData("lets go lalalal")]
-            public async void InvalidIdTypeTest(string inputId)
-            {
-                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-
-                playerRepository.Setup(x => x.FindAsync(0)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
-                var result = await playerController.Get("invalid_id_value") as BadRequestObjectResult;
+                var result = await playerController.Get(id) as BadRequestObjectResult;
 
                 Assert.NotNull(result);
                 Assert.IsType<BadRequestObjectResult>(result);
@@ -125,9 +105,23 @@ namespace Test.RestfulApi.Test.Controllers
                 _mapper = config.CreateMapper();
             }
 
+            [Theory]
+            [InlineData(0)]
+            [InlineData(-1)]
+            [InlineData(-50)]
+            [InlineData(-100000)]
+            public async void ZeroAndBelowIdTest(int id)
+            {
+                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
+                playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
 
+                var result = await playerController.Get(id) as BadRequestObjectResult;
 
+                Assert.NotNull(result);
+                Assert.IsType<BadRequestObjectResult>(result);
+            }
         }
 
         public class CreatePlayerTest

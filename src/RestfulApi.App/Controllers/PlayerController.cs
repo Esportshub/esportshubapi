@@ -11,7 +11,7 @@ using RestfulApi.App.Dtos.ErrorDtos;
 
 namespace RestfulApi.App.Controllers
 {
-//    [Authorize]
+    //[Authorize]
     [Route("api/players")]
     public class PlayerController : Controller
     {
@@ -27,7 +27,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string playerIds, [FromQuery] string followers )
+        public async Task<IActionResult> Get([FromQuery] PlayerDto[] playerIds)
         {
             IEnumerable<Player> players = await _playerRepository.FindByAsync();
             if (players == null) return NotFound();
@@ -36,13 +36,8 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet("{inputId}")]
-        public async Task<IActionResult> Get(string inputId)
+        public async Task<IActionResult> Get(int id)
         {
-            int id;
-            if (!int.TryParse(inputId, out id))
-            {
-                return BadRequest(new InvalidInputTypeErrorDto());
-            }
             if (!(id > 0))
             {
                 return BadRequest(new InvalidRangeOnInputDto());
@@ -64,11 +59,9 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{inputId")]
-        public async Task<IActionResult> Update([FromBody] Player inputPlayer, string inputId)
+        public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
         {
             if (inputPlayer == null) return BadRequest();
-            int id;
-            if (!int.TryParse(inputId, out id)) return BadRequest(new InvalidInputTypeErrorDto());
             if (!(id > 0)) return BadRequest(new InvalidRangeOnInputDto());
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
@@ -79,10 +72,8 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpDelete("{inputId")]
-        public async Task<IActionResult> Delete(string inputId)
+        public async Task<IActionResult> Delete(int id)
         {
-            int id;
-            if (!int.TryParse(inputId, out id)) return BadRequest(new InvalidInputTypeErrorDto());
             if (!(id > 0)) return BadRequest(new InvalidInputTypeErrorDto());
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
