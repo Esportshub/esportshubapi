@@ -27,11 +27,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-<<<<<<< HEAD
-        public async Task<IActionResult> Get([FromQuery] string playerIds, [FromQuery] string followers)
-=======
         public async Task<IActionResult> Get([FromQuery] PlayerDto[] playerIds)
->>>>>>> a59e0491ff62f6e6c7b4540270b520c41b4641ab
         {
             IEnumerable<Player> players = await _playerRepository.FindByAsync();
             if (players == null) return NotFound();
@@ -39,26 +35,14 @@ namespace RestfulApi.App.Controllers
             return Json(playerDtos);
         }
 
-<<<<<<< HEAD
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            int playerId;
-            if (!int.TryParse(id.ToString(), out playerId))
-            {
-                return BadRequest(new InvalidInputTypeErrorDto());
-            }
-            if (!(playerId > 0))
-=======
-        [HttpGet("{inputId}")]
-        public async Task<IActionResult> Get(int id)
-        {
             if (!(id > 0))
->>>>>>> a59e0491ff62f6e6c7b4540270b520c41b4641ab
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
-            var player = await _playerRepository.FindAsync(playerId);
+            var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
             var result = _mapper.Map<PlayerDto>(player);
             return Json(result);
@@ -74,7 +58,8 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPatch("{inputId")]
+        [
+            HttpPatch("{inputId")]
         public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
         {
             if (inputPlayer == null) return BadRequest();
@@ -87,7 +72,8 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{inputId")]
+        [
+            HttpDelete("{inputId")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!(id > 0)) return BadRequest(new InvalidInputTypeErrorDto());
