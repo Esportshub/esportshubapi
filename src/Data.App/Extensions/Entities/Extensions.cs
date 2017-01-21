@@ -4,7 +4,7 @@ namespace Data.App.Extensions.Entities
     {
         public static bool CompareEntities(this object @this, object compareObject)
         {
-            return @this != null && @this.GetType() == compareObject.GetType();
+            return @this != null && compareObject != null && @this.GetType() == compareObject.GetType();
         }
     }
 
