@@ -27,27 +27,27 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string playerIds, [FromQuery] string followers )
+        public async Task<IActionResult> Get([FromQuery] string playerIds, [FromQuery] string followers)
         {
             IEnumerable<Player> players = await _playerRepository.FindByAsync();
             if (players == null) return NotFound();
-            IEnumerable<PlayerDto> playerDtos = players.Select(Mapper.Map<PlayerDto>);
+            IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
         }
 
-        [HttpGet("{inputId}")]
-        public async Task<IActionResult> Get(string inputId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            int id;
-            if (!int.TryParse(inputId, out id))
+            int playerId;
+            if (!int.TryParse(id.ToString(), out playerId))
             {
                 return BadRequest(new InvalidInputTypeErrorDto());
             }
-            if (!(id > 0))
+            if (!(playerId > 0))
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
-            var player = await _playerRepository.FindAsync(id);
+            var player = await _playerRepository.FindAsync(playerId);
             if (player == null) return NotFound();
             var result = _mapper.Map<PlayerDto>(player);
             return Json(result);
