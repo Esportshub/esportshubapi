@@ -2,7 +2,9 @@
   "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable",
-    "copyToOutput": ["xunit.runner.json"]
+      "copyToOutput": {
+          "include": [ "xunit.runner.json" ]
+      }
   },
   "dependencies": {
     "System.Runtime.Serialization.Primitives": "4.3.0-preview1-24530-04",
