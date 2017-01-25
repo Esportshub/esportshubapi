@@ -30,7 +30,7 @@ namespace RestfulApi.App.Controllers
         {
             IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
             if (players == null) return NotFound();
-            IEnumerable<PlayerDto> playerDtos = players.Select(Mapper.Map<PlayerDto>);
+            IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
         }
 

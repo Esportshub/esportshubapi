@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Mappings;
 using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,10 +22,6 @@ namespace Test.RestfulApi.Test.Controllers
         public class GetPlayerTest
         {
 
-            public GetPlayerTest()
-            {
-            }
-
             [Theory]
             [InlineData(1)]
             [InlineData(37)]
@@ -37,7 +32,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
                 player.PlayerId = id;
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
-                PlayerController playerController = new PlayerController(PlayerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                PlayerController playerController = new PlayerController(PlayerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
                 var jsonResult = await playerController.Get(id);
 
                 Assert.IsType<JsonResult>(jsonResult);
@@ -83,7 +78,8 @@ namespace Test.RestfulApi.Test.Controllers
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
                 playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                PlayerController playerController = new PlayerController(playerRepository.Object,
+                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
 
                 var result = await playerController.Get(id) as BadRequestObjectResult;
 
@@ -94,19 +90,6 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class GetPlayersTest
         {
-            private readonly IMapper _mapper;
-
-            public GetPlayersTest()
-            {
-                var config = new MapperConfiguration(cfg => {
-                    cfg.CreateMap<Player, PlayerDto>().ReverseMap();
-                    cfg.CreateMap<PlayerGames, PlayerGamesDto>().ReverseMap();
-                    cfg.CreateMap<PlayerGroups, PlayerGroupsDto>().ReverseMap();
-                    cfg.CreateMap<PlayerTeams, PlayerTeamsDto>().ReverseMap();
-                });
-                _mapper = config.CreateMapper();
-            }
-
             [Theory]
             [InlineData(0)]
             [InlineData(-1)]
@@ -117,7 +100,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
                 playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), _mapper);
+                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
 
                 var result = await playerController.Get(id) as BadRequestObjectResult;
 
@@ -128,13 +111,10 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class CreatePlayerTest
         {
-
-
         }
 
         public void Dispose()
         {
-           
         }
     }
 }
