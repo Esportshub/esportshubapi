@@ -9,7 +9,7 @@ namespace Data.App.Models.Entities
 {
     public class Player : IEsportshubEntity
     {
-        public Player() { }
+        private Player() { }
 
         public static PlayerBuilder Builder()
         {

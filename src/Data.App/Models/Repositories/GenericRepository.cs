@@ -20,8 +20,7 @@ namespace Data.App.Models.Repositories
         }
 
         //@TODO: Should be handled explicit
-        public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter = null,
-            string includeProperties = "")
+        public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter, string includeProperties)
         {
             IQueryable<TEntity> query = _dbSet;
 

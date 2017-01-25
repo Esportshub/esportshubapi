@@ -7,11 +7,11 @@ namespace Data.App.Models.Repositories
 {
     public interface IRepository<TEntity>
     {
-        Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "");
+        Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter, string includeProperties);
         Task<TEntity> FindAsync(int id);
         Task<bool> SaveAsync();
 
-        IEnumerable<TEntity>  FindBy(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "");
+        IEnumerable<TEntity>  FindBy(Expression<Func<TEntity, bool>> filter, string includeProperties);
         TEntity Find(int id);
         void Insert(TEntity entity);
         void Delete(int id);
