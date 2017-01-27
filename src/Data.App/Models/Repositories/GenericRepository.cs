@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.App.Models.Repositories
 {
-    public abstract class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEsportshubEntity
+    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEsportshubEntity
     {
         private EsportshubContext _context;
         private DbSet<TEntity> _dbSet;
