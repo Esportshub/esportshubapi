@@ -53,8 +53,14 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IIntegrationRepository> IntegrationRepository = new Mock<IIntegrationRepository>();
             private static readonly Mock<EsportshubContext> DbContextMock = new Mock<EsportshubContext>();
             private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository> { CallBase = true};
+
             private static readonly Mock<IRepository<Player>> InternalPlayerRepository = new Mock<IRepository<Player>>();
             private static readonly Mock<IRepository<Team>> InternalTeamRepository = new Mock<IRepository<Team>>();
+            private static readonly Mock<IRepository<Group>> InternalGroupRepository = new Mock<IRepository<Group>>();
+            private static readonly Mock<IRepository<Activity>> InternalActivityRepository = new Mock<IRepository<Activity>>();
+            private static readonly Mock<IRepository<Event>> InternalEventRepository = new Mock<IRepository<Event>>();
+            private static readonly Mock<IRepository<Integration>> InternalIntegrationRepository = new Mock<IRepository<Integration>>();
+            private static readonly Mock<IRepository<Game>> InternalGameRepository = new Mock<IRepository<Game>>();
 
             private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
             private static readonly Mock<ILogger> Logger = new Mock<ILogger>();
@@ -66,35 +72,24 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
                 Mapper.Setup(x => x.Map<PlayerDto>(It.IsAny<Player>())).Returns(new PlayerDto());
                 var splittedQueryResult = inputQueryString.Split(new char[] {'='});
                 Console.WriteLine(splittedQueryResult);
-                int herpderp;
                 var queryStringValues = splittedQueryResult[1].Split(new char[] {','}).Select(id =>
                         {
                             int parsedId;
                             bool success = int.TryParse(id, out parsedId);
                             return new {success, parsedId};
                         }).Where(pair => pair.success).Select(pair => pair.parsedId);
-
                 var players = GetPlayers(queryStringValues);
                 PlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).Returns(Task.FromResult(players));
                 InternalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).Returns(Task.FromResult(players));
                 var webHostBuilder = new WebHostBuilder().UseStartup<Startup>().ConfigureServices(services =>
                 {
-                    services.AddScoped<IRepository<Player>, GenericRepository<Player>>();
-                    services.AddScoped<IRepository<Group>, GenericRepository<Group>>();
-                    services.AddScoped<IRepository<Game>, GenericRepository<Game>>();
-                    services.AddScoped<IRepository<Activity>, GenericRepository<Activity>>();
-                    services.AddScoped<IRepository<Team>, GenericRepository<Team>>();
-                    services.AddScoped<IRepository<Integration>, GenericRepository<Integration>>();
-                    services.AddScoped<IRepository<Event>, GenericRepository<Event>>();
-
-                    //herpderp
                     services.AddScoped<IRepository<Player>>(provider => InternalPlayerRepository.Object);
                     services.AddScoped<IRepository<Team>>(provider => InternalTeamRepository.Object);
-                    services.AddScoped<IRepository<Group>, GenericRepository<Group>>();
-                    services.AddScoped<IRepository<Game>, GenericRepository<Game>>();
-                    services.AddScoped<IRepository<Activity>, GenericRepository<Activity>>();
-                    services.AddScoped<IRepository<Integration>, GenericRepository<Integration>>();
-                    services.AddScoped<IRepository<Event>, GenericRepository<Event>>();
+                    services.AddScoped <IRepository<Group>>(provider => InternalGroupRepository.Object);
+                    services.AddScoped<IRepository<Game>>(provider => InternalGameRepository.Object);
+                    services.AddScoped<IRepository<Activity>>(provider => InternalActivityRepository.Object);
+                    services.AddScoped<IRepository<Integration>>(provider => InternalIntegrationRepository.Object);
+                    services.AddScoped<IRepository<Event>>(provider => InternalEventRepository.Object);
 
                     services.AddScoped(provider => PlayerRepository.Object);
                     services.AddScoped(provider => GameRepository.Object);
