@@ -12,14 +12,6 @@ namespace Data.App.Extensions
             if (context.Players.Any()) return;
             var players = new List<Player>
             {
-                new Player()
-                {
-                    Nickname = "Martin",
-                },
-                new Player()
-                {
-                    Nickname = "Matti",
-                }
             };
             context.Players.AddRange(players);
             context.SaveChanges();

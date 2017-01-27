@@ -1,9 +1,11 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Teams;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.TeamDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -22,20 +24,27 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<JsonResult> Get()
         {
             var teams = await _teamRepository.FindByAsync(null, "");
-            return Ok(teams);
+            var teamsDto = teams.Select(_mapper.Map<TeamDto>);
+            return Json(teamsDto);
         }
 
-        [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _teamRepository.FindAsync(id));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (id <= 0) return BadRequest("Invalid input");
+            var team = await _teamRepository.FindAsync(id);
+            var teamDto = _mapper.Map<TeamDto>(team);
+            return Json(teamDto);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Team team)
+        public async Task<IActionResult> Create([FromBody] TeamDto teamDto)
         {
-            if (team == null) return BadRequest();
-
+            if (teamDto == null) return BadRequest();
+            var team = Mapper.Map<Team>(teamDto);
             _teamRepository.Insert(team);
             return await _teamRepository.SaveAsync()
                 ? CreatedAtRoute("GetPlayer", new {Id = team.TeamId}, team)
@@ -43,12 +52,12 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] Team team, int id)
+        public async Task<IActionResult> Update([FromBody] TeamDto teamDto, int id)
         {
-            if (team == null) return BadRequest();
+            if (teamDto == null) return BadRequest();
 
-            var _team = await _teamRepository.FindAsync(id);
-            if (_team == null) return NotFound();
+            var team = await _teamRepository.FindAsync(teamDto.TeamId);
+            if (team == null) return NotFound();
 
             _teamRepository.Update(team);
             return await _teamRepository.SaveAsync()

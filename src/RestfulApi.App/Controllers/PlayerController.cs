@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -11,7 +13,6 @@ using RestfulApi.App.Dtos.ErrorDtos;
 
 namespace RestfulApi.App.Controllers
 {
-    //[Authorize]
     [Route("api/players")]
     public class PlayerController : Controller
     {
@@ -27,15 +28,16 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PlayerDto[] playerIds)
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<Player> players = await _playerRepository.FindByAsync();
+            //IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
+            IEnumerable<Player> players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
             if (players == null) return NotFound();
-            IEnumerable<PlayerDto> playerDtos = players.Select(Mapper.Map<PlayerDto>);
+            IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
         }
 
-        [HttpGet("{inputId}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             if (!(id > 0))
@@ -58,7 +60,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPatch("{inputId")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
         {
             if (inputPlayer == null) return BadRequest();
@@ -71,7 +73,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{inputId")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!(id > 0)) return BadRequest(new InvalidInputTypeErrorDto());

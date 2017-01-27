@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace RestfulApi.App.Extensions
@@ -9,7 +11,7 @@ namespace RestfulApi.App.Extensions
             IHostingEnvironment env)
         {
             return (ConfigurationBuilder) builder
-                .SetBasePath(env.ContentRootPath)
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", false, true);
         }
     }

@@ -19,11 +19,7 @@ namespace Data.App.Models.Builders.PlayerBuilders
             return _player;
         }
 
-
         //@TODO: Throw the correct exceptions/validate correctly
-
-
-
         public IPlayerBuilder SetActivities(List<Activity> input)
         {
             _player.Activities = input;
