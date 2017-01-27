@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -26,9 +28,10 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] IEnumerable<int> playerIds)
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
+            //IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
+            IEnumerable<Player> players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
             if (players == null) return NotFound();
             IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
