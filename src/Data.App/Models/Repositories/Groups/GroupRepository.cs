@@ -14,6 +14,7 @@ namespace Data.App.Models.Repositories.Groups
         {
             _esportshubContext = context;
             _internalRepository = internalRepository;
+            _internalRepository.SetEsportshubContext(context);
         }
 
         public async Task<IEnumerable<Group>> FindByAsync(Expression<Func<Group, bool>> filter, string includeProperties)
@@ -30,6 +31,7 @@ namespace Data.App.Models.Repositories.Groups
         {
             return await _internalRepository.SaveAsync();
         }
+
 
         public IEnumerable<Group> FindBy(Expression<Func<Group, bool>> filter, string includeProperties)
         {

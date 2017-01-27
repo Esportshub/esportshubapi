@@ -10,6 +10,7 @@ namespace Data.App.Models.Repositories
         Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter, string includeProperties);
         Task<TEntity> FindAsync(int id);
         Task<bool> SaveAsync();
+        void SetEsportshubContext(EsportshubContext esportshubContext);
 
         IEnumerable<TEntity>  FindBy(Expression<Func<TEntity, bool>> filter, string includeProperties);
         TEntity Find(int id);

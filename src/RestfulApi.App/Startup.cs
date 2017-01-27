@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.EventsDtos;
@@ -62,20 +63,22 @@ namespace RestfulApi.App
                 cfg.CreateMap<Team, TeamDto>().ReverseMap();
             });
             services.AddDbContext<EsportshubContext>();
-            services.AddScoped<IRepository<Player>, GenericRepository<Player>>();
-            services.AddScoped<IRepository<Group>, GenericRepository<Group>>();
-            services.AddScoped<IRepository<Game>, GenericRepository<Game>>();
-            services.AddScoped<IRepository<Activity>, GenericRepository<Activity>>();
-            services.AddScoped<IRepository<Team>, GenericRepository<Team>>();
-            services.AddScoped<IRepository<Integration>, GenericRepository<Integration>>();
-            services.AddScoped<IRepository<Event>, GenericRepository<Event>>();
-            services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<IGroupRepository, GroupRepository>();
-            services.AddScoped<IActivityRepository, ActivityRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IIntegrationRepository, IntegrationRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
+
+            services.TryAddScoped<IRepository<Player>, GenericRepository<Player>>();
+            services.TryAddScoped<IRepository<Group>, GenericRepository<Group>>();
+            services.TryAddScoped<IRepository<Game>, GenericRepository<Game>>();
+            services.TryAddScoped<IRepository<Activity>, GenericRepository<Activity>>();
+            services.TryAddScoped<IRepository<Team>, GenericRepository<Team>>();
+            services.TryAddScoped<IRepository<Integration>, GenericRepository<Integration>>();
+            services.TryAddScoped<IRepository<Event>, GenericRepository<Event>>();
+
+            services.TryAddScoped<IPlayerRepository, PlayerRepository>();
+            services.TryAddScoped<IGameRepository, GameRepository>();
+            services.TryAddScoped<IGroupRepository, GroupRepository>();
+            services.TryAddScoped<IActivityRepository, ActivityRepository>();
+            services.TryAddScoped<IEventRepository, EventRepository>();
+            services.TryAddScoped<IIntegrationRepository, IntegrationRepository>();
+            services.TryAddScoped<ITeamRepository, TeamRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

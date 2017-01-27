@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models;
 using Data.App.Models.Entities;
+using Data.App.Models.Entities.Events;
 using Data.App.Models.Repositories;
 using Data.App.Models.Repositories.Activities;
 using Data.App.Models.Repositories.Events;
@@ -52,6 +53,8 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IIntegrationRepository> IntegrationRepository = new Mock<IIntegrationRepository>();
             private static readonly Mock<EsportshubContext> DbContextMock = new Mock<EsportshubContext>();
             private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository> { CallBase = true};
+            private static readonly Mock<IRepository<Player>> InternalPlayerRepository = new Mock<IRepository<Player>>();
+            private static readonly Mock<IRepository<Team>> InternalTeamRepository = new Mock<IRepository<Team>>();
 
             private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
             private static readonly Mock<ILogger> Logger = new Mock<ILogger>();
@@ -73,8 +76,26 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
 
                 var players = GetPlayers(queryStringValues);
                 PlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).Returns(Task.FromResult(players));
+                InternalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).Returns(Task.FromResult(players));
                 var webHostBuilder = new WebHostBuilder().UseStartup<Startup>().ConfigureServices(services =>
                 {
+                    services.AddScoped<IRepository<Player>, GenericRepository<Player>>();
+                    services.AddScoped<IRepository<Group>, GenericRepository<Group>>();
+                    services.AddScoped<IRepository<Game>, GenericRepository<Game>>();
+                    services.AddScoped<IRepository<Activity>, GenericRepository<Activity>>();
+                    services.AddScoped<IRepository<Team>, GenericRepository<Team>>();
+                    services.AddScoped<IRepository<Integration>, GenericRepository<Integration>>();
+                    services.AddScoped<IRepository<Event>, GenericRepository<Event>>();
+
+                    //herpderp
+                    services.AddScoped<IRepository<Player>>(provider => InternalPlayerRepository.Object);
+                    services.AddScoped<IRepository<Team>>(provider => InternalTeamRepository.Object);
+                    services.AddScoped<IRepository<Group>, GenericRepository<Group>>();
+                    services.AddScoped<IRepository<Game>, GenericRepository<Game>>();
+                    services.AddScoped<IRepository<Activity>, GenericRepository<Activity>>();
+                    services.AddScoped<IRepository<Integration>, GenericRepository<Integration>>();
+                    services.AddScoped<IRepository<Event>, GenericRepository<Event>>();
+
                     services.AddScoped(provider => PlayerRepository.Object);
                     services.AddScoped(provider => GameRepository.Object);
                     services.AddScoped(provider => GroupRepository.Object);

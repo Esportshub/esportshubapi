@@ -13,10 +13,14 @@ namespace Data.App.Models.Repositories
         private EsportshubContext _context;
         private DbSet<TEntity> _dbSet;
 
-        protected GenericRepository(EsportshubContext context)
+        public GenericRepository()
+        {
+        }
+
+        public void SetEsportshubContext(EsportshubContext context)
         {
             _context = context;
-            _dbSet = context.Set<TEntity>();
+            _dbSet = _context.Set<TEntity>();
         }
 
         //@TODO: Should be handled explicit

@@ -15,6 +15,7 @@ namespace Data.App.Models.Repositories.Games
         {
             _esportshubContext = context;
             _internalRepository = internalRepository;
+            _internalRepository.SetEsportshubContext(context);
         }
 
         public async Task<IEnumerable<Game>> FindByAsync(Expression<Func<Game, bool>> filter, string includeProperties)

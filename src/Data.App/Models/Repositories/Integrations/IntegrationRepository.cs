@@ -14,6 +14,7 @@ namespace Data.App.Models.Repositories.Integrations
         {
             _esportshubContext = context;
             _internalRepository = internalRepository;
+            _internalRepository.SetEsportshubContext(context);
         }
 
         public async Task<IEnumerable<Integration>> FindByAsync(Expression<Func<Integration, bool>> filter, string includeProperties)

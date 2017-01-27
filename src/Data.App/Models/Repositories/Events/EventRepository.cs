@@ -14,6 +14,7 @@ namespace Data.App.Models.Repositories.Events
         {
             _esportshubContext = context;
             _internalRepository = internalRepository;
+            _internalRepository.SetEsportshubContext(context);
         }
 
         public async Task<IEnumerable<Event>> FindByAsync(Expression<Func<Event, bool>> filter, string includeProperties)
