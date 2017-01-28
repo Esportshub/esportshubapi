@@ -1,5 +1,5 @@
 using System;
-using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities;
 
 namespace Data.App.Models.Builders.EventBuilders
 {
@@ -17,46 +17,47 @@ namespace Data.App.Models.Builders.EventBuilders
             return _event;
         }
 
-
-        public IEventBuilder SetCreated(DateTime input)
+        public IEventBuilder SetEventGuid(Guid eventGuid)
         {
-            _event.Created = input;
-            return this;
-        }
-        public IEventBuilder SetEnd(DateTime input)
-        {
-            _event.End = input;
+            _event.EventGuid = eventGuid;
             return this;
         }
 
-        public IEventBuilder SetEventGuid(Guid input)
+        public IEventBuilder SetEventId(int eventId)
         {
-            _event.EventGuid = input;
+            _event.EventId = eventId;
             return this;
         }
 
-        public IEventBuilder SetEventId(int input)
+        public IEventBuilder SetName(string name)
         {
-            _event.EventId = input;
+            _event.Name = name;
             return this;
         }
 
-        public IEventBuilder SetName(string input)
+        public IEventBuilder SetStart(DateTime start)
         {
-            _event.Name = input;
+            _event.Start = start;
             return this;
         }
 
-        public IEventBuilder SetStart(DateTime input)
+        public IEventBuilder SetEnd(DateTime end)
         {
-            _event.Start = input;
+            _event.End = end;
             return this;
         }
 
-        public IEventBuilder SetUpdated(DateTime input)
+        public IEventBuilder SetCreated(DateTime created)
         {
-            _event.Updated = input;
+            _event.Created = created;
             return this;
         }
+
+        public IEventBuilder SetUpdated(DateTime updated)
+        {
+            _event.Updated = updated;
+            return this;
+        }
+
     }
 }

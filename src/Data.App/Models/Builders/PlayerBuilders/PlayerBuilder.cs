@@ -19,59 +19,58 @@ namespace Data.App.Models.Builders.PlayerBuilders
             return _player;
         }
 
-        //@TODO: Throw the correct exceptions/validate correctly
-        public IPlayerBuilder SetActivities(List<Activity> input)
+        public IPlayerBuilder SetActivities(List<Activity> activities)
         {
-            _player.Activities = input;
+            _player.Activities = activities;
             return this;
         }
 
-        public IPlayerBuilder SetFollowers(List<Player> input)
+        public IPlayerBuilder SetFollowers(List<Player> followers)
         {
-            _player.Followers = input;
+            _player.Followers = followers;
             return this;
         }
 
-        public IPlayerBuilder SetPlayerGames(List<PlayerGames> input)
+        public IPlayerBuilder SetPlayerGames(List<PlayerGames> playerGames)
         {
-            _player.PlayerGames = input;
+            _player.PlayerGames = playerGames;
             return this;
         }
 
-        public IPlayerBuilder SetPlayerGroups(List<PlayerGroups> input)
+        public IPlayerBuilder SetPlayerGroups(List<PlayerGroups> playerGroups)
         {
-            _player.PlayerGroups = input;
+            _player.PlayerGroups = playerGroups;
             return this;
         }
 
-        public IPlayerBuilder SetIntegrations(List<Integration> input)
+        public IPlayerBuilder SetIntegrations(List<Integration> integrations)
         {
-            _player.Integrations = input;
+            _player.Integrations = integrations;
             return this;
         }
 
-        public IPlayerBuilder SetPlayerId(int input)
+        public IPlayerBuilder SetPlayerId(int playerId)
         {
-            _player.PlayerId = input;
+            _player.PlayerId = playerId;
             return this;
         }
 
 
-        public IPlayerBuilder SetNickname(string input)
+        public IPlayerBuilder SetNickname(string nickname)
         {
-            _player.Nickname = input;
+            _player.Nickname = nickname;
             return this;
         }
 
-        public IPlayerBuilder SetPlayerGuid(Guid input)
+        public IPlayerBuilder SetPlayerGuid(Guid guid)
         {
-            _player.PlayerGuid = input;
+            _player.PlayerGuid = guid;
             return this;
         }
 
-        public IPlayerBuilder SetPlayerTeams(List<PlayerTeams> input)
+        public IPlayerBuilder SetPlayerTeams(List<PlayerTeams> playerTeams)
         {
-            _player.PlayerTeams = input;
+            _player.PlayerTeams = playerTeams;
             return this;
         }
     }

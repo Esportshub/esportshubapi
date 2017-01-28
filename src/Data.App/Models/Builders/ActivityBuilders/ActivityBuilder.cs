@@ -4,7 +4,8 @@ using Data.App.Models.Entities;
 namespace Data.App.Models.Builders.ActivityBuilders {
     public class ActivityBuilder : IActivityBuilder
     {
-        private Activity _activity;
+        private readonly Activity _activity;
+
         public ActivityBuilder(Activity activity)
         {
             _activity = activity;
@@ -15,27 +16,27 @@ namespace Data.App.Models.Builders.ActivityBuilders {
             return _activity;
         }
 
-        public IActivityBuilder SetActivityGuid(Guid input)
+        public IActivityBuilder SetActivityGuid(Guid activityGuid)
         {
-            _activity.ActivityGuid = input;
+            _activity.ActivityGuid = activityGuid;
             return this;
         }
 
-        public IActivityBuilder SetDescription(string input)
+        public IActivityBuilder SetDescription(string description)
         {
-            _activity.Description = input;
+            _activity.Description = description;
             return this;
         }
 
-        public IActivityBuilder SetPlayer(Player input)
+        public IActivityBuilder SetPlayer(Player player)
         {
-            _activity.Player = input;
+            _activity.Player = player;
             return this;
         }
 
-        public IActivityBuilder SetTitle(string input)
+        public IActivityBuilder SetTitle(string title)
         {
-            _activity.Title = input;
+            _activity.Title = title;
             return this;
         }
     }
