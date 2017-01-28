@@ -1,12 +1,13 @@
-﻿using Data.App.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Data.App.Models;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories;
-using Data.App.Models.Repositories.Activities;
 using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using RestfulApi.App.Controllers;
 using Xunit;
 
 namespace Test.RestfulApi.Test.Repositories
@@ -19,19 +20,33 @@ namespace Test.RestfulApi.Test.Repositories
             private readonly Mock<EsportshubContext> _esportshubContext = new Mock<EsportshubContext>();
 
 
+            private IEnumerable<Player> GetPlayers(IEnumerable<int> playerIds)
+            {
+                IEnumerable<Player> players = new List<Player>();
+                foreach (var playerId in playerIds)
+                {
+                    var player = (Player) Activator.CreateInstance(typeof(Player), true);
+                    player.PlayerId = playerId;
+                    players.Append(player);
+                }
+                return players;
+            }
 
             [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfActivityDosentExist(int id)
+            [InlineData(new int[]{1,2,3,4})]
+            [InlineData(new int[]{500,700,750,9999})]
+            [InlineData(new int[]{50000,10000,90000,150000})]
+            public async void FindsAsyncReturnsTheCorrectAmountOfPlayers(int[] ids)
             {
+
+                var players = GetPlayers(ids);
+                _internalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).ReturnsAsync(players);
                 IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
 
-                var result = await playerRepository.(id);
-
-                Assert.IsType<NotFoundResult>(result);
+                var result = await playerRepository.FindByAsync(player => ids.Contains(player.PlayerId), "");
+                Assert.NotNull(result);
+                Assert.IsType<IEnumerable<Player>>(result);
+                Assert.Equal(4, result.ToList().Count);
             }
 
 

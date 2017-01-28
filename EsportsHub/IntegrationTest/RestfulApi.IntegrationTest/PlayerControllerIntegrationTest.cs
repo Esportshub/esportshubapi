@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Repositories;
 using Data.App.Models.Repositories.Activities;
-using Data.App.Models.Repositories.Events;
+using Data.App.Models.Repositories.EsportshubEvents;
 using Data.App.Models.Repositories.Games;
 using Data.App.Models.Repositories.Groups;
 using Data.App.Models.Repositories.Integrations;
@@ -48,7 +47,7 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IGameRepository> GameRepository = new Mock<IGameRepository>();
             private static readonly Mock<IGroupRepository> GroupRepository = new Mock<IGroupRepository>();
             private static readonly Mock<IActivityRepository> ActivityRepository = new Mock<IActivityRepository>();
-            private static readonly Mock<IEventRepository> EventRepository = new Mock<IEventRepository>();
+            private static readonly Mock<IEsportshubEventRepository> EventRepository = new Mock<IEsportshubEventRepository>();
             private static readonly Mock<ITeamRepository> TeamRepository = new Mock<ITeamRepository>();
             private static readonly Mock<IIntegrationRepository> IntegrationRepository = new Mock<IIntegrationRepository>();
             private static readonly Mock<EsportshubContext> DbContextMock = new Mock<EsportshubContext>();
@@ -58,7 +57,7 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IRepository<Team>> InternalTeamRepository = new Mock<IRepository<Team>>();
             private static readonly Mock<IRepository<Group>> InternalGroupRepository = new Mock<IRepository<Group>>();
             private static readonly Mock<IRepository<Activity>> InternalActivityRepository = new Mock<IRepository<Activity>>();
-            private static readonly Mock<IRepository<Event>> InternalEventRepository = new Mock<IRepository<Event>>();
+            private static readonly Mock<IRepository<EsportshubEvent>> InternalEventRepository = new Mock<IRepository<EsportshubEvent>>();
             private static readonly Mock<IRepository<Integration>> InternalIntegrationRepository = new Mock<IRepository<Integration>>();
             private static readonly Mock<IRepository<Game>> InternalGameRepository = new Mock<IRepository<Game>>();
 
@@ -89,7 +88,7 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
                     services.AddScoped<IRepository<Game>>(provider => InternalGameRepository.Object);
                     services.AddScoped<IRepository<Activity>>(provider => InternalActivityRepository.Object);
                     services.AddScoped<IRepository<Integration>>(provider => InternalIntegrationRepository.Object);
-                    services.AddScoped<IRepository<Event>>(provider => InternalEventRepository.Object);
+                    services.AddScoped<IRepository<EsportshubEvent>>(provider => InternalEventRepository.Object);
 
                     services.AddScoped(provider => PlayerRepository.Object);
                     services.AddScoped(provider => GameRepository.Object);
