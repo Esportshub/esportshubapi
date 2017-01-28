@@ -17,47 +17,47 @@ namespace Data.App.Models.Repositories.Integrations
             _internalRepository.SetEsportshubContext(context);
         }
 
-        public async Task<IEnumerable<Integration>> FindByAsync(Expression<Func<Integration, bool>> filter, string includeProperties)
+        public virtual async Task<IEnumerable<Integration>> FindByAsync(Expression<Func<Integration, bool>> filter, string includeProperties)
         {
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Integration> FindAsync(int id)
+        public virtual async Task<Integration> FindAsync(int id)
         {
             return await _internalRepository.FindAsync(id);
         }
 
-        public async Task<bool> SaveAsync()
+        public virtual async Task<bool> SaveAsync()
         {
             return await _internalRepository.SaveAsync();
         }
 
-        public IEnumerable<Integration> FindBy(Expression<Func<Integration, bool>> filter, string includeProperties)
+        public virtual IEnumerable<Integration> FindBy(Expression<Func<Integration, bool>> filter, string includeProperties)
         {
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Integration Find(int id)
+        public virtual Integration Find(int id)
         {
             return _internalRepository.Find(id);
         }
 
-        public void Insert(Integration entity)
+        public virtual void Insert(Integration entity)
         {
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             _internalRepository.Delete(id);
         }
 
-        public void Update(Integration entity)
+        public virtual void Update(Integration entity)
         {
             _internalRepository.Update(entity);
         }
 
-        public bool Save()
+        public virtual bool Save()
         {
             return _internalRepository.Save();
         }

@@ -20,7 +20,7 @@ namespace RestfulApi.App.Dtos.GameDtos
 
         public List<TeamDto> Teams { get; set; }
 
-        public List<GameEventDto> GameEvents { get; set; }
+        public List<EsportshubEventDto> EsportshubEvents { get; set; }
 
         public List<PlayerGamesDto> PlayerGames { get; set; }
 

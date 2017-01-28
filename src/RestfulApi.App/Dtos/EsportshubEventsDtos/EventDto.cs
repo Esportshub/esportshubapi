@@ -1,12 +1,12 @@
 using System;
 
-namespace RestfulApi.App.Dtos.EventsDtos
+namespace RestfulApi.App.Dtos.EsportshubEventsDtos
 {
-    public abstract class EventDto
+    public class EsportshubEventDto
     {
 
-        public int EventId { get; set; }
-        public Guid EventGuid { get; set; }
+        public int EsportshubEventId { get; set; }
+        public Guid EsportshubEventGuid { get; set; }
         public string Name { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

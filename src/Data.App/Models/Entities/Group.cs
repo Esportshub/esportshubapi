@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
 using Data.App.Models.Builders.GroupBuilders;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Entities
@@ -19,7 +18,7 @@ namespace Data.App.Models.Entities
                 Member
             }
 
-            public int RolesId { get; private set; }
+            public int RolesId { get; set; }
 
             public RolesPermission Permission { get; set; }
 
@@ -48,7 +47,7 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => GroupId;
 
-        public int GroupId { get; private set; }
+        public int GroupId { get; set; }
 
         public Guid GroupGuid { get; set; }
 
@@ -66,7 +65,7 @@ namespace Data.App.Models.Entities
 
         public List<PlayerGroups> PlayerGroups { get; set; }
 
-        public List<GroupEvent> GroupEvents { get; set; }
+        public List<EsportshubEvent> EsportshubEvents { get; set; }
 
         public override bool Equals(object obj)
         {

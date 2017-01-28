@@ -14,7 +14,7 @@ namespace Data.App.Models.Entities
             return new IntegrationBuilder(new Integration());
         }
 
-        public int IntegrationId { get; private set; }
+        public int IntegrationId { get; set; }
 
         public Player Player { get; set; }
 

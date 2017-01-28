@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
 using Data.App.Models.Builders.TeamBuilders;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Entities
@@ -18,7 +17,7 @@ namespace Data.App.Models.Entities
         {
             return new TeamBuilder(new Team());
         }
-        public int TeamId { get; private set; }
+        public int TeamId { get; set; }
 
         public string Name { get; set; }
 
@@ -30,7 +29,7 @@ namespace Data.App.Models.Entities
 
         public Game Game { get; set; }
 
-        public List<TeamEvent> TeamEvents { get; set; }
+        public List<EsportshubEvent> EsportshubEvents { get; set; }
 
         public List<PlayerTeams> PlayerTeams { get; set; }
 

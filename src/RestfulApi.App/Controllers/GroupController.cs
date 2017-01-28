@@ -4,6 +4,7 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.GroupDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -28,9 +29,10 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Get(int id) => Json(await _groupRepository.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Group group)
+        public async Task<IActionResult> Create([FromBody] GroupDto groupDto)
         {
-            if (group == null) return BadRequest();
+            if (groupDto == null) return BadRequest();
+            Group group = _mapper.Map<Group>(groupDto);
 
             _groupRepository.Insert(group);
             return await _groupRepository.SaveAsync()
@@ -39,12 +41,13 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] Group group, int id)
+        public async Task<IActionResult> Update(int id, [FromBody] GroupDto groupDto)
         {
-            if (group == null) return BadRequest();
+            if (groupDto == null) return BadRequest();
 
-            var _group = await _groupRepository.FindAsync(id);
-            if (_group == null) return NotFound();
+            var _ = await _groupRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Group group = _mapper.Map<Group>(groupDto);
 
             _groupRepository.Update(group);
             return await _groupRepository.SaveAsync()

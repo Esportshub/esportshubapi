@@ -4,6 +4,7 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Games;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.GameDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -24,17 +25,19 @@ namespace RestfulApi.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _gameRepository.FindByAsync(null, ""));
 
-        [HttpGet("{id:int:min(1)}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var game = await _gameRepository.FindAsync(id);
-            return Json(game);
+            var gameDto = _mapper.Map<GameDto>(game);
+            return Json(gameDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Game game)
+        public async Task<IActionResult> Create([FromBody] GameDto gameDto)
         {
-            if (game == null) return BadRequest();
+            if (gameDto == null) return BadRequest();
+            Game game = _mapper.Map<Game>(gameDto);
 
             _gameRepository.Insert(game);
             return await _gameRepository.SaveAsync()
@@ -42,13 +45,14 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPut("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Game game)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] GameDto gameDto)
         {
-            if (game == null || game.GameId != id) return BadRequest();
+            if (gameDto == null || gameDto.GameId != id) return BadRequest();
 
-            var _game = await _gameRepository.FindAsync(id);
-            if (_game == null) return NotFound();
+            var _ = await _gameRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Game game = _mapper.Map<Game>(gameDto);
 
             _gameRepository.Update(game);
             return await _gameRepository.SaveAsync()

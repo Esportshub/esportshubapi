@@ -14,7 +14,7 @@ namespace Data.App.Models.Entities
             return new ActivityBuilder(new Activity());
         }
 
-        public int ActivityId { get; private set; }
+        public int ActivityId { get; set; }
 
         public Guid ActivityGuid { get; set; }
 

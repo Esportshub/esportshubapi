@@ -4,9 +4,9 @@ namespace Data.App.Models.Entities
 {
     public class SocialMedia
     {
-        public int SocialMediaId { get; private set; }
+        public int SocialMediaId { get; set; }
 
-        public Guid SocialMediaGuid { get; private set; }
+        public Guid SocialMediaGuid { get; set; }
 
         public Integration Integration { get; set; }
 

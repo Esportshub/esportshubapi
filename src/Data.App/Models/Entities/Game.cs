@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
 using Data.App.Models.Builders.GameBuilders;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Entities
@@ -17,21 +16,21 @@ namespace Data.App.Models.Entities
             return new GameBuilder(new Game());
         }
 
-        public int GameId { get; private set; }
+        public int GameId { get; set; }
 
         public string Name { get; set; }
 
         public Guid GameGuid { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Created { get; set; }
+        public DateTime Created { get; private  set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
         public List<Team> Teams { get; set; }
 
-        public List<GameEvent> GameEvents { get; set; }
+        public List<EsportshubEvent> EsportshubEvents { get; set; }
 
         public List<PlayerGames> PlayerGames { get; set; }
 

@@ -4,6 +4,7 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.IntegrationsDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -27,9 +28,10 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Integration integration)
+        public async Task<IActionResult> Create([FromBody] IntegrationDto integrationDto)
         {
-            if (integration == null) return BadRequest();
+            if (integrationDto == null) return BadRequest();
+            Integration integration = _mapper.Map<Integration>(integrationDto);
 
             _integrationRepository.Insert(integration);
             return await _integrationRepository.SaveAsync()
@@ -38,12 +40,13 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] Integration integration, int id)
+        public async Task<IActionResult> Update(int id, [FromBody] IntegrationDto integrationDto)
         {
-            if (integration == null) return BadRequest();
+            if (integrationDto == null) return BadRequest();
 
-            var _integration = await _integrationRepository.FindAsync(id);
-            if (_integration == null) return NotFound();
+            var _ = await _integrationRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Integration integration = _mapper.Map<Integration>(integrationDto);
 
             _integrationRepository.Update(integration);
             return await _integrationRepository.SaveAsync()

@@ -50,7 +50,7 @@ namespace RestfulApi.App.Dtos.GroupDtos
 
         public List<PlayerGroupsDto> PlayerGroups { get; set; }
 
-        public List<GroupEventDto> GroupEvents { get; set; }
+        public List<EsportshubEventDto> EsportshubEvents { get; set; }
 
     }
 }

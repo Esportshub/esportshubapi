@@ -4,6 +4,7 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ActivitiesDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -32,9 +33,10 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Activity activity)
+        public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
-            if (activity == null) return BadRequest();
+            if (activityDto == null) return BadRequest();
+            Activity activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
             return await _activityRepository.SaveAsync()
@@ -43,13 +45,14 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPut("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Activity activity)
+        public async Task<IActionResult> Update(int id, [FromBody] ActivityDto activityDto)
         {
-            if (activity == null || activity.ActivityId != id) return BadRequest();
+            if (activityDto == null || activityDto.ActivityId != id) return BadRequest();
 
-            var _activity = await _activityRepository.FindAsync(id);
-            if (_activity == null) return NotFound();
+            var _ = await _activityRepository.FindAsync(id);
+            if (_ == null) return NotFound();
 
+            Activity activity = _mapper.Map<Activity>(activityDto);
             _activityRepository.Update(activity);
             return await _activityRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()

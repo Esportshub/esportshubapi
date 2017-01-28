@@ -62,7 +62,7 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.Delete(id));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() {TeamId = id});
                 Assert.IsType<NoContentResult>(result);
             }
 

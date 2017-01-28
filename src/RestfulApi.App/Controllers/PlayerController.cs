@@ -28,7 +28,6 @@ namespace RestfulApi.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
             IEnumerable<Player> players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
             if (players == null) return NotFound();
             IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
@@ -49,9 +48,10 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Player player)
+        public async Task<IActionResult> Create([FromBody] PlayerDto playerDto)
         {
-            if (player == null) return BadRequest();
+            if (playerDto == null) return BadRequest();
+            Player player = _mapper.Map<Player>(playerDto);
             _playerRepository.Insert(player);
             return await _playerRepository.SaveAsync()
                 ? CreatedAtRoute("GetPlayer", new {Id = player.PlayerId}, player)
@@ -59,12 +59,13 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
+        public async Task<IActionResult> Update(int id, [FromBody] PlayerDto playerDto)
         {
-            if (inputPlayer == null) return BadRequest();
+            if (playerDto == null) return BadRequest();
             if (!(id > 0)) return BadRequest(new InvalidRangeOnInputDto());
-            var player = await _playerRepository.FindAsync(id);
-            if (player == null) return NotFound();
+            var _ = await _playerRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Player player = _mapper.Map<Player>(playerDto);
             _playerRepository.Update(player);
             return await _playerRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()

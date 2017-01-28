@@ -2,27 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Data.App.Models.Entities.Events;
+using Data.App.Models.Entities;
 
-namespace Data.App.Models.Repositories.Events
+namespace Data.App.Models.Repositories.EsportshubEvents
 {
-    public class EventRepository : IEventRepository
+    public class EsportshubEventRepository : IEsportshubEventRepository
     {
-        private readonly IRepository<Event> _internalRepository;
+        private readonly IRepository<EsportshubEvent> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public EventRepository(EsportshubContext context, IRepository<Event> internalRepository)
+        public EsportshubEventRepository(EsportshubContext context, IRepository<EsportshubEvent> internalRepository)
         {
             _esportshubContext = context;
             _internalRepository = internalRepository;
             _internalRepository.SetEsportshubContext(context);
         }
 
-        public async Task<IEnumerable<Event>> FindByAsync(Expression<Func<Event, bool>> filter, string includeProperties)
+        public async Task<IEnumerable<EsportshubEvent>> FindByAsync(Expression<Func<EsportshubEvent, bool>> filter, string includeProperties)
         {
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Event> FindAsync(int id)
+        public async Task<EsportshubEvent> FindAsync(int id)
         {
             return await _internalRepository.FindAsync(id);
         }
@@ -32,17 +32,17 @@ namespace Data.App.Models.Repositories.Events
             return await _internalRepository.SaveAsync();
         }
 
-        public IEnumerable<Event> FindBy(Expression<Func<Event, bool>> filter, string includeProperties)
+        public IEnumerable<EsportshubEvent> FindBy(Expression<Func<EsportshubEvent, bool>> filter, string includeProperties)
         {
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Event Find(int id)
+        public EsportshubEvent Find(int id)
         {
             return _internalRepository.Find(id);
         }
 
-        public void Insert(Event entity)
+        public void Insert(EsportshubEvent entity)
         {
             _internalRepository.Insert(entity);
         }
@@ -52,7 +52,7 @@ namespace Data.App.Models.Repositories.Events
             _internalRepository.Delete(id);
         }
 
-        public void Update(Event entity)
+        public void Update(EsportshubEvent entity)
         {
             _internalRepository.Update(entity);
         }

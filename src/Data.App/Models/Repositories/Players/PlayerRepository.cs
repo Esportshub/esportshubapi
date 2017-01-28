@@ -18,47 +18,47 @@ namespace Data.App.Models.Repositories.Players
             _internalRepository.SetEsportshubContext(context);
         }
 
-        public async Task<IEnumerable<Player>> FindByAsync(Expression<Func<Player, bool>> filter, string includeProperties)
+        public virtual async Task<IEnumerable<Player>> FindByAsync(Expression<Func<Player, bool>> filter, string includeProperties)
         {
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Player> FindAsync(int id)
+        public virtual async Task<Player> FindAsync(int id)
         {
             return await _internalRepository.FindAsync(id);
         }
 
-        public async Task<bool> SaveAsync()
+        public virtual async Task<bool> SaveAsync()
         {
             return await _internalRepository.SaveAsync();
         }
 
-        public IEnumerable<Player> FindBy(Expression<Func<Player, bool>> filter, string includeProperties)
+        public virtual IEnumerable<Player> FindBy(Expression<Func<Player, bool>> filter, string includeProperties)
         {
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Player Find(int id)
+        public virtual Player Find(int id)
         {
             return _internalRepository.Find(id);
         }
 
-        public void Insert(Player entity)
+        public virtual void Insert(Player entity)
         {
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             _internalRepository.Delete(id);
         }
 
-        public void Update(Player entity)
+        public virtual void Update(Player entity)
         {
             _internalRepository.Update(entity);
         }
 
-        public bool Save()
+        public virtual bool Save()
         {
             return _internalRepository.Save();
         }

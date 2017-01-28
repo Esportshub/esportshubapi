@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Data.App.Models.Entities;
-using Data.App.Models.Repositories.Activities;
 using Data.App.Models.Repositories.Groups;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using RestfulApi.App.Controllers;
-using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.GroupDtos;
 using Xunit;
 
@@ -65,7 +62,7 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.Delete(id));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await GroupController.Update(new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
                 Assert.IsType<NoContentResult>(result);
             }
 
@@ -94,7 +91,7 @@ namespace Test.RestfulApi.Test.Controllers
 
                 GroupDto groupDto = null;
 
-                var result = await GroupController.Update(groupDto);
+                var result = await GroupController.Update(1, groupDto);
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -109,7 +106,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await GroupController.Update(new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
 
                 Assert.IsType<NotFoundResult>(result);
             }
@@ -127,7 +124,7 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.Update(instance));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await GroupController.Update(new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
                 Assert.IsType<ObjectResult>(result);
             }
 
@@ -143,7 +140,7 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.Update(instance));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await GroupController.Update(new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
                 Assert.IsType<NoContentResult>(result);
             }
         }

@@ -52,7 +52,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] TeamDto teamDto, int id)
+        public async Task<IActionResult> Update(int id,[FromBody] TeamDto teamDto)
         {
             if (teamDto == null) return BadRequest();
 

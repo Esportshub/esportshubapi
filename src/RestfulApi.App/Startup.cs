@@ -48,10 +48,7 @@ namespace RestfulApi.App
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<Activity, ActivityDto>().ReverseMap();
-                cfg.CreateMap<Event, EventDto>().ReverseMap();
-                cfg.CreateMap<GameEvent, GameEventDto>().ReverseMap();
-                cfg.CreateMap<GroupEvent, GroupEventDto>().ReverseMap();
-                cfg.CreateMap<TeamEvent, TeamEventDto>().ReverseMap();
+                cfg.CreateMap<EsportshubEvent, EsportshubEventDto>().ReverseMap();
                 cfg.CreateMap<Game, GameDto>().ReverseMap();
                 cfg.CreateMap<Group, GroupDto>().ReverseMap();
                 cfg.CreateMap<Integration, IntegrationDto>().ReverseMap();
@@ -70,7 +67,7 @@ namespace RestfulApi.App
             services.TryAddScoped<IRepository<Activity>, GenericRepository<Activity>>();
             services.TryAddScoped<IRepository<Team>, GenericRepository<Team>>();
             services.TryAddScoped<IRepository<Integration>, GenericRepository<Integration>>();
-            services.TryAddScoped<IRepository<Event>, GenericRepository<Event>>();
+            services.TryAddScoped<IRepository<EsportshubEvent>, GenericRepository<EsportshubEvent>>();
 
             services.TryAddScoped<IPlayerRepository, PlayerRepository>();
             services.TryAddScoped<IGameRepository, GameRepository>();

@@ -10,7 +10,7 @@ namespace Data.App.Models.Builders.GameBuilders
         IGameBuilder SetName(string name);
         IGameBuilder SetGameGuid(Guid gameGuid);
         IGameBuilder SetTeams(List<Team> teams);
-        IGameBuilder SetEvents(List<Event> events);
+        IGameBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents);
         IGameBuilder SetPlayerGames(List<PlayerGames> playerGames);
     }
 

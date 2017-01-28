@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Builders.GameBuilders
@@ -21,9 +19,9 @@ namespace Data.App.Models.Builders.GameBuilders
             return _game;
         }
 
-        public IGameBuilder SetEvents(List<Event> events)
+        public IGameBuilder SetEsportshubEvents(List<EsportshubEvent> events)
         {
-            _game.Events = events;
+            _game.EsportshubEvents = events;
             return this;
         }
 

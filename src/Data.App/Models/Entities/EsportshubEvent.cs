@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
 
-namespace Data.App.Models.Entities.Events
+namespace Data.App.Models.Entities
 {
-    public abstract class Event : IEsportshubEntity
+    public class EsportshubEvent : IEsportshubEntity
     {
 
         public int EventId { get; set; }
@@ -20,7 +20,7 @@ namespace Data.App.Models.Entities.Events
 
         public override bool Equals(object obj)
         {
-            Event @event = (Event) obj;
+            EsportshubEvent @event = (EsportshubEvent) obj;
 
             if (this.CompareEntities(obj))
                 return @event.EventId == this.EventId;

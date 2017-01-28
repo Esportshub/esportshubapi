@@ -62,7 +62,7 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.Delete(id));
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await ActivityController.Update(new ActivityDto() {ActivityId = id});
+                var result = await ActivityController.Update(id, new ActivityDto() {ActivityId = id});
                 Assert.IsType<NoContentResult>(result);
             }
 
@@ -91,7 +91,7 @@ namespace Test.RestfulApi.Test.Controllers
 
                 ActivityDto activityDto = null;
 
-                var result = await ActivityController.Update(activityDto);
+                var result = await ActivityController.Update(1, activityDto);
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -106,7 +106,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await ActivityController.Update(new ActivityDto() {ActivityId = id});
+                var result = await ActivityController.Update(id, new ActivityDto() {ActivityId = id});
 
                 Assert.IsType<NotFoundResult>(result);
             }
@@ -124,7 +124,7 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.Update(instance));
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await ActivityController.Update(new ActivityDto() {ActivityId = id});
+                var result = await ActivityController.Update(id, new ActivityDto() {ActivityId = id});
                 Assert.IsType<ObjectResult>(result);
             }
 
@@ -140,7 +140,7 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.Update(instance));
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await ActivityController.Update(new ActivityDto() {ActivityId = id});
+                var result = await ActivityController.Update(id, new ActivityDto() {ActivityId = id});
                 Assert.IsType<NoContentResult>(result);
             }
         }
