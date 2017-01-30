@@ -5,6 +5,8 @@ using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ActivitiesDtos;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.PlayerDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -19,17 +21,23 @@ namespace RestfulApi.App.Controllers
         {
             _activityRepository = activityRepository;
             _logger = logger;
-            _mapper = _mapper;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _activityRepository.FindByAsync(null, ""));
 
-        [HttpGet("{id:int:min(1)}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var game = await _activityRepository.FindAsync(id);
-            return Json(game);
+            if (!(id > 0))
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
+            var activity = await _activityRepository.FindAsync(id);
+            if (activity == null) return NotFound();
+            var activityDto = _mapper.Map<ActivityDto>(activity);
+            return Json(activityDto);
         }
 
         [HttpPost]
@@ -44,7 +52,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPut("{id:int:min(1)}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ActivityDto activityDto)
         {
             if (activityDto == null || activityDto.ActivityId != id) return BadRequest();
@@ -59,12 +67,12 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{id:int:min(1)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var game = await _activityRepository.FindAsync(id);
+            var activity = await _activityRepository.FindAsync(id);
 
-            if (game == null) return NotFound();
+            if (activity == null) return NotFound();
             _activityRepository.Delete(id);
             return await _activityRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()

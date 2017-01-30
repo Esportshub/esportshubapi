@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using RestfulApi.App.Dtos.EventsDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.PlayerDtos;
 
 namespace RestfulApi.App.Dtos.GroupDtos

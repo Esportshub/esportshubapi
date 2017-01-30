@@ -7,7 +7,7 @@ namespace Data.App.Models.Builders.TeamBuilders
 {
     public class TeamBuilder : ITeamBuilder
     {
-        private Team _team;
+        private readonly Team _team;
 
         public TeamBuilder (Team team)
         {
@@ -19,9 +19,9 @@ namespace Data.App.Models.Builders.TeamBuilders
             return _team;
         }
 
-        public ITeamBuilder SetTeamEvents(List<Event> events)
+        public ITeamBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents)
         {
-            _team.Events = events;
+            _team.EsportshubEvents = esportshubEvents;
             return this;
         }
          

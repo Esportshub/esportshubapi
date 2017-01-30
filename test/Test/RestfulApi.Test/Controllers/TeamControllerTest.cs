@@ -92,7 +92,7 @@ namespace Test.RestfulApi.Test.Controllers
 
                 TeamDto teamDto = null;
 
-                var result = await TeamController.Update(teamDto);
+                var result = await TeamController.Update(1, teamDto);
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -107,7 +107,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() {TeamId = id});
 
                 Assert.IsType<NotFoundResult>(result);
             }
@@ -125,7 +125,7 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.Update(instance));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() {TeamId = id});
                 Assert.IsType<ObjectResult>(result);
             }
 
@@ -141,7 +141,7 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.Update(instance));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() {TeamId = id});
                 Assert.IsType<NoContentResult>(result);
             }
         }

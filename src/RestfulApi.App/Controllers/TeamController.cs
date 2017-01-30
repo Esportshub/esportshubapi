@@ -5,6 +5,8 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Teams;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.TeamDtos;
 
 namespace RestfulApi.App.Controllers
@@ -34,8 +36,12 @@ namespace RestfulApi.App.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            if (id <= 0) return BadRequest("Invalid input");
+            if (!(id > 0))
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
             var team = await _teamRepository.FindAsync(id);
+            if (team == null) return NotFound();
             var teamDto = _mapper.Map<TeamDto>(team);
             return Json(teamDto);
         }

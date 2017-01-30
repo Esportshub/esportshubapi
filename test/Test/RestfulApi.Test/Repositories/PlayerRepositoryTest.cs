@@ -6,7 +6,6 @@ using Data.App.Models;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories;
 using Data.App.Models.Repositories.Players;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -38,11 +37,9 @@ namespace Test.RestfulApi.Test.Repositories
             [InlineData(new int[]{50000,10000,90000,150000})]
             public async void FindsAsyncReturnsTheCorrectAmountOfPlayers(int[] ids)
             {
-
                 var players = GetPlayers(ids);
                 _internalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).ReturnsAsync(players);
                 IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
-
                 var result = await playerRepository.FindByAsync(player => ids.Contains(player.PlayerId), "");
                 Assert.NotNull(result);
                 Assert.IsType<IEnumerable<Player>>(result);

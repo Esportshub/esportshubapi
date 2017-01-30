@@ -7,7 +7,7 @@ namespace Data.App.Models.Builders.GroupBuilders
 {
     public class GroupBuilder : IGroupBuilder
     {
-        private Group _group;
+        private readonly Group _group;
 
         public GroupBuilder (Group group)
         {
@@ -26,9 +26,9 @@ namespace Data.App.Models.Builders.GroupBuilders
            return this;
         }
 
-        public IGroupBuilder SetEvents(List<Event> events)
+        public IGroupBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents)
         {
-            _group.Events = events;
+            _group.EsportshubEvents = esportshubEvents;
             return this;
         }
 

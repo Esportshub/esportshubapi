@@ -4,6 +4,8 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Games;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.GameDtos;
 
 namespace RestfulApi.App.Controllers
@@ -28,8 +30,13 @@ namespace RestfulApi.App.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            if (!(id > 0))
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
             var game = await _gameRepository.FindAsync(id);
-            var gameDto = _mapper.Map<GameDto>(game);
+            if (game == null) return NotFound();
+            var gameDto = _mapper.Map<EsportshubEventDto>(game);
             return Json(gameDto);
         }
 

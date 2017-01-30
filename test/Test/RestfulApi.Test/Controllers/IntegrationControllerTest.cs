@@ -67,7 +67,7 @@ namespace Test.RestfulApi.Test.Controllers
                 IntegrationRepository.Setup(x => x.Delete(id));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() {IntegrationId = id});
                 Assert.IsType<NoContentResult>(result);
             }
 
@@ -95,9 +95,9 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
 
-                IntegrationDto integreationDto = null;
+                IntegrationDto integrationDto = null;
 
-                var result = await IntegrationController.Update(integreationDto);
+                var result = await IntegrationController.Update(1, integrationDto);
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -112,7 +112,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() {IntegrationId = id});
 
                 Assert.IsType<NotFoundResult>(result);
             }
@@ -130,7 +130,7 @@ namespace Test.RestfulApi.Test.Controllers
                 IntegrationRepository.Setup(x => x.Update(instance));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() {IntegrationId = id});
                 Assert.IsType<ObjectResult>(result);
             }
 
@@ -146,7 +146,7 @@ namespace Test.RestfulApi.Test.Controllers
                 IntegrationRepository.Setup(x => x.Update(instance));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() {IntegrationId = id});
                 Assert.IsType<NoContentResult>(result);
             }
         }

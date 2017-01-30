@@ -7,7 +7,7 @@ namespace Data.App.Models.Builders.GameBuilders
 {
     public class GameBuilder : IGameBuilder
     {
-        private Game _game;
+        private readonly Game _game;
 
         public GameBuilder(Game game)
         {

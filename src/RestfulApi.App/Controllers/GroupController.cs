@@ -4,6 +4,8 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.GroupDtos;
 
 namespace RestfulApi.App.Controllers
@@ -25,8 +27,18 @@ namespace RestfulApi.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _groupRepository.FindByAsync(null, ""));
 
-        [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _groupRepository.FindAsync(id));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (!(id > 0))
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
+            var group = await _groupRepository.FindAsync(id);
+            if (group == null) return NotFound();
+            var groupDto = _mapper.Map<GroupDto>(group);
+            return Json(groupDto);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] GroupDto groupDto)

@@ -4,6 +4,8 @@ using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.GroupDtos;
 using RestfulApi.App.Dtos.IntegrationsDtos;
 
 namespace RestfulApi.App.Controllers
@@ -24,8 +26,19 @@ namespace RestfulApi.App.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get() => Json(await _integrationRepository.FindByAsync(null, ""));
-        [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.FindAsync(id));
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (!(id > 0))
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
+            var integration = await _integrationRepository.FindAsync(id);
+            if (integration == null) return NotFound();
+            var integrationDto = _mapper.Map<IntegrationDto>(integration);
+            return Json(integrationDto);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IntegrationDto integrationDto)

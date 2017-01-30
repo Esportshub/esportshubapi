@@ -7,23 +7,23 @@ namespace Data.App.Models.Entities
     public class EsportshubEvent : IEsportshubEntity
     {
 
-        public int EventId { get; set; }
+        public int EsportshubEventId { get; set; }
         public string Name { get; set; }
-        public Guid EventGuid { get; set; }
+        public Guid EsportshubEventGuid { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
 
         [NotMapped]
-        public int Id => EventId;
+        public int Id => EsportshubEventId;
 
         public override bool Equals(object obj)
         {
             EsportshubEvent @event = (EsportshubEvent) obj;
 
             if (this.CompareEntities(obj))
-                return @event.EventId == this.EventId;
+                return @event.EsportshubEventId == this.EsportshubEventId;
 
             return false;
         }

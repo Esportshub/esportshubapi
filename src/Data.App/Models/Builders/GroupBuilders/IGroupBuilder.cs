@@ -12,7 +12,7 @@ namespace  Data.App.Models.Builders.GroupBuilders
         IGroupBuilder SetVisibilty(Group.Visibilties visibility);
         IGroupBuilder SetRole(Group.Roles role);
         IGroupBuilder SetPlayerGroups(List<PlayerGroups> playerGroups);
-        IGroupBuilder SetEvents(List<Event> events);
+        IGroupBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents);
     }
 
 }
