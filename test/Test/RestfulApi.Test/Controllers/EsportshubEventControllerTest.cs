@@ -93,16 +93,16 @@ namespace Test.RestfulApi.Test.Controllers
             [InlineData(22)]
             [InlineData(5032)]
             [InlineData(100000)]
-            public async void ReturnsBadRequestResultTypeIfGameEventDtoIsNullTest(int id)
+            public async void ReturnsBadRequestResultTypeIfEsportshubEventDtoIsNullTest(int id)
             {
                 MockExtensions.ResetAll(Mocks());
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventId = id;
-
                 EventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 EventRepository.Setup(x => x.Update(instance));
                 EventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+                Mapper.Setup(x => x.Map<EsportshubEvent>(It.IsAny<EsportshubEventDto>())).Returns(null);
 
                 EsportshubEventDto esportshubEventDto = null;
 
@@ -207,10 +207,20 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<ObjectResult>(result);
             }
 
-            [Fact]
-            public async void GetBadRequestTypeIfGameEventDtoIsNull()
+            [Theory]
+            [InlineData(1)]
+            [InlineData(35)]
+            [InlineData(30000)]
+            [InlineData(100000)]
+            public async void ReturnsBadRequestTypeIfGameEventDtoIsNullTest(int id)
             {
                 MockExtensions.ResetAll(Mocks());
+
+                var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
+                instance.EsportshubEventId = id;
+                EventRepository.Setup(x => x.Insert(instance));
+                EventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+                Mapper.Setup(m => m.Map<EsportshubEvent>(It.IsAny<EsportshubEventDto>())).Returns(instance);
 
                 EsportshubEventDto esportshubEventDto =  null;
 
@@ -224,7 +234,7 @@ namespace Test.RestfulApi.Test.Controllers
             [InlineData(37)]
             [InlineData(50000)]
             [InlineData(100000)]
-            public async void CheckIfCreateAtRouteIsCreatedWithRightValuesWhenAValidGameEventIsCreated(int id)
+            public async void IfCreatedAtRouteIsCreatedWithCorrectValuesWhenAValidEsportshubEventIsCreatedTest(int id)
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -240,7 +250,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void CheckIfCreatedAtRouteObjectIsEventWhenAValidGameEventIsSaved()
+            public async void IfCreatedAtRouteObjectIsEventWhenAValidGameEventIsSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
