@@ -4,7 +4,7 @@ using Data.App.Extensions.Entities;
 
 namespace Data.App.Models.Entities.Events
 {
-    public abstract class Event : IEsportshubEntity
+    public  abstract class Event : IEsportshubEntity
     {
 
         public int EventId { get; set; }

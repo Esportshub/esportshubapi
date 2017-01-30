@@ -1,9 +1,11 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.ActivitiesDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -14,41 +16,55 @@ namespace RestfulApi.App.Controllers
         private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
 
-        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger, IMapper mapper)
+        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger,
+            IMapper mapper)
         {
             _activityRepository = activityRepository;
             _logger = logger;
-            _mapper = _mapper;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _activityRepository.FindByAsync(null, ""));
+        public async Task<JsonResult> Get()
 
-        [HttpGet("{id:int:min(1)}")]
+        {
+            var activities = await _activityRepository.FindByAsync(null, "");
+            var activitiesDto = activities.Select(_mapper.Map<ActivityDto>);
+
+            return Json(activitiesDto);
+        }
+
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var game = await _activityRepository.FindAsync(id);
-            return Json(game);
+            if (id <= 0) return BadRequest("Invalid input");
+            var activity = await _activityRepository.FindAsync(id);
+            var activityDto = _mapper.Map<ActivityDto>(activity);
+            return Json(activityDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Activity activity)
+        public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
-            if (activity == null) return BadRequest();
+            if (activityDto == null) return BadRequest();
+
+            var activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
+
             return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activity)
+                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activityDto)
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPut("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Activity activity)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] ActivityDto activityDto)
         {
-            if (activity == null || activity.ActivityId != id) return BadRequest();
+            if (activityDto == null) return BadRequest();
 
-            var _activity = await _activityRepository.FindAsync(id);
-            if (_activity == null) return NotFound();
+            var activity = await _activityRepository.FindAsync(activityDto.ActivityId);
+            if (activity == null) return NotFound();
 
             _activityRepository.Update(activity);
             return await _activityRepository.SaveAsync()
@@ -56,7 +72,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{id:int:min(1)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var game = await _activityRepository.FindAsync(id);

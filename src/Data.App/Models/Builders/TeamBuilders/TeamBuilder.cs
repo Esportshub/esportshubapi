@@ -10,9 +10,9 @@ namespace Data.App.Models.Builders.TeamBuilders
     {
         private Team _team;
 
-        public TeamBuilder (Team team)
+        public TeamBuilder(Team team)
         {
-          _team = team;
+            _team = team;
         }
 
         public Team Build()
@@ -25,11 +25,11 @@ namespace Data.App.Models.Builders.TeamBuilders
             _team.TeamEvents = input;
             return this;
         }
-         
+
         public ITeamBuilder SetGame(Game input)
         {
-           _team.Game = input;
-           return this;
+            _team.Game = input;
+            return this;
         }
 
         public ITeamBuilder SetName(string input)
@@ -40,8 +40,8 @@ namespace Data.App.Models.Builders.TeamBuilders
 
         public ITeamBuilder SetPlayerTeams(List<PlayerTeams> input)
         {
-           _team.PlayerTeams = input;
-           return this;
+            _team.PlayerTeams = input;
+            return this;
         }
 
         public ITeamBuilder TeamGuid(Guid input)

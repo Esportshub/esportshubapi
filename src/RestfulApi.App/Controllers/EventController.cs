@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities.Events;
 using Data.App.Models.Repositories.Events;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.EventsDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -24,41 +25,51 @@ namespace RestfulApi.App.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _eventRepository.FindByAsync(null, ""));
+        public async Task<JsonResult> Get()
+        {
+            var myEvent = await _eventRepository.FindByAsync(null, "");
+            var eventsDto = myEvent.Select(_mapper.Map<EventDto>);
+            return Json(eventsDto);
+        }
 
-        [HttpGet("{id:int:min(1)}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var game = await _eventRepository.FindAsync(id);
-            return Json(game);
+            if (id <= 0) return BadRequest("Invalid input");
+
+            var myEvent = await _eventRepository.FindAsync(id);
+            var eventDto = _mapper.Map<EventDto>(myEvent);
+            return Json(eventDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Event inputEvent)
+        public async Task<IActionResult> Create([FromBody] EventDto eventDto)
         {
-            if (inputEvent == null) return BadRequest();
+            if (eventDto == null) return BadRequest();
 
-            _eventRepository.Insert(inputEvent);
+            var @event = _mapper.Map<Event>(eventDto);
+
+            _eventRepository.Insert(@event);
             return await _eventRepository.SaveAsync()
-                ? CreatedAtRoute("GetEvent", new {Id = inputEvent.EventId}, inputEvent)
+                ? CreatedAtRoute("GetEvent", new {Id = @event.EventId}, eventDto)
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPut("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Event inputEvent)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] EventDto eventDto)
         {
-            if (inputEvent == null || inputEvent.EventId != id) return BadRequest();
+            if (eventDto == null) return BadRequest();
 
-            var _event = await _eventRepository.FindAsync(id);
-            if (_event == null) return NotFound();
+            var @event = await _eventRepository.FindAsync(eventDto.EventId);
+            if (@event == null) return NotFound();
 
-            _eventRepository.Update(inputEvent);
+            _eventRepository.Update(@event);
             return await _eventRepository.SaveAsync()
                 ? (IActionResult) new NoContentResult()
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{id:int:min(1)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var _event = await _eventRepository.FindAsync(id);

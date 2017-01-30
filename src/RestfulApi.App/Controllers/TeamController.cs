@@ -43,16 +43,19 @@ namespace RestfulApi.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TeamDto teamDto)
         {
-            if (teamDto == null) return BadRequest();
-            var team = Mapper.Map<Team>(teamDto);
+            if (teamDto == null) return BadRequest("Invalid input");
+
+            var team = _mapper.Map<Team>(teamDto);
+            //Check if user exist
             _teamRepository.Insert(team);
+
             return await _teamRepository.SaveAsync()
-                ? CreatedAtRoute("GetPlayer", new {Id = team.TeamId}, team)
+                ? CreatedAtRoute("GetTeam??", new {Id = team.TeamId}, teamDto)
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] TeamDto teamDto, int id)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Update([FromBody] TeamDto teamDto)
         {
             if (teamDto == null) return BadRequest();
 
@@ -65,7 +68,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{id:int:min(1)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var team = await _teamRepository.FindAsync(id);

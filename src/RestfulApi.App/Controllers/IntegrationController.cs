@@ -1,9 +1,11 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Dtos.IntegrationsDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -22,28 +24,48 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _integrationRepository.FindByAsync(null, ""));
-        [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id) => Json(await _integrationRepository.FindAsync(id));
+        public async Task<JsonResult> Get()
+        {
+            var integrations = await _integrationRepository.FindByAsync(null, "");
+            var integrationsDto = integrations.Select(_mapper.Map<IntegrationDto>);
+
+            return Json(integrationsDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            if (id <= 0) return BadRequest("Invalid input");
+
+            var integration = await _integrationRepository.FindAsync(id);
+
+            var integrationDto = _mapper.Map<IntegrationDto>(integration);
+
+            return Json(integrationDto);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Integration integration)
+        public async Task<IActionResult> Create([FromBody] IntegrationDto integrationDto)
         {
-            if (integration == null) return BadRequest();
+            if (integrationDto == null) return BadRequest();
+
+            var integration = _mapper.Map<Integration>(integrationDto);
 
             _integrationRepository.Insert(integration);
+
             return await _integrationRepository.SaveAsync()
-                ? CreatedAtRoute("GetRepository", new {Id = integration.IntegrationId}, integration)
+                ? CreatedAtRoute("GetRepository", new {Id = integration.IntegrationId}, integrationDto)
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update([FromBody] Integration integration, int id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] IntegrationDto integrationDto)
         {
-            if (integration == null) return BadRequest();
+            if (integrationDto == null) return BadRequest();
 
-            var _integration = await _integrationRepository.FindAsync(id);
-            if (_integration == null) return NotFound();
+            var integration = await _integrationRepository.FindAsync(integrationDto.IntegrationId);
+            if (integration == null) return NotFound();
 
             _integrationRepository.Update(integration);
             return await _integrationRepository.SaveAsync()
@@ -51,7 +73,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpDelete("{id:int:min(1)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var integration = await _integrationRepository.FindAsync(id);

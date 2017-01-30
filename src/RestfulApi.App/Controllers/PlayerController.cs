@@ -58,8 +58,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [
-            HttpPatch("{inputId")]
+        [HttpPut("{inputId")]
         public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
         {
             if (inputPlayer == null) return BadRequest();
