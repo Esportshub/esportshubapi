@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.ErrorDtos;
-using RestfulApi.App.Dtos.PlayerDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -17,7 +17,8 @@ namespace RestfulApi.App.Controllers
         private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
 
-        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger, IMapper mapper)
+        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger,
+            IMapper mapper)
         {
             _activityRepository = activityRepository;
             _logger = logger;
@@ -25,7 +26,12 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _activityRepository.FindByAsync(null, ""));
+        public async Task<JsonResult> Get()
+        {
+            var activities = await _activityRepository.FindByAsync(null, "");
+            var activitiesDto = activities.Select(_mapper.Map<ActivityDto>);
+            return Json(activitiesDto);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -38,17 +44,19 @@ namespace RestfulApi.App.Controllers
             if (activity == null) return NotFound();
             var activityDto = _mapper.Map<ActivityDto>(activity);
             return Json(activityDto);
-        }
+         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
             if (activityDto == null) return BadRequest();
-            Activity activity = _mapper.Map<Activity>(activityDto);
+
+            var activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
+
             return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activity)
+                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activityDto)
                 : StatusCode(500, "Error while processing");
         }
 

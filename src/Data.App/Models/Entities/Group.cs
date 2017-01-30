@@ -18,7 +18,7 @@ namespace Data.App.Models.Entities
                 Member
             }
 
-            public int RolesId { get; set; }
+            public int RolesId { get;  set; }
 
             public RolesPermission Permission { get; set; }
 
@@ -47,7 +47,11 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => GroupId;
 
+<<<<<<< HEAD
         public int GroupId { get; set; }
+=======
+        public int GroupId { get;  set; }
+>>>>>>> origin/master
 
         public Guid GroupGuid { get; set; }
 

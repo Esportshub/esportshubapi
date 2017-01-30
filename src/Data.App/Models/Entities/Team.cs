@@ -7,17 +7,18 @@ using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Entities
 {
-
     public class Team : IEsportshubEntity
     {
-
-        private Team() { }
+        private Team()
+        {
+        }
 
         public static TeamBuilder Builder()
         {
             return new TeamBuilder(new Team());
         }
-        public int TeamId { get; set; }
+
+        public int TeamId { get;  set; }
 
         public string Name { get; set; }
 
@@ -38,7 +39,7 @@ namespace Data.App.Models.Entities
 
         public override bool Equals(object obj)
         {
-            Team team = (Team)obj;
+            Team team = (Team) obj;
 
             if (this.CompareEntities(obj))
                 return team.TeamId == this.TeamId;

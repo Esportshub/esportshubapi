@@ -102,7 +102,7 @@ namespace Test.RestfulApi.Test.Controllers
                 EventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 EventRepository.Setup(x => x.Update(instance));
                 EventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
-                Mapper.Setup(x => x.Map<EsportshubEvent>(It.IsAny<EsportshubEventDto>())).Returns(null);
+                Mapper.Setup(x => x.Map<EsportshubEvent>(It.IsAny<EsportshubEventDto>())).Returns(instance);
 
                 EsportshubEventDto esportshubEventDto = null;
 
