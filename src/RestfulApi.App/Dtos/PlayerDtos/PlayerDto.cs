@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.App.Extensions.Entities;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.IntegrationsDtos;
 
@@ -26,5 +27,21 @@ namespace RestfulApi.App.Dtos.PlayerDtos
         public List<IntegrationDto> Integrations { get; set; }
         public List<ActivityDto> Activities { get; set; }
         public List<PlayerGroupsDto> PlayerGroups { get; set; }
+
+        public override bool Equals (object obj)
+        {
+            PlayerDto objPlayer = (PlayerDto)obj;
+
+            if (this.CompareEntities(obj))
+                return objPlayer.PlayerId == PlayerId;
+
+            return false;
+        }
+
+        /**@TODO: Test if this hashcode works in hashmap */
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

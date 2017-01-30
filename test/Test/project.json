@@ -16,6 +16,10 @@
     "RestfulApi.App": {
         "version": "1.1.0",
         "target": "project"
+    },
+    "Data.App": {
+        "version": "1.1.0",
+        "target": "project"
     }
   },
   "testRunner": "xunit",
