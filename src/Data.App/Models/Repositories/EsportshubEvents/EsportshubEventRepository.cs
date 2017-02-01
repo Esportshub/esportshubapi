@@ -22,9 +22,9 @@ namespace Data.App.Models.Repositories.EsportshubEvents
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<EsportshubEvent> FindAsync(int id)
+        public async Task<EsportshubEvent> FindAsync(Guid guid)
         {
-            return await _internalRepository.FindAsync(id);
+            return await _internalRepository.FindAsync(guid);
         }
 
         public async Task<bool> SaveAsync()
@@ -37,9 +37,9 @@ namespace Data.App.Models.Repositories.EsportshubEvents
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public EsportshubEvent Find(int id)
+        public EsportshubEvent Find(Guid guid)
         {
-            return _internalRepository.Find(id);
+            return _internalRepository.Find(guid);
         }
 
         public void Insert(EsportshubEvent entity)
@@ -47,9 +47,9 @@ namespace Data.App.Models.Repositories.EsportshubEvents
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid guid)
         {
-            _internalRepository.Delete(id);
+            _internalRepository.Delete(guid);
         }
 
         public void Update(EsportshubEvent entity)

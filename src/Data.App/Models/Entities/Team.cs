@@ -37,6 +37,9 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => TeamId;
 
+        [NotMapped]
+        public Guid Guid => TeamGuid;
+
         public override bool Equals(object obj)
         {
             Team team = (Team) obj;

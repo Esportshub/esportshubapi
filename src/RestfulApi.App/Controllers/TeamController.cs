@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,7 +7,6 @@ using Data.App.Models.Repositories.Teams;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ErrorDtos;
-using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.TeamDtos;
 
 namespace RestfulApi.App.Controllers
@@ -26,17 +26,18 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> Get()
+        public async Task<IActionResult> Get()
         {
-            var teams = await _teamRepository.FindByAsync(null, "");
-            var teamsDto = teams.Select(_mapper.Map<TeamDto>);
-            return Json(teamsDto);
+            var teams = await _teamRepository.FindByAsync(team => team.TeamGuid == Guid.Empty, "");
+            if (teams == null) return new NotFoundResult();
+            var teamDtos = teams.Select(_mapper.Map<TeamDto>);
+            return Json(teamDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
+            if (Guid.Empty == id)
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
@@ -52,25 +53,21 @@ namespace RestfulApi.App.Controllers
             if (teamDto == null) return BadRequest("Invalid input");
 
             var team = _mapper.Map<Team>(teamDto);
-            //Check if user exist
+
             _teamRepository.Insert(team);
 
             return await _teamRepository.SaveAsync()
-                ? CreatedAtRoute("GetTeam??", new {Id = team.TeamId}, teamDto)
+                ? CreatedAtRoute("GetTeam", new {Id = team.TeamId}, teamDto)
                 : StatusCode(500, "Error while processing");
         }
 
-<<<<<<< HEAD
-        [HttpPatch("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id,[FromBody] TeamDto teamDto)
-=======
+
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update([FromBody] TeamDto teamDto)
->>>>>>> origin/master
+        public async Task<IActionResult> Update(Guid id, [FromBody] TeamDto teamDto)
         {
             if (teamDto == null) return BadRequest();
 
-            var team = await _teamRepository.FindAsync(teamDto.TeamId);
+            var team = await _teamRepository.FindAsync(teamDto.TeamGuid);
             if (team == null) return NotFound();
 
             _teamRepository.Update(team);
@@ -80,7 +77,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var team = await _teamRepository.FindAsync(id);
 

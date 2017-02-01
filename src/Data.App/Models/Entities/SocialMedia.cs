@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.App.Models.Entities
 {
-    public class SocialMedia
+    public class SocialMedia : IEsportshubEntity
     {
         public int SocialMediaId { get; set; }
 
@@ -12,5 +13,11 @@ namespace Data.App.Models.Entities
 
         public string Name { get; set; }
 
+
+        [NotMapped]
+        public int Id => SocialMediaId;
+
+        [NotMapped]
+        public Guid Guid => SocialMediaGuid;
     }
 }

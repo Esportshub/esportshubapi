@@ -5,7 +5,6 @@ namespace RestfulApi.App.Dtos.EsportshubEventsDtos
     public class EsportshubEventDto
     {
 
-        public int EsportshubEventId { get; set; }
         public Guid EsportshubEventGuid { get; set; }
         public string Name { get; set; }
         public DateTime Start { get; set; }

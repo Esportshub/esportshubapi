@@ -37,6 +37,9 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => GameId;
 
+        [NotMapped]
+        public Guid Guid => GameGuid;
+
         public override bool Equals(object obj)
         {
             Game game = (Game)obj;

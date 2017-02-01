@@ -9,12 +9,12 @@ namespace Data.App.Models.Repositories.Integrations
     public interface IIntegrationRepository
     {
         Task<IEnumerable<Integration>> FindByAsync(Expression<Func<Integration, bool>> filter, string includeProperties);
-        Task<Integration> FindAsync(int id);
+        Task<Integration> FindAsync(Guid guid);
         Task<bool> SaveAsync();
         IEnumerable<Integration>  FindBy(Expression<Func<Integration, bool>> filter, string includeProperties);
-        Integration Find(int id);
+        Integration Find(Guid guid);
         void Insert(Integration entity);
-        void Delete(int id);
+        void Delete(Guid guid);
         void Update(Integration entity);
         bool Save();
     }

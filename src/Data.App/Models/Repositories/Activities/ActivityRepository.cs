@@ -21,7 +21,7 @@ namespace Data.App.Models.Repositories.Activities
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Activity> FindAsync(int id)
+        public async Task<Activity> FindAsync(Guid id)
         {
             return await _internalRepository.FindAsync(id);
         }
@@ -36,9 +36,9 @@ namespace Data.App.Models.Repositories.Activities
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Activity Find(int id)
+        public Activity Find(Guid guid)
         {
-            return _internalRepository.Find(id);
+            return _internalRepository.Find(guid);
         }
 
         public void Insert(Activity entity)
@@ -46,9 +46,9 @@ namespace Data.App.Models.Repositories.Activities
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid guid)
         {
-            _internalRepository.Delete(id);
+            _internalRepository.Delete(guid);
         }
 
         public void Update(Activity entity)

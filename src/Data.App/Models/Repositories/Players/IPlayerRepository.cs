@@ -9,12 +9,12 @@ namespace Data.App.Models.Repositories.Players
     public interface IPlayerRepository
     {
         Task<IEnumerable<Player>> FindByAsync(Expression<Func<Player, bool>> filter, string includeProperties);
-        Task<Player> FindAsync(int id);
+        Task<Player> FindAsync(Guid guid);
         Task<bool> SaveAsync();
         IEnumerable<Player>  FindBy(Expression<Func<Player, bool>> filter, string includeProperties);
-        Player Find(int id);
+        Player Find(Guid guid);
         void Insert(Player entity);
-        void Delete(int id);
+        void Delete(Guid guid);
         void Update(Player entity);
         bool Save();
     }

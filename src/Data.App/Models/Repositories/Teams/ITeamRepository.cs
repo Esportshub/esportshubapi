@@ -9,12 +9,12 @@ namespace Data.App.Models.Repositories.Teams
     public interface ITeamRepository
     {
         Task<IEnumerable<Team>> FindByAsync(Expression<Func<Team, bool>> filter, string includeProperties);
-        Task<Team> FindAsync(int id);
+        Task<Team> FindAsync(Guid guid);
         Task<bool> SaveAsync();
         IEnumerable<Team>  FindBy(Expression<Func<Team, bool>> filter, string includeProperties);
-        Team Find(int id);
+        Team Find(Guid guid);
         void Insert(Team entity);
-        void Delete(int id);
+        void Delete(Guid guid);
         void Update(Team entity);
         bool Save();
     }

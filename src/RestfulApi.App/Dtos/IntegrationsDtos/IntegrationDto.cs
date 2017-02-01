@@ -1,10 +1,11 @@
-﻿using RestfulApi.App.Dtos.SocialMediaDtos;
+﻿using System;
+using RestfulApi.App.Dtos.SocialMediaDtos;
 
 namespace RestfulApi.App.Dtos.IntegrationsDtos
 {
     public class IntegrationDto
     {
-        public int IntegrationId { get; set; }
+        public Guid IntegrationGuid { get; set; }
         public SocialMediaDto SocialMedia { get; set; }
 
     }

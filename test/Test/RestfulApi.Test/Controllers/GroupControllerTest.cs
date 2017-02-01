@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
@@ -34,14 +36,11 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class DeleteGroupTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfGroupDosentExist(int id)
+            [Fact]
+            public async void ReturnsNotFoundResultIfGroupDoesntExistWithValidIdtTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
 
@@ -50,29 +49,26 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<NotFoundResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfAGroupIsDeletedWithValidData(int id)
+            [Fact]
+            public async void ReturnsNoContentResultIfAGroupIsDeletedWithValidDataTest()
             {
+                MockExtensions.ResetAll(Mocks());
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                var id = new Guid();
+
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Delete(id));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() { GroupGuid = id });
                 Assert.IsType<NoContentResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfDataIsNotDeleteWithValidGroupId(int id)
+            [Fact]
+            public async void ReturnsObjectResultIfDataIsNotDeleteWithValidGroupIdTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
                 var instance = (Group)Activator.CreateInstance(typeof(Group), nonPublic: true);
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Delete(id));
@@ -85,62 +81,56 @@ namespace Test.RestfulApi.Test.Controllers
         public class UpdateGroupTest
         {
             [Fact]
-            public async void GetBadRequestTypeIfGroupDtoIsNull()
+            public async void ReturnBadRequestResultTypeIfGroupDtoIsNullTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                GroupDto groupDto = null;
-
-                var result = await GroupController.Update(1, groupDto);
+                var result = await GroupController.Update(new Guid(), null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfGroupDosentExist(int id)
+            [Fact]
+            public async void ReturnsNotFoundResultIfGroupDoesntExistWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() { GroupGuid = id});
 
                 Assert.IsType<NotFoundResult>(result);
             }
 
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfDataIsNotUpdateWithValidGroupDto(int id)
+            [Fact]
+            public async void ReturnsObjectResultIfDataIsNotUpdateWithValidGroupDtoTest()
             {
+
+                MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Update(instance));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupGuid = id});
                 Assert.IsType<ObjectResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfAGroupIsUpdateWithValidData(int id)
+            [Fact]
+            public async void ReturnsNoContentResultIfAGroupIsUpdateWithValidDataTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Update(instance));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await GroupController.Update(id, new GroupDto() {GroupId = id});
+                var result = await GroupController.Update(id, new GroupDto() {GroupGuid = id});
                 Assert.IsType<NoContentResult>(result);
             }
         }
@@ -148,11 +138,13 @@ namespace Test.RestfulApi.Test.Controllers
         public class PostGroupTest
         {
             [Fact]
-            public async void GetCreateAtRouteResultIfDataIsValid()
+            public async void ReturnsCreatedAtRouteResultIfGroupDtoIsValid()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                instance.GroupGuid = id;
 
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 GroupRepository.Setup(x => x.Insert(instance));
@@ -163,7 +155,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void GetObjectResultIfValiddDataIsNotSaved()
+            public async void ReturnsObjectResultIfValidGroupIsNotSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -171,44 +163,56 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
                 GroupRepository.Setup(x => x.Insert(instance));
 
-                var result = await GroupController.Create(new GroupDto());
+                var result = await GroupController.Create(new GroupDto()) as ObjectResult;
                 Assert.IsType<ObjectResult>(result);
             }
 
             [Fact]
-            public async void GetBadRequestTypeIfGroupDtoIsNull()
+            public async void ReturnsObjectResultWithStatusCode500IfValidGroupIsNotSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                GroupDto groupDto = null;
+                var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+                GroupRepository.Setup(x => x.Insert(instance));
 
-                var result = await GroupController.Create(groupDto);
+                var result = await GroupController.Create(new GroupDto()) as ObjectResult;
+                Assert.IsType<ObjectResult>(result);
+                Assert.Equal(500, result.StatusCode);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestTypeIfGroupDtoIsNullTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await GroupController.Create(null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void CheckIfCreateAtRouteIsCreatedWithRightValuesWhenAValidGroupIsCreated(int id)
+            [Fact]
+            public async void IfCreatedAtRouteIsCreatedWithRightValuesWhenAValidGroupIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
-                instance.GroupId = id;
+                instance.GroupGuid = id;
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 GroupRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Group>(It.IsAny<GroupDto>())).Returns(instance);
+                var groupDto = new GroupDto {GroupGuid = id};
+                Mapper.Setup(m => m.Map<Group>(groupDto)).Returns(instance);
 
-                var result = await GroupController.Create(new GroupDto()) as CreatedAtRouteResult;
-                var routeValue = (int) result.RouteValues["Id"];
-                Assert.Equal(routeValue, id);
+                var result = await GroupController.Create(groupDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
+                Guid guid;
+                Assert.True(Guid.TryParse((String)result.RouteValues["id"], out guid));
+                Assert.True(id == guid);
             }
 
             [Fact]
-            public async void CheckIfCreatedAtRouteObjectIsGroupWhenAValidTeamIsSaved()
+            public async void IfCreatedAtRouteObjectIsGroupDtoWhenAValidGroupIsSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -218,6 +222,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Mapper.Setup(m => m.Map<Group>(It.IsAny<GroupDto>())).Returns(instance);
 
                 var result = await GroupController.Create(new GroupDto()) as CreatedAtRouteResult;
+                Assert.NotNull(result);
                 var routeObject = result.Value as GroupDto;
                 Assert.IsType<GroupDto>(routeObject);
             }
@@ -225,60 +230,122 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class GetGroupTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void ReturnJsonAsResultWithIdInputTest(int id)
+            [Fact]
+            public async void ReturnsJsonResultWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                instance.GroupGuid = id;
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
-                Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(new GroupDto());
+                var groupDto = new GroupDto {GroupGuid = id};
+                Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(groupDto);
 
                 var result = await GroupController.Get(id) as JsonResult;
                 Assert.IsType<JsonResult>(result);
             }
 
             [Fact]
-            public async void ReturnJsonAsResultTest()
+            public async void ReturnsJsonResultWithValueGroupDtoWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-
-                var result = await GroupController.Get();
-                Assert.IsType<JsonResult>(result);
-            }
-
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void IsTypeOfGroupeDtoTest(int id)
-            {
-                MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
 
                 Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(new GroupDto());
 
                 var result = await GroupController.Get(id) as JsonResult;
+                Assert.NotNull(result);
                 var teamDto = result.Value as GroupDto;
                 Assert.IsType<GroupDto>(teamDto);
             }
 
-            [Theory]
-            [InlineData(0)]
-            [InlineData(-1)]
-            [InlineData(-50)]
-            [InlineData(-100000)]
-            public async void InvalidInputTest(int id)
+            [Fact]
+            public async void ReturnsBadRequestObjectResultWhenInvalidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = new Guid();
                 var result = await GroupController.Get(id) as BadRequestObjectResult;
 
                 Assert.IsType<BadRequestObjectResult>(result);
+            }
+        }
+
+        public class GetGroupsTest
+        {
+            private IEnumerable<Group> GetGroups(Guid[] groupIds)
+            {
+                IEnumerable<Group> groups = new List<Group>();
+                foreach (var groupId in groupIds)
+                {
+                    var group = (Group) Activator.CreateInstance(typeof(Group), true);
+                    group.GroupGuid = groupId;
+                    groups.Append(group);
+                }
+                return groups;
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var groupIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var groups = GetGroups(groupIds);
+
+                GroupRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Group, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(groups);
+                foreach (var groupId in groupIds)
+                {
+                    var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                    instance.GroupGuid = groupId;
+                    var groupDto = new GroupDto {GroupGuid = groupId};
+                    Mapper.Setup(x => x.Map<GroupDto>(instance)).Returns(groupDto);
+                }
+
+                var esportshubEventDtos = await GroupController.Get() as JsonResult;
+                Assert.IsType<JsonResult>(esportshubEventDtos);
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWithIEnumerableGroupDtoAsValueWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var groupIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var groupEvents = GetGroups(groupIds);
+
+                GroupRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Group, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(groupEvents);
+                foreach (var groupId in groupIds)
+                {
+                    var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                    instance.GroupGuid = groupId;
+                    var groupDto = new GroupDto {GroupGuid = groupId};
+                    Mapper.Setup(x => x.Map<GroupDto>(instance)).Returns(groupDto);
+                }
+
+                var result = await GroupController.Get() as JsonResult;
+                Assert.NotNull(result);
+                var groupDtos = result.Value as IEnumerable<GroupDto>;
+                Assert.NotNull(groupDtos);
+                foreach (var groupDto in groupDtos)
+                {
+                    Assert.True(groupIds.Contains(groupDto.GroupGuid));
+                }
+            }
+
+            [Fact]
+            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                GroupRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Group, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(null);
+
+                var result = await GroupController.Get() as NotFoundResult;
+                Assert.IsType<NotFoundResult>(result);
             }
         }
     }

@@ -47,11 +47,10 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => GroupId;
 
-<<<<<<< HEAD
-        public int GroupId { get; set; }
-=======
+        [NotMapped]
+        public Guid Guid => GroupGuid;
+
         public int GroupId { get;  set; }
->>>>>>> origin/master
 
         public Guid GroupGuid { get; set; }
 

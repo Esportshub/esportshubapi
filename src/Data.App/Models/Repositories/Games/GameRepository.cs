@@ -23,9 +23,9 @@ namespace Data.App.Models.Repositories.Games
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Game> FindAsync(int id)
+        public async Task<Game> FindAsync(Guid guid)
         {
-            return await _internalRepository.FindAsync(id);
+            return await _internalRepository.FindAsync(guid);
         }
 
         public async Task<bool> SaveAsync()
@@ -38,9 +38,9 @@ namespace Data.App.Models.Repositories.Games
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Game Find(int id)
+        public Game Find(Guid guid)
         {
-            return _internalRepository.Find(id);
+            return _internalRepository.Find(guid);
         }
 
         public void Insert(Game entity)
@@ -48,9 +48,9 @@ namespace Data.App.Models.Repositories.Games
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid guid)
         {
-            _internalRepository.Delete(id);
+            _internalRepository.Delete(guid);
         }
 
         public void Update(Game entity)

@@ -19,13 +19,13 @@ namespace Data.App.Models.Builders.EsportshubEventBuilders
 
         public IEsportshubEventBuilder SetEsportshubEventGuid(Guid eventGuid)
         {
-            _esportshubEvent.EventGuid = eventGuid;
+            _esportshubEvent.EsportshubEventGuid = eventGuid;
             return this;
         }
 
         public IEsportshubEventBuilder SetEsportshubEventId(int eventId)
         {
-            _esportshubEvent.EventId = eventId;
+            _esportshubEvent.EsportshubEventId = eventId;
             return this;
         }
 

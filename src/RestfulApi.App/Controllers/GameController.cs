@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -25,12 +26,12 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _gameRepository.FindByAsync(null, ""));
+        public async Task<IActionResult> Get() => Json(await _gameRepository.FindByAsync(game => game.GameGuid == Guid.Empty, ""));
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
+            if (Guid.Empty == id)
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
@@ -53,9 +54,9 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] GameDto gameDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] GameDto gameDto)
         {
-            if (gameDto == null || gameDto.GameId != id) return BadRequest();
+            if (gameDto == null || gameDto.GameGuid != id) return BadRequest();
 
             var _ = await _gameRepository.FindAsync(id);
             if (_ == null) return NotFound();
@@ -68,7 +69,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpDelete("{id:int:min(1)}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var game = await _gameRepository.FindAsync(id);
 

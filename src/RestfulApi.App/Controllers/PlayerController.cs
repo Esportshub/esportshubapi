@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,9 +36,9 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
+            if (Guid.Empty == id)
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
@@ -59,10 +60,11 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] PlayerDto playerDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] PlayerDto playerDto)
         {
             if (playerDto == null) return BadRequest();
-            if (!(id > 0)) return BadRequest(new InvalidRangeOnInputDto());
+            if (Guid.Empty == id) return BadRequest(new InvalidRangeOnInputDto());
+
             var _ = await _playerRepository.FindAsync(id);
             if (_ == null) return NotFound();
             Player player = _mapper.Map<Player>(playerDto);
@@ -73,9 +75,9 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (!(id > 0)) return BadRequest(new InvalidInputTypeErrorDto());
+            if (Guid.Empty == id) return BadRequest(new InvalidInputTypeErrorDto());
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
             _playerRepository.Delete(id);

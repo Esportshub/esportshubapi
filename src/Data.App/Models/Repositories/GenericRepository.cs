@@ -33,7 +33,7 @@ namespace Data.App.Models.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity> FindAsync(int id) => await _dbSet.SingleAsync(x => x.Id == id);
+        public async Task<TEntity> FindAsync(Guid guid) => await _dbSet.SingleAsync(x => x.Guid.Equals(guid));
 
         public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() >= 0;
 
@@ -46,7 +46,7 @@ namespace Data.App.Models.Repositories
             return query.ToList();
         }
 
-        public TEntity Find(int id) => _dbSet.Single(x => x.Id == id);
+        public TEntity Find(Guid guid) => _dbSet.Single(x => x.Guid == guid);
 
         public void Insert(TEntity entity) => _dbSet.Add(entity);
 
@@ -57,9 +57,9 @@ namespace Data.App.Models.Repositories
             _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
-        public async void Delete(int id)
+        public async void Delete(Guid guid)
         {
-            var entityToDelete = await FindAsync(id);
+            var entityToDelete = await FindAsync(guid);
             Delete(entityToDelete);
         }
 

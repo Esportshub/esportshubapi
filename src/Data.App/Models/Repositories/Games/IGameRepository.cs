@@ -9,12 +9,12 @@ namespace Data.App.Models.Repositories.Games
     public interface IGameRepository
     {
         Task<IEnumerable<Game>> FindByAsync(Expression<Func<Game, bool>> filter, string includeProperties);
-        Task<Game> FindAsync(int id);
+        Task<Game> FindAsync(Guid guid);
         Task<bool> SaveAsync();
         IEnumerable<Game>  FindBy(Expression<Func<Game, bool>> filter, string includeProperties);
-        Game Find(int id);
+        Game Find(Guid guid);
         void Insert(Game entity);
-        void Delete(int id);
+        void Delete(Guid guid);
         void Update(Game entity);
         bool Save();
     }

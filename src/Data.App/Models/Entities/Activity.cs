@@ -33,6 +33,9 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => ActivityId;
 
+        [NotMapped]
+        public Guid Guid => ActivityGuid;
+
         public override bool Equals(object obj)
         {
             Activity activity = (Activity)obj;

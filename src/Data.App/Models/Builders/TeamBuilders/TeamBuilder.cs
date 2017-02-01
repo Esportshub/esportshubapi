@@ -24,19 +24,11 @@ namespace Data.App.Models.Builders.TeamBuilders
             _team.EsportshubEvents = esportshubEvents;
             return this;
         }
-<<<<<<< HEAD
-         
+
         public ITeamBuilder SetGame(Game game)
         {
-           _team.Game = game;
-           return this;
-=======
-
-        public ITeamBuilder SetGame(Game input)
-        {
-            _team.Game = input;
+            _team.Game = game;
             return this;
->>>>>>> origin/master
         }
 
         public ITeamBuilder SetName(string name)
@@ -47,13 +39,8 @@ namespace Data.App.Models.Builders.TeamBuilders
 
         public ITeamBuilder SetPlayerTeams(List<PlayerTeams> playerTeams)
         {
-<<<<<<< HEAD
            _team.PlayerTeams = playerTeams;
-           return this;
-=======
-            _team.PlayerTeams = input;
             return this;
->>>>>>> origin/master
         }
 
         public ITeamBuilder TeamGuid(Guid guid)

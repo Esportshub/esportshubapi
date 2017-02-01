@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,17 +27,18 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> Get()
+        public async Task<IActionResult> Get()
         {
-            var activities = await _activityRepository.FindByAsync(null, "");
-            var activitiesDto = activities.Select(_mapper.Map<ActivityDto>);
-            return Json(activitiesDto);
+            var activities = await _activityRepository.FindByAsync(activity => activity.ActivityGuid == Guid.Empty, "");
+            if (activities == null) return new NotFoundResult();
+            var activityDtos = activities.Select(_mapper.Map<ActivityDto>);
+            return Json(activityDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
+            if (Guid.Empty == id)
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
@@ -56,14 +58,14 @@ namespace RestfulApi.App.Controllers
             _activityRepository.Insert(activity);
 
             return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activityDto)
+                ? CreatedAtRoute("GetActivity", new {Guid = activity.ActivityGuid}, activityDto)
                 : StatusCode(500, "Error while processing");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ActivityDto activityDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null || activityDto.ActivityId != id) return BadRequest();
+            if (activityDto == null || activityDto.ActivityGuid != id) return BadRequest();
 
             var _ = await _activityRepository.FindAsync(id);
             if (_ == null) return NotFound();
@@ -76,7 +78,7 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var activity = await _activityRepository.FindAsync(id);
 
