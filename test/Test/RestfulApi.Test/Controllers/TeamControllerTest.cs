@@ -140,7 +140,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
         }
 
-        public class PostTeamTest
+        public class CreateTeamTest
         {
             [Fact]
             public async void ReturnsCreatedAtRouteResultIfTeamDtoIsValidTest()
