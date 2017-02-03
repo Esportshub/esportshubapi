@@ -30,7 +30,11 @@ namespace Data.App.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
+        [NotMapped]
         public int Id => IntegrationId;
+
+        [NotMapped]
+        public Guid Guid => IntegrationGuid;
 
         public override bool Equals(object obj)
         {

@@ -9,12 +9,9 @@ namespace RestfulApi.App.Dtos.TeamDtos
 
     public class TeamDto
     {
-
-        public int TeamId { get;set; }
+        public Guid TeamGuid { get; set; }
 
         public string Name { get; set; }
-
-        public Guid TeamGuid { get; set; }
 
         public DateTime Created { get;set; }
 

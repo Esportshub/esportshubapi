@@ -19,18 +19,19 @@ namespace Test.RestfulApi.Test.Repositories
             private readonly Mock<EsportshubContext> _esportshubContext = new Mock<EsportshubContext>();
 
 
-            private IEnumerable<Player> GetPlayers(IEnumerable<int> playerIds)
+            private IEnumerable<Player> GetPlayers(IEnumerable<Guid> playerIds)
             {
                 IEnumerable<Player> players = new List<Player>();
                 foreach (var playerId in playerIds)
                 {
                     var player = (Player) Activator.CreateInstance(typeof(Player), true);
-                    player.PlayerId = playerId;
+                    player.PlayerGuid = playerId;
                     players.Append(player);
                 }
                 return players;
             }
 
+<<<<<<< HEAD
             [Theory]
             [InlineData(new[] {1, 2, 3, 4})]
             [InlineData(new[] {500, 700, 750, 9999})]
@@ -44,8 +45,18 @@ namespace Test.RestfulApi.Test.Repositories
                 IPlayerRepository playerRepository =
                     new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
                 var result = await playerRepository.FindByAsync(player => ids.Contains(player.PlayerId), "");
+=======
+            [Fact]
+            public async void FindsAsyncReturnsTheCorrectAmountOfPlayers()
+            {
+                var playerIds = new[] {new Guid(), new Guid(), new Guid(), new Guid()};
+                var players = GetPlayers(playerIds);
+                _internalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).ReturnsAsync(players);
+                IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
+                var result = await playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerGuid), "");
+>>>>>>> 81770255d15633fda09b7e992f52b76c277f82fb
                 Assert.NotNull(result);
-                Assert.IsType<IEnumerable<Player>>(result);
+                Assert.IsType<List<Player>>(result);
                 Assert.Equal(4, result.ToList().Count);
             }
         }

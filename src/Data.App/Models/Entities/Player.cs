@@ -24,6 +24,7 @@ namespace Data.App.Models.Entities
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; private set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
@@ -41,6 +42,9 @@ namespace Data.App.Models.Entities
 
         [NotMapped]
         int IEsportshubEntity.Id => PlayerId;
+
+        [NotMapped]
+        public Guid Guid => PlayerGuid;
 
         public override bool Equals (object obj)
         {

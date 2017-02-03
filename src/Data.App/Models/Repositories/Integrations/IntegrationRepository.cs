@@ -22,9 +22,9 @@ namespace Data.App.Models.Repositories.Integrations
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public virtual async Task<Integration> FindAsync(int id)
+        public virtual async Task<Integration> FindAsync(Guid guid)
         {
-            return await _internalRepository.FindAsync(id);
+            return await _internalRepository.FindAsync(guid);
         }
 
         public virtual async Task<bool> SaveAsync()
@@ -37,9 +37,9 @@ namespace Data.App.Models.Repositories.Integrations
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public virtual Integration Find(int id)
+        public virtual Integration Find(Guid guid)
         {
-            return _internalRepository.Find(id);
+            return _internalRepository.Find(guid);
         }
 
         public virtual void Insert(Integration entity)
@@ -47,9 +47,9 @@ namespace Data.App.Models.Repositories.Integrations
             _internalRepository.Insert(entity);
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(Guid guid)
         {
-            _internalRepository.Delete(id);
+            _internalRepository.Delete(guid);
         }
 
         public virtual void Update(Integration entity)

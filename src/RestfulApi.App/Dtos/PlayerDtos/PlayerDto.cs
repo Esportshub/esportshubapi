@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Data.App.Extensions.Entities;
-using RestfulApi.App.Dtos.AccountDtos;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.IntegrationsDtos;
 
@@ -9,8 +8,6 @@ namespace RestfulApi.App.Dtos.PlayerDtos
 {
     public sealed class PlayerDto
     {
-        public int PlayerId { get; set; }
-
         public Guid PlayerGuid { get; set; }
 
         public string Nickname { get; set; }
@@ -18,7 +15,6 @@ namespace RestfulApi.App.Dtos.PlayerDtos
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
 
-        public ApplicationUserDto ApplicationUser { get; set; }
         public string AccountForeignKey { get; set; }
 
         public List<PlayerDto> Followers { get; set; }
@@ -28,7 +24,6 @@ namespace RestfulApi.App.Dtos.PlayerDtos
         public List<PlayerTeamsDto> PlayerTeams { get; set; }
         public List<IntegrationDto> Integrations { get; set; }
         public List<ActivityDto> Activities { get; set; }
-
         public List<PlayerGroupsDto> PlayerGroups { get; set; }
 
         public override bool Equals (object obj)
@@ -36,7 +31,7 @@ namespace RestfulApi.App.Dtos.PlayerDtos
             PlayerDto objPlayer = (PlayerDto)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.PlayerId == PlayerId;
+                return objPlayer.PlayerGuid == PlayerGuid;
 
             return false;
         }

@@ -32,10 +32,6 @@ namespace RestfulApi.App.Dtos.GroupDtos
             Private
         }
 
-
-
-        public int GroupId { get; set; }
-
         public Guid GroupGuid { get; set; }
 
         public string Name { get; set; }
@@ -51,6 +47,5 @@ namespace RestfulApi.App.Dtos.GroupDtos
         public List<PlayerGroupsDto> PlayerGroups { get; set; }
 
         public List<EsportshubEventDto> EsportshubEvents { get; set; }
-
     }
 }

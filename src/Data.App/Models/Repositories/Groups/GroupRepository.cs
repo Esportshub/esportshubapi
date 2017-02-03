@@ -22,9 +22,9 @@ namespace Data.App.Models.Repositories.Groups
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Group> FindAsync(int id)
+        public async Task<Group> FindAsync(Guid guid)
         {
-            return await _internalRepository.FindAsync(id);
+            return await _internalRepository.FindAsync(guid);
         }
 
         public async Task<bool> SaveAsync()
@@ -38,9 +38,9 @@ namespace Data.App.Models.Repositories.Groups
             return _internalRepository.FindBy(filter, includeProperties);
         }
 
-        public Group Find(int id)
+        public Group Find(Guid guid)
         {
-            return _internalRepository.Find(id);
+            return _internalRepository.Find(guid);
         }
 
         public void Insert(Group entity)
@@ -48,9 +48,9 @@ namespace Data.App.Models.Repositories.Groups
             _internalRepository.Insert(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid guid)
         {
-            _internalRepository.Delete(id);
+            _internalRepository.Delete(guid);
         }
 
         public void Update(Group entity)

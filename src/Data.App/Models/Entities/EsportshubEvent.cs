@@ -18,6 +18,9 @@ namespace Data.App.Models.Entities
         [NotMapped]
         public int Id => EsportshubEventId;
 
+        [NotMapped]
+        public Guid Guid => EsportshubEventGuid;
+
         public override bool Equals(object obj)
         {
             EsportshubEvent @event = (EsportshubEvent) obj;

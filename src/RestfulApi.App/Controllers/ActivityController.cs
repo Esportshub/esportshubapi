@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -6,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 using RestfulApi.App.Dtos.ErrorDtos;
-using RestfulApi.App.Dtos.PlayerDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -17,7 +18,8 @@ namespace RestfulApi.App.Controllers
         private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
 
-        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger, IMapper mapper)
+        public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger,
+            IMapper mapper)
         {
             _activityRepository = activityRepository;
             _logger = logger;
@@ -25,12 +27,18 @@ namespace RestfulApi.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _activityRepository.FindByAsync(null, ""));
+        public async Task<IActionResult> Get()
+        {
+            var activities = await _activityRepository.FindByAsync(activity => activity.ActivityGuid == Guid.Empty, "");
+            if (activities == null) return new NotFoundResult();
+            var activityDtos = activities.Select(_mapper.Map<ActivityDto>);
+            return Json(activityDtos);
+        }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
+            if (Guid.Empty == id)
             {
                 return BadRequest(new InvalidRangeOnInputDto());
             }
@@ -38,37 +46,47 @@ namespace RestfulApi.App.Controllers
             if (activity == null) return NotFound();
             var activityDto = _mapper.Map<ActivityDto>(activity);
             return Json(activityDto);
-        }
+         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null) return BadRequest();
-            Activity activity = _mapper.Map<Activity>(activityDto);
+            if (activityDto == null)
+            {
+                return new BadRequestResult();
+            }
+            var activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
-            return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activity)
-                : StatusCode(500, "Error while processing");
+
+            if (await _activityRepository.SaveAsync())
+            {
+                return new CreatedAtRouteResult("Get", new {Id = activity.ActivityGuid}, activityDto);
+            }
+            return StatusCode(500, "Error while processing");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ActivityDto activityDto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null || activityDto.ActivityId != id) return BadRequest();
+            if (activityDto == null || activityDto.ActivityGuid != id) return BadRequest();
 
             var _ = await _activityRepository.FindAsync(id);
             if (_ == null) return NotFound();
 
             Activity activity = _mapper.Map<Activity>(activityDto);
             _activityRepository.Update(activity);
-            return await _activityRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<ActivityDto>(activity));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var activity = await _activityRepository.FindAsync(id);
 
