@@ -14,14 +14,12 @@ namespace Test.RestfulApi.Test.Controllers
 {
     public class PlayerControllerTest : IDisposable
     {
-
         private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository>();
         private static readonly Mock<ILogger<PlayerController>> Logger = new Mock<ILogger<PlayerController>>();
         private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
 
         public class GetPlayerTest
         {
-
             [Theory]
             [InlineData(1)]
             [InlineData(37)]
@@ -32,7 +30,8 @@ namespace Test.RestfulApi.Test.Controllers
                 Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
                 player.PlayerId = id;
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
-                PlayerController playerController = new PlayerController(PlayerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
+                PlayerController playerController = new PlayerController(PlayerRepository.Object,
+                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
                 var jsonResult = await playerController.Get(id);
 
                 Assert.IsType<JsonResult>(jsonResult);
@@ -53,15 +52,15 @@ namespace Test.RestfulApi.Test.Controllers
             [InlineData(100000, "")]
             public async void CorrectIdTest(int id, string nickName)
             {
-                Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
-                PlayerDto playerDto = CreatePlayerDto(id, nickName);
+                var player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                var playerDto = CreatePlayerDto(id, nickName);
 
                 Mapper.Setup(mapper => mapper.Map<PlayerDto>(It.IsAny<Player>())).Returns(playerDto);
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
-                PlayerController playerController = new PlayerController(PlayerRepository.Object, Logger.Object, Mapper.Object);
-                JsonResult jsonResult = await playerController.Get(id) as JsonResult;
+                var playerController = new PlayerController(PlayerRepository.Object, Logger.Object, Mapper.Object);
+                var jsonResult = await playerController.Get(id) as JsonResult;
                 Assert.NotNull(jsonResult);
-                PlayerDto playerDtoResult = jsonResult.Value as PlayerDto;
+                var playerDtoResult = jsonResult.Value as PlayerDto;
 
                 Assert.NotNull(playerDtoResult);
                 Assert.Equal(id, playerDtoResult.PlayerId);
@@ -78,7 +77,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
 
                 playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object,
+                var playerController = new PlayerController(playerRepository.Object,
                     new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
 
                 var result = await playerController.Get(id) as BadRequestObjectResult;
@@ -97,10 +96,11 @@ namespace Test.RestfulApi.Test.Controllers
             [InlineData(-100000)]
             public async void ZeroAndBelowIdTest(int id)
             {
-                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+                var playerRepository = new Mock<IPlayerRepository>();
 
                 playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
+                var playerController = new PlayerController(playerRepository.Object,
+                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
 
                 var result = await playerController.Get(id) as BadRequestObjectResult;
 

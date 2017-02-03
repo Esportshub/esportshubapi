@@ -32,53 +32,46 @@ namespace Test.RestfulApi.Test.Repositories
             }
 
             [Theory]
-            [InlineData(new int[]{1,2,3,4})]
-            [InlineData(new int[]{500,700,750,9999})]
-            [InlineData(new int[]{50000,10000,90000,150000})]
+            [InlineData(new[] {1, 2, 3, 4})]
+            [InlineData(new[] {500, 700, 750, 9999})]
+            [InlineData(new[] {50000, 10000, 90000, 150000})]
             public async void FindsAsyncReturnsTheCorrectAmountOfPlayers(int[] ids)
             {
                 var players = GetPlayers(ids);
-                _internalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).ReturnsAsync(players);
-                IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
+                _internalPlayerRepository
+                    .Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(players);
+                IPlayerRepository playerRepository =
+                    new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
                 var result = await playerRepository.FindByAsync(player => ids.Contains(player.PlayerId), "");
                 Assert.NotNull(result);
                 Assert.IsType<IEnumerable<Player>>(result);
                 Assert.Equal(4, result.ToList().Count);
             }
-
-
-
         }
 
         public class FindAsyncTest
         {
-
         }
 
         public class SaveAsyncTest
         {
-
         }
 
         public class InsertTest
         {
-
         }
 
         public class DeleteTest
         {
-
         }
 
         public class UpdateTest
         {
-
         }
 
         public class SaveTest
         {
-
         }
-
     }
 }
