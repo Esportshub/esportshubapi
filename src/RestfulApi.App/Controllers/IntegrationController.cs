@@ -25,6 +25,7 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet(Name = "GetIntegrations")]
         public async Task<IActionResult> Get()
         {
             var integrations = await _integrationRepository.FindByAsync(integration => integration.Guid == Guid.Empty, "");
@@ -34,7 +35,7 @@ namespace RestfulApi.App.Controllers
             return Json(integrationsDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetIntegration")]
         public async Task<IActionResult> Get(Guid id)
         {
             if (Guid.Empty == id)
@@ -47,7 +48,7 @@ namespace RestfulApi.App.Controllers
             return Json(integrationDto);
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateIntegration")]
         public async Task<IActionResult> Create([FromBody] IntegrationDto integrationDto)
         {
             if (integrationDto == null) return BadRequest();
@@ -56,12 +57,14 @@ namespace RestfulApi.App.Controllers
 
             _integrationRepository.Insert(integration);
 
-            return await _integrationRepository.SaveAsync()
-                ? CreatedAtRoute("GetRepository", new {Id = integration.IntegrationId}, integrationDto)
-                : StatusCode(500, "Error while processing");
+            if (await _integrationRepository.SaveAsync())
+            {
+                return new CreatedAtRouteResult("GetIntegration", new { controller = "Integrations", Id = integration.Guid }, _mapper.Map<IntegrationDto>(integration));
+            }
+            return StatusCode(500, "Internal server error");
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}", Name = "UpdateIntegration")]
         public async Task<IActionResult> Update(Guid id, [FromBody] IntegrationDto integrationDto)
         {
             if (integrationDto == null) return BadRequest();
@@ -71,12 +74,16 @@ namespace RestfulApi.App.Controllers
             Integration integration = _mapper.Map<Integration>(integrationDto);
 
             _integrationRepository.Update(integration);
-            return await _integrationRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _integrationRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<IntegrationDto>(integration));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteIntegration")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var integration = await _integrationRepository.FindAsync(id);

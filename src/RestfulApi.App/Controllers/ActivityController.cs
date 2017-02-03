@@ -51,15 +51,19 @@ namespace RestfulApi.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null) return BadRequest();
-
+            if (activityDto == null)
+            {
+                return new BadRequestResult();
+            }
             var activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
 
-            return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Guid = activity.ActivityGuid}, activityDto)
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                return new CreatedAtRouteResult("Get", new {Id = activity.ActivityGuid}, activityDto);
+            }
+            return StatusCode(500, "Error while processing");
         }
 
         [HttpPut("{id}")]
@@ -72,9 +76,13 @@ namespace RestfulApi.App.Controllers
 
             Activity activity = _mapper.Map<Activity>(activityDto);
             _activityRepository.Update(activity);
-            return await _activityRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<ActivityDto>(activity));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]

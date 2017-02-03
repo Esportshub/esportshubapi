@@ -40,7 +40,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultIfGroupDoesntExistWithValidIdtTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
 
@@ -54,13 +54,15 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
-                var id = new Guid();
+                var id = Guid.NewGuid();
+                instance.GroupGuid = id;
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Delete(id));
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await GroupController.Update(id, new GroupDto() { GroupGuid = id });
+                var result = await GroupController.Delete(id);
+
                 Assert.IsType<NoContentResult>(result);
             }
 
@@ -68,7 +70,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfDataIsNotDeleteWithValidGroupIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Group)Activator.CreateInstance(typeof(Group), nonPublic: true);
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 GroupRepository.Setup(x => x.Delete(id));
@@ -94,7 +96,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultIfGroupDoesntExistWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 var result = await GroupController.Update(id, new GroupDto() { GroupGuid = id});
@@ -108,7 +110,7 @@ namespace Test.RestfulApi.Test.Controllers
             {
 
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -123,7 +125,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultIfAGroupIsUpdateWithValidDataTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
 
                 GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -141,7 +143,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsCreatedAtRouteResultIfGroupDtoIsValid()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
                 instance.GroupGuid = id;
@@ -195,7 +197,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void IfCreatedAtRouteIsCreatedWithRightValuesWhenAValidGroupIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
                 instance.GroupGuid = id;
@@ -234,7 +236,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
                 instance.GroupGuid = id;
@@ -251,7 +253,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithValueGroupDtoWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(new GroupDto());
 
@@ -265,7 +267,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsBadRequestObjectResultWhenInvalidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.Empty;
                 var result = await GroupController.Get(id) as BadRequestObjectResult;
 
                 Assert.IsType<BadRequestObjectResult>(result);
@@ -290,7 +292,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var groupIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var groupIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var groups = GetGroups(groupIds);
 
                 GroupRepository.Setup(
@@ -312,7 +314,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableGroupDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var groupIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var groupIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var groupEvents = GetGroups(groupIds);
 
                 GroupRepository.Setup(

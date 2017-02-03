@@ -58,7 +58,7 @@ namespace RestfulApi.App.Controllers
                 : StatusCode(500, "Error while processing");
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] EsportshubEventDto esportshubEventDto)
         {
             if (esportshubEventDto == null || esportshubEventDto.EsportshubEventGuid.Equals(id)) return BadRequest();
@@ -68,9 +68,13 @@ namespace RestfulApi.App.Controllers
             EsportshubEvent esportshubEvent = _mapper.Map<EsportshubEvent>(esportshubEventDto);
 
             _esportshubEventRepository.Update(esportshubEvent);
-            return await _esportshubEventRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _esportshubEventRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<EsportshubEventDto>(esportshubEvent));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]

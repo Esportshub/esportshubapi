@@ -71,9 +71,13 @@ namespace RestfulApi.App.Controllers
             if (team == null) return NotFound();
 
             _teamRepository.Update(team);
-            return await _teamRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _teamRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<TeamDto>(team));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]

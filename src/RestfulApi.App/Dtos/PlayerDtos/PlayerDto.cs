@@ -31,7 +31,7 @@ namespace RestfulApi.App.Dtos.PlayerDtos
             PlayerDto objPlayer = (PlayerDto)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.PlayerId == PlayerId;
+                return objPlayer.PlayerGuid == PlayerGuid;
 
             return false;
         }

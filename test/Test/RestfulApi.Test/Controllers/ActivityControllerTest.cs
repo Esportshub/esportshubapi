@@ -40,7 +40,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultIfActivityDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var guid = new Guid();
+                var guid = Guid.NewGuid();
 
                 ActivityRepository.Setup(x => x.FindAsync(guid)).ReturnsAsync(null);
 
@@ -53,7 +53,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultIfActivityIsDeletedWithValidDataTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -69,7 +69,9 @@ namespace Test.RestfulApi.Test.Controllers
             [Fact]
             public async void ReturnsObjectResultWithStatusCode500IfDataIsNotDeleteWithValidActivityIdTest()
             {
-                var id = new Guid();
+                MockExtensions.ResetAll(Mocks());
+
+                var id = Guid.NewGuid();
                 var instance = (Activity)Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 ActivityRepository.Setup(x => x.Delete(id));
@@ -86,8 +88,9 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsBadRequestResultIfActivityDtoIsNullTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
-                var result = await ActivityController.Update(new Guid(), null);
+                var result = await ActivityController.Update(id, null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -96,7 +99,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultIfActivityDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 var result = await ActivityController.Update(id, new ActivityDto() {ActivityGuid = id});
@@ -108,7 +111,8 @@ namespace Test.RestfulApi.Test.Controllers
             [Fact]
             public async void ReturnsObjectResultWithStatusCode500IfDataIsNotUpdatedWithValidActivityDtoTest()
             {
-                var id = new Guid();
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 ActivityRepository.Setup(x => x.Update(instance));
@@ -121,7 +125,8 @@ namespace Test.RestfulApi.Test.Controllers
             [Fact]
             public async void ReturnsNoContentResultIfActivityIsUpdatedWithValidDataTest()
             {
-                var id = new Guid();
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 ActivityRepository.Setup(x => x.Update(instance));
@@ -132,18 +137,21 @@ namespace Test.RestfulApi.Test.Controllers
             }
         }
 
-        public class PostActivityTest
+        public class CreateActivityTest
         {
             [Fact]
             public async void ReturnsCreateAtRouteResultIfDataIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
+                instance.ActivityGuid = id;
+                var activityDto = new ActivityDto {ActivityGuid = id};
 
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Activity>(It.IsAny<ActivityDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Activity>(activityDto)).Returns(instance);
 
                 var result = await ActivityController.Create(new ActivityDto());
                 Assert.IsType<CreatedAtRouteResult>(result);
@@ -174,24 +182,23 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void IfCreatedAtRouteResultIsCreatedWithRightValuesWhenAValidActivityIsCreatedTest()
+            public async void IfCreatedAtRouteResultIsCreatedWithCorrectValuesWhenAValidActivityIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 instance.ActivityGuid = id;
+                var activityDto = new ActivityDto() { ActivityGuid = id};
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Activity>(It.IsAny<ActivityDto>())).Returns(instance);
 
-                var result = await ActivityController.Create(new ActivityDto()) as CreatedAtRouteResult;
+                var result = await ActivityController.Create(activityDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 Guid guid;
-                if (Guid.TryParse((String)result.RouteValues["Id"], out guid))
-                {
-                    Assert.Equal(id, guid);
-                }
+                Assert.True(Guid.TryParse((String) result.RouteValues["Id"], out guid));
+                Assert.Equal(id, guid);
             }
 
             [Fact]
@@ -217,7 +224,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonAsResultWhenValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var guid = new Guid();
+                var guid = Guid.NewGuid();
 
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 instance.ActivityGuid = guid;
@@ -233,22 +240,26 @@ namespace Test.RestfulApi.Test.Controllers
             public async void IsTypeOfActivityDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var guid = new Guid();
+                var id = Guid.NewGuid();
+                var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
+                instance.ActivityGuid = id;
+                var activityDto = new ActivityDto {ActivityGuid = id};
 
-                Mapper.Setup(m => m.Map<ActivityDto>(It.IsAny<Activity>())).Returns(new ActivityDto());
+                Mapper.Setup(m => m.Map<ActivityDto>(It.IsAny<Activity>())).Returns(activityDto);
+                ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
 
-                var result = await ActivityController.Get(guid) as JsonResult;
+                var result = await ActivityController.Get(id) as JsonResult;
                 Assert.NotNull(result);
-                var activityDto = result.Value as ActivityDto;
-                Assert.NotNull(activityDto);
-                Assert.IsType<ActivityDto>(activityDto);
+                var value = result.Value as ActivityDto;
+                Assert.NotNull(value);
+                Assert.IsType<ActivityDto>(value);
             }
 
             [Fact]
             public async void ReturnsBadRequestObjectResultWhenInvalidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var guid = new Guid();
+                var guid = Guid.Empty;
                 var result = await ActivityController.Get(guid) as BadRequestObjectResult;
 
                 Assert.IsType<BadRequestObjectResult>(result);
@@ -273,7 +284,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var activities = GetActivities(activitiesIds: activitiesIds);
 
                 ActivityRepository.Setup(
@@ -295,7 +306,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableActivityDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var activities = GetActivities(activitiesIds: activitiesIds);
 
                 ActivityRepository.Setup(
@@ -325,7 +336,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 ActivityRepository.Setup(
                         x => x.FindByAsync(It.IsAny<Expression<Func<Activity, bool>>>(), It.IsAny<string>()))
                     .ReturnsAsync(null);

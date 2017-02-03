@@ -69,9 +69,13 @@ namespace RestfulApi.App.Controllers
             if (_ == null) return NotFound();
             Player player = _mapper.Map<Player>(playerDto);
             _playerRepository.Update(player);
-            return await _playerRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _playerRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<PlayerDto>(player));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]

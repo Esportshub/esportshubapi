@@ -50,7 +50,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
                 player.PlayerGuid = id;
@@ -69,7 +69,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var nickname = "DenLilleMand";
                 player.PlayerGuid = id;
                 PlayerDto playerDto = CreatePlayerDto(id, nickname);
@@ -133,7 +133,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var playerIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var playerIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var players = GetPlayers(playerIds);
 
                 PlayerRepository.Setup(
@@ -155,7 +155,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerablePlayerDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var playerIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var playerIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var players = GetPlayers(playerIds);
 
                 PlayerRepository.Setup(

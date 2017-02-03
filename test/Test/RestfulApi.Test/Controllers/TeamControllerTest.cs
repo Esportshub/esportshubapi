@@ -53,7 +53,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultTypeIfATeamIsDeletedWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
@@ -69,7 +69,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfDataIsNotDeleteWithValidTeamIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
@@ -99,7 +99,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundIfTeamDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 var result = await TeamController.Update(id, new TeamDto() { TeamGuid = id });
@@ -112,7 +112,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfTeamIsNotUpdatedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -128,7 +128,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void GetNoContentResultIfATeamIsUpdatedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -215,22 +215,23 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsCorrectCreatedAtRouteResultWhenAValidTeamIsCreatedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
 
+                var teamDto = new TeamDto { TeamGuid = id};
+
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Team>(teamDto)).Returns(instance);
 
-                var result = await TeamController.Create(new TeamDto()) as CreatedAtRouteResult;
+                var result = await TeamController.Create(teamDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 Guid guid;
                 Assert.True(Guid.TryParse((string) result.RouteValues["Id"], out guid));
-                Assert.True(id == guid);
+                Assert.Equal(id,  guid);
             }
-
         }
 
         public class GetTeamTest
@@ -239,7 +240,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
@@ -255,7 +256,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithValueOfTypeTeamDtoWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
 
@@ -274,7 +275,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithCorrectTeamDtoValuesWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 instance.TeamGuid = id;
@@ -294,7 +295,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsBadRequestObjectResultWhenIdIsInvalidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.Empty;
 
                 var result = await TeamController.Get(id) as BadRequestObjectResult;
 
@@ -320,7 +321,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var teamIds = new[] {new Guid(), new Guid(), new Guid(), new Guid()};
+                var teamIds = new[] {new Guid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var teams = GetTeams(teamIds);
 
                 TeamRepository.Setup(
@@ -342,7 +343,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableTeamDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var teamIds = new[] {new Guid(), new Guid(), new Guid(), new Guid()};
+                var teamIds = new[] {new Guid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var teams = GetTeams(teamIds);
 
                 TeamRepository.Setup(

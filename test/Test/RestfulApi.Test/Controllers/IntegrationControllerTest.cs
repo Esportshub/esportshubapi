@@ -43,7 +43,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultIfIntegrationDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
 
@@ -56,7 +56,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultIfAIntegrationIsDeletedWhenIdIsValid()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 instance.IntegrationGuid = id;
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -71,7 +71,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void GetObjectResultIfIntegrationIsNotDeletedWithValidTeamId()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Delete(id));
@@ -85,7 +85,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void GetObjectResultWithStatusCode500IfIntegrationIsNotDeletedWithValidTeamId()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Delete(id));
@@ -114,7 +114,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundIfIntegrationDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 var result = await IntegrationController.Update(id, new IntegrationDto() { IntegrationGuid = id });
@@ -127,7 +127,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfIntegrationIsNotUpdatedWithValidIntegrationDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Update(instance));
@@ -141,7 +141,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultWithStatusCode500IfIntegrationIsNotUpdatedWithValidIntegrationDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -158,7 +158,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void GetNoContentResultIfAIntegrationIsUpdatedWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -214,18 +214,21 @@ namespace Test.RestfulApi.Test.Controllers
             public async void IfCreatedAtRouteIsCreatedWithRightValuesWhenAValidIntegrationIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 instance.IntegrationGuid = id;
+                var integrationDto = new IntegrationDto();
+                integrationDto.IntegrationGuid = id;
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Integration>(integrationDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
-                var result = await IntegrationController.Create(new IntegrationDto()) as CreatedAtRouteResult;
+                var result = await IntegrationController.Create(integrationDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 Guid guid;
-                Assert.True(Guid.TryParse((string) result.RouteValues["Id"], out guid));
+                Assert.True(Guid.TryParse((string)result.RouteValues["Id"], out guid));
                 Assert.Equal(id, guid);
             }
 
@@ -252,7 +255,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnJsonAsResultWithIdInputTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
 
@@ -268,7 +271,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void IsTypeOfIntegrationDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
 
@@ -312,7 +315,7 @@ namespace Test.RestfulApi.Test.Controllers
             {
 
                 MockExtensions.ResetAll(Mocks());
-                var integrationIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var integrationIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var integrations = GetIntegrations(integrationIds);
 
                 IntegrationRepository.Setup(
@@ -334,7 +337,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableIntegrationDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var integrationIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var integrationIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var integrations = GetIntegrations(integrationIds);
 
                 IntegrationRepository.Setup(
@@ -360,7 +363,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest(IEnumerable<int> integrationIds)
+            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
             {
                 IntegrationRepository.Setup(
                         x => x.FindByAsync(It.IsAny<Expression<Func<Integration, bool>>>(), It.IsAny<string>()))

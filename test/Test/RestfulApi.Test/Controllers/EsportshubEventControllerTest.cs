@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.EsportshubEvents;
@@ -41,7 +42,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundIfEsportshubEventDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
                 EsportshubEventRepository.Setup(x => x.Delete(id));
@@ -56,7 +57,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultIfAEsportshubEventIsDeletedWithValidDataTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (EsportshubEvent) Activator.CreateInstance(type: typeof(EsportshubEvent), nonPublic: true);
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 EsportshubEventRepository.Setup(x => x.Delete(id));
@@ -71,7 +72,7 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 EsportshubEventRepository.Setup(x => x.Delete(id));
                 EsportshubEventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
@@ -97,7 +98,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundIfEsportshubEventDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
@@ -114,7 +115,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfEsportshubEventIsNotUpdatedWithValidEventDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
 
                 instance.EsportshubEventGuid = id;
@@ -130,12 +131,13 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNoContentResultIfAEsportshubEventIsUpdatedWithValidDataTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 EsportshubEventRepository.Setup(x => x.Update(instance));
                 EsportshubEventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+                Mapper.Setup(m => m.Map<EsportshubEvent>(It.IsAny<EsportshubEventDto>())).Returns(instance);
 
                 var result = await EsportshubEventController.Update(id, new EsportshubEventDto() { EsportshubEventGuid = id });
                 Assert.IsType<NoContentResult>(result);
@@ -148,7 +150,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsCreateAtRouteResultIfDataIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
@@ -165,7 +167,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsObjectResultIfValiddDataIsNotSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
@@ -193,7 +195,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 instance.EsportshubEventGuid = id;
                 var esportshubEventDto = new EsportshubEventDto {EsportshubEventGuid = id};
                 EsportshubEventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
@@ -212,7 +214,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
-                var id = new Guid();
+                var id = Guid.NewGuid();
                 instance.EsportshubEventGuid = id;
                 EsportshubEventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 EsportshubEventRepository.Setup(x => x.Insert(instance));
@@ -231,7 +233,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnJsonAsResultWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
@@ -248,7 +250,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithValueOfTypeOfEsportshubEventDtoWhenValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.NewGuid();
 
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
@@ -266,7 +268,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsBadRequestObjectResultWhenInvalidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var id = new Guid();
+                var id = Guid.Empty;
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
                 instance.EsportshubEventGuid = id;
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
@@ -283,12 +285,12 @@ namespace Test.RestfulApi.Test.Controllers
         {
             private IEnumerable<EsportshubEvent> GetEsportshubEvents(Guid[] esportshubEventIds)
             {
-                IEnumerable<EsportshubEvent> esportshubEvents = new List<EsportshubEvent>();
+                List<EsportshubEvent> esportshubEvents = new List<EsportshubEvent>();
                 foreach (var esportshubEventId in esportshubEventIds)
                 {
                     var esportshubEvent = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), true);
                     esportshubEvent.EsportshubEventGuid = esportshubEventId;
-                    esportshubEvents.Append(esportshubEvent);
+                    esportshubEvents.Add(esportshubEvent);
                 }
                 return esportshubEvents;
             }
@@ -297,7 +299,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var esportshubEventIds = new[] {new Guid(), new Guid(), new Guid()};
+                var esportshubEventIds = new[] {new Guid(), Guid.NewGuid(), Guid.NewGuid()};
                 var esportshubEvents = GetEsportshubEvents(esportshubEventIds);
 
                 EsportshubEventRepository.Setup(
@@ -319,23 +321,22 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableEsportshubEventDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var esportshubEventIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var esportshubEventIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 var esportshubEvents = GetEsportshubEvents(esportshubEventIds);
 
                 EsportshubEventRepository.Setup(
                         x => x.FindByAsync(It.IsAny<Expression<Func<EsportshubEvent, bool>>>(), It.IsAny<string>()))
                     .ReturnsAsync(esportshubEvents);
-                foreach (var esportshubEventId in esportshubEventIds)
+
+                foreach (var esportshubEvent in esportshubEvents)
                 {
-                    var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
-                    instance.EsportshubEventGuid = esportshubEventId;
-                    var esportshubEventDto = new EsportshubEventDto {EsportshubEventGuid = esportshubEventId};
-                    Mapper.Setup(x => x.Map<EsportshubEventDto>(instance)).Returns(esportshubEventDto);
+                    var esportshubEventDto = new EsportshubEventDto {EsportshubEventGuid = esportshubEvent.EsportshubEventGuid};
+                    Mapper.Setup(x => x.Map<EsportshubEventDto>(esportshubEvent)).Returns(esportshubEventDto);
                 }
 
                 var result = await EsportshubEventController.Get() as JsonResult;
                 Assert.NotNull(result);
-                var esportshubEventDtos = result.Value as IEnumerable<EsportshubEventDto>;
+                var esportshubEventDtos = result.Value as EsportshubEventDto[];
 
                 Assert.NotNull(esportshubEventDtos);
                 foreach (var esportshubEventDto in esportshubEventDtos)
@@ -349,7 +350,7 @@ namespace Test.RestfulApi.Test.Controllers
             {
 
                 MockExtensions.ResetAll(Mocks());
-                var esportshubEventIds = new[] { new Guid(), new Guid(), new Guid(), new Guid() };
+                var esportshubEventIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
                 EsportshubEventRepository.Setup(
                         x => x.FindByAsync(It.IsAny<Expression<Func<EsportshubEvent, bool>>>(), It.IsAny<string>()))
                     .ReturnsAsync(null);

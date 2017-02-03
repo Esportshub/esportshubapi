@@ -71,9 +71,13 @@ namespace RestfulApi.App.Controllers
             Group group = _mapper.Map<Group>(groupDto);
 
             _groupRepository.Update(group);
-            return await _groupRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _groupRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<GroupDto>(group));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id}")]

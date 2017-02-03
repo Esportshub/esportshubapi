@@ -63,9 +63,13 @@ namespace RestfulApi.App.Controllers
             Game game = _mapper.Map<Game>(gameDto);
 
             _gameRepository.Update(game);
-            return await _gameRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _gameRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<EsportshubEventDto>(game));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode(500, "Internal server error");
         }
 
         [HttpDelete("{id:int:min(1)}")]

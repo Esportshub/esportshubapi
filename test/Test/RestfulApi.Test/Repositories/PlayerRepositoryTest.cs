@@ -40,7 +40,7 @@ namespace Test.RestfulApi.Test.Repositories
                 IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
                 var result = await playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerGuid), "");
                 Assert.NotNull(result);
-                Assert.IsType<IEnumerable<Player>>(result);
+                Assert.IsType<List<Player>>(result);
                 Assert.Equal(4, result.ToList().Count);
             }
         }
