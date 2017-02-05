@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
@@ -93,6 +94,27 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndGroupDtoIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var result = await GroupController.Update(Guid.Empty, new GroupDto() { GroupGuid = id});
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndGroupDtoIsValidButEmptyGuidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await GroupController.Update(Guid.Empty, new GroupDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
             public async void ReturnsNotFoundResultIfGroupDoesntExistWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
@@ -151,7 +173,7 @@ namespace Test.RestfulApi.Test.Controllers
 
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 GroupRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Group>(It.IsAny<GroupDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Group>(groupDto)).Returns(instance);
                 Mapper.Setup(m => m.Map<GroupDto>(instance)).Returns(groupDto);
 
                 var result = await GroupController.Create(groupDto);
@@ -182,7 +204,7 @@ namespace Test.RestfulApi.Test.Controllers
 
                 var result = await GroupController.Create(new GroupDto()) as ObjectResult;
                 Assert.IsType<ObjectResult>(result);
-                Assert.Equal(500, result.StatusCode);
+                Assert.Equal((int)HttpStatusCode.InternalServerError, result.StatusCode);
             }
 
             [Fact]
@@ -219,12 +241,16 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
 
+                var id = Guid.NewGuid();
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                instance.GroupGuid = id;
+                var groupDto = new GroupDto() { GroupGuid = id};
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 GroupRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Group>(It.IsAny<GroupDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Group>(groupDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<GroupDto>(instance)).Returns(groupDto);
 
-                var result = await GroupController.Create(new GroupDto()) as CreatedAtRouteResult;
+                var result = await GroupController.Create(groupDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 var routeObject = result.Value as GroupDto;
                 Assert.IsType<GroupDto>(routeObject);

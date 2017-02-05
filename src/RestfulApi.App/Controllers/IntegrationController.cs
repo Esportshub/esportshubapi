@@ -75,7 +75,7 @@ namespace RestfulApi.App.Controllers
         [HttpPatch("{id}", Name = UpdateIntegration)]
         public async Task<IActionResult> Update(Guid id, [FromBody] IntegrationDto integrationDto)
         {
-            if (integrationDto == null) return BadRequest();
+            if (integrationDto == null || Guid.Empty == id || integrationDto.IntegrationGuid != id) return BadRequest();
 
             var _ = await _integrationRepository.FindAsync(id);
             if (_ == null) return NotFound();

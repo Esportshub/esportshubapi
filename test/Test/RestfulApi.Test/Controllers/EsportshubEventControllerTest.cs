@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.EsportshubEvents;
@@ -88,7 +89,48 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
 
-                var result = await EsportshubEventController.Update(new Guid(), null);
+                var result = await EsportshubEventController.Update(Guid.NewGuid() , null);
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndEsportshubEventDtoIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var result = await EsportshubEventController.Update(Guid.Empty, new EsportshubEventDto() { EsportshubEventGuid = id});
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndActivityDtoIsValidButEmptyGuidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await EsportshubEventController.Update(Guid.Empty, new EsportshubEventDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultTypeIfEsportshubEventDtoGuidIsNullAndIdIsEmptyTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await EsportshubEventController.Update(Guid.Empty, new EsportshubEventDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultTypeIfEsportshubEventDtoGuidIsValidAndIdIsEmptyTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await EsportshubEventController.Update(Guid.Empty, new EsportshubEventDto());
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -112,19 +154,20 @@ namespace Test.RestfulApi.Test.Controllers
 
 
             [Fact]
-            public async void ReturnsBadRequestResultIfEsportshubEventIsNotUpdatedWithValidEventDtoTest()
+            public async void ReturnsStatusCodeResultWithStatusCode500IfEsportshubEventIsNotUpdatedWithValidEventDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.NewGuid();
                 var instance = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), nonPublic: true);
-
                 instance.EsportshubEventGuid = id;
+
                 EsportshubEventRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 EsportshubEventRepository.Setup(x => x.Update(instance));
                 EsportshubEventRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await EsportshubEventController.Update(id, new EsportshubEventDto() { EsportshubEventGuid = id });
-                Assert.IsType<BadRequestResult>(result);
+                var result = await EsportshubEventController.Update(id, new EsportshubEventDto() { EsportshubEventGuid = id }) as ObjectResult;
+                Assert.IsType<ObjectResult>(result);
+                Assert.Equal((int)HttpStatusCode.InternalServerError, result.StatusCode);
             }
 
             [Fact]
@@ -285,9 +328,9 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class GetEsportshubEventsTest
         {
-            private IEnumerable<EsportshubEvent> GetEsportshubEvents(Guid[] esportshubEventIds)
+            private static IEnumerable<EsportshubEvent> GetEsportshubEvents(IEnumerable<Guid> esportshubEventIds)
             {
-                List<EsportshubEvent> esportshubEvents = new List<EsportshubEvent>();
+                var esportshubEvents = new List<EsportshubEvent>();
                 foreach (var esportshubEventId in esportshubEventIds)
                 {
                     var esportshubEvent = (EsportshubEvent) Activator.CreateInstance(typeof(EsportshubEvent), true);

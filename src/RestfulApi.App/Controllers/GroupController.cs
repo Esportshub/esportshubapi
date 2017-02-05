@@ -71,7 +71,7 @@ namespace RestfulApi.App.Controllers
         [HttpPatch("{id}", Name = UpdateGroup)]
         public async Task<IActionResult> Update(Guid id, [FromBody] GroupDto groupDto)
         {
-            if (groupDto == null) return BadRequest();
+            if (groupDto == null || Guid.Empty == id || groupDto.GroupGuid != id) return BadRequest();
 
             var _ = await _groupRepository.FindAsync(id);
             if (_ == null) return NotFound();

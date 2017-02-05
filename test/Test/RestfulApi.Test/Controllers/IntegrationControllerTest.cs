@@ -111,6 +111,27 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndIntegrationDtoIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var result = await IntegrationController.Update(Guid.Empty, new IntegrationDto() { IntegrationGuid = id});
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndIntegrationDtoIsValidButEmptyGuidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await IntegrationController.Update(Guid.Empty, new IntegrationDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
             public async void ReturnsNotFoundIfIntegrationDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
@@ -238,13 +259,18 @@ namespace Test.RestfulApi.Test.Controllers
             public async void IfCreatedAtRouteObjectIsIntegrationDtoWhenAValidIntegrationIsSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                instance.IntegrationGuid = id;
+                var integrationDto = new IntegrationDto() { IntegrationGuid = id};
+
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Integration>(integrationDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
-                var result = await IntegrationController.Create(new IntegrationDto()) as CreatedAtRouteResult;
+                var result = await IntegrationController.Create(integrationDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 var routeObject = result.Value as IntegrationDto;
                 Assert.IsType<IntegrationDto>(routeObject);

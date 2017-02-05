@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using RestfulApi.App.Constant;
 using RestfulApi.App.Dtos.ErrorDtos;
 using RestfulApi.App.Dtos.EsportshubEventsDtos;
-using RestfulApi.App.Dtos.PlayerDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -37,10 +35,10 @@ namespace RestfulApi.App.Controllers
         [HttpGet(Name = GetEsportshubEvents)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<EsportshubEvent> esportshubEvents = await _esportshubEventRepository.FindByAsync(esportshubEvent => esportshubEvent.EsportshubEventGuid == Guid.Empty , "");
+            var esportshubEvents = await _esportshubEventRepository.FindByAsync(esportshubEvent => esportshubEvent.EsportshubEventGuid == Guid.Empty , "");
             if (esportshubEvents == null) return NotFound();
-            IEnumerable<PlayerDto> playerDtos = esportshubEvents.Select(_mapper.Map<PlayerDto>);
-            return Json(playerDtos);
+            var esportshubEventDtos = esportshubEvents.Select(esportshubEvent => _mapper.Map<EsportshubEventDto>(esportshubEvent)).ToList();
+            return Json(esportshubEventDtos);
         }
 
         [HttpGet("{id}", Name = GetEsportshubEvent)]
@@ -72,7 +70,7 @@ namespace RestfulApi.App.Controllers
         [HttpPatch("{id}", Name = UpdateEsportshubEvent)]
         public async Task<IActionResult> Update(Guid id, [FromBody] EsportshubEventDto esportshubEventDto)
         {
-            if (esportshubEventDto == null || esportshubEventDto.EsportshubEventGuid == id) return BadRequest();
+            if (esportshubEventDto == null || Guid.Empty == id || esportshubEventDto.EsportshubEventGuid != id) return BadRequest();
 
             var _ = await _esportshubEventRepository.FindAsync(id);
             if (_ == null) return NotFound();
@@ -81,9 +79,7 @@ namespace RestfulApi.App.Controllers
             _esportshubEventRepository.Update(esportshubEvent);
             if (await _esportshubEventRepository.SaveAsync())
             {
-                var result = Ok(_mapper.Map<EsportshubEventDto>(esportshubEvent));
-                result.StatusCode = 200;
-                return result;
+                return Ok(_mapper.Map<EsportshubEventDto>(esportshubEvent));
             }
             return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }

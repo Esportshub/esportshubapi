@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -44,10 +45,7 @@ namespace RestfulApi.App.Controllers
         [HttpGet("{id}", Name = GetPlayer)]
         public async Task<IActionResult> Get(Guid id)
         {
-            if (Guid.Empty == id)
-            {
-                return BadRequest(new InvalidRangeOnInputDto());
-            }
+            if (Guid.Empty == id) return BadRequest();
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
             var result = _mapper.Map<PlayerDto>(player);
@@ -58,21 +56,17 @@ namespace RestfulApi.App.Controllers
         public async Task<IActionResult> Create([FromBody] PlayerDto playerDto)
         {
             if (playerDto == null) return BadRequest();
-            Player player = _mapper.Map<Player>(playerDto);
+            var player = _mapper.Map<Player>(playerDto);
             _playerRepository.Insert(player);
-            if (await _playerRepository.SaveAsync())
-            {
-                var playerResultDto = _mapper.Map<PlayerDto>(player);
-                return CreatedAtRoute(GetPlayer, new {Id = player.PlayerId}, playerResultDto);
-            }
-            return StatusCode(500, ErrorConstants.InternalServerError);
+            if (!await _playerRepository.SaveAsync()) return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+            var playerResultDto = _mapper.Map<PlayerDto>(player);
+            return CreatedAtRoute(GetPlayer, new {Id = player.PlayerGuid}, playerResultDto);
         }
 
         [HttpPatch("{id}", Name = UpdatePlayer)]
         public async Task<IActionResult> Update(Guid id, [FromBody] PlayerDto playerDto)
         {
-            if (playerDto == null) return BadRequest();
-            if (Guid.Empty == id) return BadRequest(new InvalidRangeOnInputDto());
+            if (playerDto == null || Guid.Empty == id || playerDto.PlayerGuid != id) return BadRequest();
 
             var _ = await _playerRepository.FindAsync(id);
             if (_ == null) return NotFound();
@@ -80,9 +74,7 @@ namespace RestfulApi.App.Controllers
             _playerRepository.Update(player);
             if (await _playerRepository.SaveAsync())
             {
-                var result = Ok(_mapper.Map<PlayerDto>(player));
-                result.StatusCode = 200;
-                return result;
+                return Ok(_mapper.Map<PlayerDto>(player));
             }
             return StatusCode(500, ErrorConstants.InternalServerError);
         }

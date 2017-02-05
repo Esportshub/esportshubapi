@@ -31,21 +31,6 @@ namespace Test.RestfulApi.Test.Repositories
                 return players;
             }
 
-<<<<<<< HEAD
-            [Theory]
-            [InlineData(new[] {1, 2, 3, 4})]
-            [InlineData(new[] {500, 700, 750, 9999})]
-            [InlineData(new[] {50000, 10000, 90000, 150000})]
-            public async void FindsAsyncReturnsTheCorrectAmountOfPlayers(int[] ids)
-            {
-                var players = GetPlayers(ids);
-                _internalPlayerRepository
-                    .Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>()))
-                    .ReturnsAsync(players);
-                IPlayerRepository playerRepository =
-                    new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
-                var result = await playerRepository.FindByAsync(player => ids.Contains(player.PlayerId), "");
-=======
             [Fact]
             public async void FindsAsyncReturnsTheCorrectAmountOfPlayers()
             {
@@ -54,7 +39,7 @@ namespace Test.RestfulApi.Test.Repositories
                 _internalPlayerRepository.Setup(x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>())).ReturnsAsync(players);
                 IPlayerRepository playerRepository = new PlayerRepository(_esportshubContext.Object, _internalPlayerRepository.Object);
                 var result = await playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerGuid), "");
->>>>>>> 81770255d15633fda09b7e992f52b76c277f82fb
+
                 Assert.NotNull(result);
                 Assert.IsType<List<Player>>(result);
                 Assert.Equal(4, result.ToList().Count);

@@ -45,10 +45,7 @@ namespace RestfulApi.App.Controllers
         [HttpGet("{id}", Name = GetActivity)]
         public async Task<IActionResult> Get(Guid id)
         {
-            if (Guid.Empty == id)
-            {
-                return BadRequest(new InvalidRangeOnInputDto());
-            }
+            if (Guid.Empty == id) return BadRequest();
             var activity = await _activityRepository.FindAsync(id);
             if (activity == null) return NotFound();
             var activityDto = _mapper.Map<ActivityDto>(activity);
@@ -78,7 +75,7 @@ namespace RestfulApi.App.Controllers
         [HttpPut("{id}", Name = UpdateActivity)]
         public async Task<IActionResult> Update(Guid id, [FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null || activityDto.ActivityGuid != id) return BadRequest();
+            if (activityDto == null || Guid.Empty == id || activityDto.ActivityGuid != id) return BadRequest();
 
             var _ = await _activityRepository.FindAsync(id);
             if (_ == null) return NotFound();
