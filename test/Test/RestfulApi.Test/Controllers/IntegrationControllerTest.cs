@@ -166,7 +166,7 @@ namespace Test.RestfulApi.Test.Controllers
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
                 var result = await IntegrationController.Update(id, new IntegrationDto() { IntegrationGuid = id});
-                Assert.IsType<NoContentResult>(result);
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
@@ -176,12 +176,16 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsCreatedAtRouteResultIfDataIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+                var integrationDto = new IntegrationDto() { IntegrationGuid = id};
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                instance.IntegrationGuid = id;
 
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
                 var result = await IntegrationController.Create(new IntegrationDto());
                 Assert.IsType<CreatedAtRouteResult>(result);
@@ -211,15 +215,14 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void IfCreatedAtRouteIsCreatedWithRightValuesWhenAValidIntegrationIsCreatedTest()
+            public async void IfCreatedAtRouteResultIsCreatedWithRightValuesWhenAValidIntegrationIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 instance.IntegrationGuid = id;
-                var integrationDto = new IntegrationDto();
-                integrationDto.IntegrationGuid = id;
+                var integrationDto = new IntegrationDto {IntegrationGuid = id};
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Integration>(integrationDto)).Returns(instance);
@@ -228,8 +231,7 @@ namespace Test.RestfulApi.Test.Controllers
                 var result = await IntegrationController.Create(integrationDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 Guid guid;
-                Assert.True(Guid.TryParse((string)result.RouteValues["Id"], out guid));
-                Assert.Equal(id, guid);
+                Assert.Equal(id, result.RouteValues["Id"]);
             }
 
             [Fact]

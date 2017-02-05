@@ -133,11 +133,11 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
                 var result = await GroupController.Update(id, new GroupDto() {GroupGuid = id});
-                Assert.IsType<NoContentResult>(result);
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
-        public class PostGroupTest
+        public class CreateGroupTest
         {
             [Fact]
             public async void ReturnsCreatedAtRouteResultIfGroupDtoIsValid()
@@ -147,12 +147,14 @@ namespace Test.RestfulApi.Test.Controllers
 
                 var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
                 instance.GroupGuid = id;
+                var groupDto = new GroupDto() { GroupGuid = id};
 
                 GroupRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 GroupRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Group>(It.IsAny<GroupDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<GroupDto>(instance)).Returns(groupDto);
 
-                var result = await GroupController.Create(new GroupDto());
+                var result = await GroupController.Create(groupDto);
                 Assert.IsType<CreatedAtRouteResult>(result);
             }
 
@@ -194,7 +196,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void IfCreatedAtRouteIsCreatedWithRightValuesWhenAValidGroupIsCreatedTest()
+            public async void IfCreatedAtRouteResultIsCreatedWithRightValuesWhenAValidGroupIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.NewGuid();
@@ -205,12 +207,11 @@ namespace Test.RestfulApi.Test.Controllers
                 GroupRepository.Setup(x => x.Insert(instance));
                 var groupDto = new GroupDto {GroupGuid = id};
                 Mapper.Setup(m => m.Map<Group>(groupDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<GroupDto>(instance)).Returns(groupDto);
 
                 var result = await GroupController.Create(groupDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
-                Guid guid;
-                Assert.True(Guid.TryParse((String)result.RouteValues["id"], out guid));
-                Assert.True(id == guid);
+                Assert.Equal(id, result.RouteValues["Id"]);
             }
 
             [Fact]
@@ -255,7 +256,12 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.NewGuid();
 
-                Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(new GroupDto());
+                var instance = (Group) Activator.CreateInstance(typeof(Group), nonPublic: true);
+                instance.GroupGuid = id;
+                var groupDto = new GroupDto() {GroupGuid = id};
+
+                Mapper.Setup(m => m.Map<GroupDto>(It.IsAny<Group>())).Returns(groupDto);
+                GroupRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
 
                 var result = await GroupController.Get(id) as JsonResult;
                 Assert.NotNull(result);

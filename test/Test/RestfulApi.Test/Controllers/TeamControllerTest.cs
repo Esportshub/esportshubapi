@@ -62,7 +62,7 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
                 var result = await TeamController.Update(id, new TeamDto() {TeamGuid = id});
-                Assert.IsType<NoContentResult>(result);
+                Assert.IsType<OkObjectResult>(result);
             }
 
             [Fact]
@@ -136,7 +136,7 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
                 var result = await TeamController.Update(id, new TeamDto() {TeamGuid = id});
-                Assert.IsType<NoContentResult>(result);
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
@@ -147,11 +147,16 @@ namespace Test.RestfulApi.Test.Controllers
             {
                 MockExtensions.ResetAll(Mocks());
 
+                var id = Guid.NewGuid();
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+
+                var teamDto = new TeamDto() { TeamGuid = id};
 
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
                 var result = await TeamController.Create(new TeamDto());
                 Assert.IsType<CreatedAtRouteResult>(result);
@@ -171,7 +176,7 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void ReturnsObjectResultWithStatusCode500IfValidTeamIsNotSavedWithValidTeamDtoTest()
+            public async void ReturnsStatusCodeResultWithStatusCode500IfValidTeamIsNotSavedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -199,13 +204,16 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsCreatedAtRouteResultTypeWhenValidTeamIsSavedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                var teamDto = new TeamDto() { TeamGuid = id};
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Team>(teamDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
-                var result = await TeamController.Create(new TeamDto()) as CreatedAtRouteResult;
+                var result = await TeamController.Create(teamDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 var routeObject = result.Value as TeamDto;
                 Assert.IsType<TeamDto>(routeObject);
@@ -225,12 +233,11 @@ namespace Test.RestfulApi.Test.Controllers
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Team>(teamDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
                 var result = await TeamController.Create(teamDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
-                Guid guid;
-                Assert.True(Guid.TryParse((string) result.RouteValues["Id"], out guid));
-                Assert.Equal(id,  guid);
+                Assert.Equal(id, result.RouteValues["Id"]);
             }
         }
 

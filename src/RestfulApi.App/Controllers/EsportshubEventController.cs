@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.EsportshubEvents;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Constant;
 using RestfulApi.App.Dtos.ErrorDtos;
 using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.PlayerDtos;
@@ -19,6 +21,11 @@ namespace RestfulApi.App.Controllers
         private readonly ILogger<EsportshubEventController> _logger;
         private readonly IEsportshubEventRepository _esportshubEventRepository;
         private readonly IMapper _mapper;
+        private const string GetEsportshubEvent = "GetEsportshubEvent";
+        private const string GetEsportshubEvents = "GetEsportshubEvents";
+        private const string UpdateEsportshubEvent = "UpdateEsportshubEvent";
+        private const string CreateEsportshubEvent = "CreateEsportshubEvent";
+        private const string DeleteEsportshubEvent = "DeleteEsportshubEvent";
 
         public EsportshubEventController(IEsportshubEventRepository esportshubEventRepository, ILogger<EsportshubEventController> logger, IMapper mapper)
         {
@@ -27,7 +34,7 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = GetEsportshubEvents)]
         public async Task<IActionResult> Get()
         {
             IEnumerable<EsportshubEvent> esportshubEvents = await _esportshubEventRepository.FindByAsync(esportshubEvent => esportshubEvent.EsportshubEventGuid == Guid.Empty , "");
@@ -36,7 +43,7 @@ namespace RestfulApi.App.Controllers
             return Json(playerDtos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = GetEsportshubEvent)]
         public async Task<IActionResult> Get(Guid id)
         {
             if (Guid.Empty == id) return BadRequest(new InvalidRangeOnInputDto());
@@ -46,26 +53,30 @@ namespace RestfulApi.App.Controllers
             return Json(esportshubEventDto);
         }
 
-        [HttpPost]
+        [HttpPost(Name = CreateEsportshubEvent)]
         public async Task<IActionResult> Create([FromBody] EsportshubEventDto esportshubEventDto)
         {
             if (esportshubEventDto == null) return BadRequest();
             EsportshubEvent esportshubEvent = _mapper.Map<EsportshubEvent>(esportshubEventDto);
 
             _esportshubEventRepository.Insert(esportshubEvent);
-            return await _esportshubEventRepository.SaveAsync()
-                ? CreatedAtAction($"Get/{esportshubEvent.EsportshubEventGuid}", new {Id = esportshubEvent.EsportshubEventId}, Mapper.Map<EsportshubEventDto>(esportshubEvent))
-                : StatusCode(500, "Error while processing");
+            if (await _esportshubEventRepository.SaveAsync())
+            {
+                var esportshubEventDtoResult = _mapper.Map<EsportshubEventDto>(esportshubEvent);
+                return CreatedAtRoute(GetEsportshubEvent, new {Id = esportshubEvent.EsportshubEventGuid},
+                    esportshubEventDtoResult);
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}", Name = UpdateEsportshubEvent)]
         public async Task<IActionResult> Update(Guid id, [FromBody] EsportshubEventDto esportshubEventDto)
         {
-            if (esportshubEventDto == null || esportshubEventDto.EsportshubEventGuid.Equals(id)) return BadRequest();
+            if (esportshubEventDto == null || esportshubEventDto.EsportshubEventGuid == id) return BadRequest();
 
             var _ = await _esportshubEventRepository.FindAsync(id);
             if (_ == null) return NotFound();
-            EsportshubEvent esportshubEvent = _mapper.Map<EsportshubEvent>(esportshubEventDto);
+            var esportshubEvent = _mapper.Map<EsportshubEvent>(esportshubEventDto);
 
             _esportshubEventRepository.Update(esportshubEvent);
             if (await _esportshubEventRepository.SaveAsync())
@@ -74,19 +85,21 @@ namespace RestfulApi.App.Controllers
                 result.StatusCode = 200;
                 return result;
             }
-            return StatusCode(500, "Internal server error");
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = DeleteEsportshubEvent)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var _event = await _esportshubEventRepository.FindAsync(id);
 
             if (_event == null) return NotFound();
             _esportshubEventRepository.Delete(id);
-            return await _esportshubEventRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _esportshubEventRepository.SaveAsync())
+            {
+                return new NoContentResult();
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
     }
 }

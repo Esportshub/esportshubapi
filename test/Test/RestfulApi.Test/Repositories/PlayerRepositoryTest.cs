@@ -19,14 +19,14 @@ namespace Test.RestfulApi.Test.Repositories
             private readonly Mock<EsportshubContext> _esportshubContext = new Mock<EsportshubContext>();
 
 
-            private IEnumerable<Player> GetPlayers(IEnumerable<Guid> playerIds)
+            private List<Player> GetPlayers(IEnumerable<Guid> playerIds)
             {
-                IEnumerable<Player> players = new List<Player>();
+                List<Player> players = new List<Player>();
                 foreach (var playerId in playerIds)
                 {
                     var player = (Player) Activator.CreateInstance(typeof(Player), true);
                     player.PlayerGuid = playerId;
-                    players.Append(player);
+                    players.Add(player);
                 }
                 return players;
             }

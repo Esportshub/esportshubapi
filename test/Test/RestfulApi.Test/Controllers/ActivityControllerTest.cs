@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Activities;
@@ -67,18 +68,22 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void ReturnsObjectResultWithStatusCode500IfDataIsNotDeleteWithValidActivityIdTest()
+            public async void ReturnsStatusCodeResultWithStatusCode500IfDataIsNotDeletedWithValidActivityIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
                 var id = Guid.NewGuid();
                 var instance = (Activity)Activator.CreateInstance(typeof(Activity), nonPublic: true);
+                instance.ActivityGuid = id;
+
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 ActivityRepository.Setup(x => x.Delete(id));
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await ActivityController.Delete(id);
-                Assert.IsType<ObjectResult>(result);
+                var result = await ActivityController.Delete(id) as StatusCodeResult;
+                Assert.NotNull(result);
+                Assert.IsType<StatusCodeResult>(result);
+                Assert.Equal(result.StatusCode, (int)HttpStatusCode.InternalServerError);
             }
         }
 
@@ -133,7 +138,7 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
                 var result = await ActivityController.Update(id, new ActivityDto() {ActivityGuid = id});
-                Assert.IsType<NoContentResult>(result);
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
@@ -152,8 +157,9 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Activity>(activityDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<ActivityDto>(instance)).Returns(activityDto);
 
-                var result = await ActivityController.Create(new ActivityDto());
+                var result = await ActivityController.Create(activityDto);
                 Assert.IsType<CreatedAtRouteResult>(result);
             }
 
@@ -192,12 +198,13 @@ namespace Test.RestfulApi.Test.Controllers
                 var activityDto = new ActivityDto() { ActivityGuid = id};
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Activity>(It.IsAny<ActivityDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Activity>(activityDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<ActivityDto>(instance)).Returns(activityDto);
 
                 var result = await ActivityController.Create(activityDto) as CreatedAtRouteResult;
                 Assert.NotNull(result);
                 Guid guid;
-                Assert.True(Guid.TryParse((String) result.RouteValues["Id"], out guid));
+                Assert.True(Guid.TryParse((string) result.RouteValues["Id"], out guid));
                 Assert.Equal(id, guid);
             }
 

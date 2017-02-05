@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Groups;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Constant;
 using RestfulApi.App.Dtos.ErrorDtos;
 using RestfulApi.App.Dtos.GroupDtos;
 
@@ -17,6 +19,11 @@ namespace RestfulApi.App.Controllers
         private readonly ILogger<GroupController> _logger;
         private readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
+        private const string GetGroup = "GetGroup";
+        private const string GetGroups = "GetGroups";
+        private const string UpdateGroup = "UpdateGroup";
+        private const string CreateGroup = "CreateGroup";
+        private const string DeleteGroup = "DeleteGroup";
 
         public GroupController(IGroupRepository groupRepository, ILogger<GroupController> logger, IMapper mapper)
         {
@@ -25,18 +32,17 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = GetGroups)]
         public async Task<IActionResult> Get()
         {
             var groups = await _groupRepository.FindByAsync(group => group.GroupGuid == Guid.Empty, "");
             if (groups == null) return new NotFoundResult();
             var groupsDto = groups.Select(_mapper.Map<GroupDto>);
-
             return Json(groupsDto);
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = GetGroup)]
         public async Task<IActionResult> Get(Guid id)
         {
             if (Guid.Empty == id)
@@ -49,19 +55,20 @@ namespace RestfulApi.App.Controllers
             return Json(groupDto);
         }
 
-        [HttpPost]
+        [HttpPost(Name = CreateGroup)]
         public async Task<IActionResult> Create([FromBody] GroupDto groupDto)
         {
             if (groupDto == null) return BadRequest();
             var group = _mapper.Map<Group>(groupDto);
             _groupRepository.Insert(group);
 
-            return await _groupRepository.SaveAsync()
-                ? CreatedAtRoute("GetGroup", new {Id = group.GroupId}, groupDto)
-                : StatusCode(500, "Error while processing");
+            if (!await _groupRepository.SaveAsync())
+                return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+            var groupResultDto = _mapper.Map<GroupDto>(group);
+            return CreatedAtRoute(GetGroup, new {Id = groupResultDto.GroupGuid}, groupResultDto);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}", Name = UpdateGroup)]
         public async Task<IActionResult> Update(Guid id, [FromBody] GroupDto groupDto)
         {
             if (groupDto == null) return BadRequest();
@@ -77,19 +84,21 @@ namespace RestfulApi.App.Controllers
                 result.StatusCode = 200;
                 return result;
             }
-            return StatusCode(500, "Internal server error");
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = DeleteGroup)]
         public async Task<IActionResult> Delete(Guid id)
         {
             var team = await _groupRepository.FindAsync(id);
 
             if (team == null) return NotFound();
             _groupRepository.Delete(id);
-            return await _groupRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _groupRepository.SaveAsync())
+            {
+                return new NoContentResult();
+            }
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
     }
 }
