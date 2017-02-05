@@ -52,7 +52,6 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IIntegrationRepository> IntegrationRepository = new Mock<IIntegrationRepository>();
             private static readonly Mock<EsportshubContext> DbContextMock = new Mock<EsportshubContext>();
             private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository> { CallBase = true};
-
             private static readonly Mock<IRepository<Player>> InternalPlayerRepository = new Mock<IRepository<Player>>();
             private static readonly Mock<IRepository<Team>> InternalTeamRepository = new Mock<IRepository<Team>>();
             private static readonly Mock<IRepository<Group>> InternalGroupRepository = new Mock<IRepository<Group>>();
@@ -60,7 +59,6 @@ namespace IntegrationTest.RestfulApi.IntegrationTest
             private static readonly Mock<IRepository<EsportshubEvent>> InternalEventRepository = new Mock<IRepository<EsportshubEvent>>();
             private static readonly Mock<IRepository<Integration>> InternalIntegrationRepository = new Mock<IRepository<Integration>>();
             private static readonly Mock<IRepository<Game>> InternalGameRepository = new Mock<IRepository<Game>>();
-
             private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
             private static readonly Mock<ILogger> Logger = new Mock<ILogger>();
 

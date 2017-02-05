@@ -17,11 +17,12 @@ namespace Test.RestfulApi.Test.Controllers
 {
     public class PlayerControllerTest : IDisposable
     {
-
         private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository>();
         private static readonly Mock<ILogger<PlayerController>> Logger = new Mock<ILogger<PlayerController>>();
         private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
-        private static readonly PlayerController PlayerController = new PlayerController(PlayerRepository.Object, Logger.Object ,Mapper.Object);
+
+        private static readonly PlayerController PlayerController =
+            new PlayerController(PlayerRepository.Object, Logger.Object, Mapper.Object);
 
         public static List<Mock> Mocks()
         {
@@ -35,7 +36,6 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class GetPlayerTest
         {
-
             private PlayerDto CreatePlayerDto(Guid id, string nickName)
             {
                 PlayerDto playerDto = new PlayerDto
@@ -55,13 +55,14 @@ namespace Test.RestfulApi.Test.Controllers
                 Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
                 player.PlayerGuid = id;
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
+                PlayerController playerController = new PlayerController(PlayerRepository.Object,
+                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
                 Mapper.Setup(x => x.Map<PlayerDto>(player)).Returns(CreatePlayerDto(id, "InsignificantName"));
 
                 var jsonResult = await PlayerController.Get(id);
 
                 Assert.IsType<JsonResult>(jsonResult);
             }
-
 
             [Fact]
             public async void ReturnsJsonResultWithValuePlayerDtoWithCorrectValuesWhenCorrectIdTest()
@@ -91,8 +92,10 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.Empty;
 
+                PlayerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
+                var playerController = new PlayerController(PlayerRepository.Object,
+                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
                 PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-
                 var result = await PlayerController.Get(id) as BadRequestObjectResult;
 
                 Assert.NotNull(result);
@@ -107,12 +110,10 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class DeletePlayerTest
         {
-
         }
 
         public class UpdatePlayerTest
         {
-
         }
 
         public class GetPlayersTest
@@ -133,7 +134,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var playerIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var playerIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var players = GetPlayers(playerIds);
 
                 PlayerRepository.Setup(
@@ -155,7 +156,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerablePlayerDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var playerIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var playerIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var players = GetPlayers(playerIds);
 
                 PlayerRepository.Setup(
