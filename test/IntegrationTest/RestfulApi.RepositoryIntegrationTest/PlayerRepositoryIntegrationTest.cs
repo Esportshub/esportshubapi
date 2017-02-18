@@ -41,7 +41,6 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
 
         public class Insert
         {
-
             [Fact]
             public void Add7PlayersToDatabase_ExpectsIEnumerableCountEquals7()
             {
@@ -521,7 +520,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
             [Fact]
             public async void SaveAsyncPlayers_ExpectsToFindExactAmountOfPlayers()
             {
-                var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "saveasync_players_in_database").Options;
+                var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "saveasync_players_in_database_expects_to_find_exact_amount").Options;
                 var players = GetPlayers(7);
                 using (var context = new EsportshubContext(options))
                 {
@@ -541,9 +540,9 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
             }
 
             [Fact]
-            public async void SaveAsyncSpecificAmountOfPlayers_ExpectsToNotFindDifferentAmount()
+            public async void SaveAsyncSpecificAmountOfPlayers_ExpectsToNotFindDifferentAmountOfPlayers()
             {
-                var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "savesync_players_in_database").Options;
+                var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "savesync_players_in_database_not_to_find_different_amount").Options;
                 var players = GetPlayers(7);
                 using (var context = new EsportshubContext(options))
                 {
