@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.App.Extensions.Entities;
+using Data.App.Models.Builders.EsportshubEventBuilders;
 
 namespace Data.App.Models.Entities
 {
@@ -14,6 +16,11 @@ namespace Data.App.Models.Entities
         public DateTime End { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+
+        public static IEsportshubEventBuilder Builder()
+        {
+            return new EsportshubEventBuilder(new EsportshubEvent());
+        }
 
         [NotMapped]
         public int Id => EsportshubEventId;

@@ -7,7 +7,7 @@ namespace Data.App.Models.Builders.TeamBuilders
 {
     public interface ITeamBuilder : IBuilder<Team>
     {
-        ITeamBuilder TeamGuid(Guid guid);
+        ITeamBuilder SetTeamGuid(Guid guid);
         ITeamBuilder SetName(string name);
         ITeamBuilder SetGame(Game game);
         ITeamBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents);

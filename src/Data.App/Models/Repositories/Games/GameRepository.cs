@@ -24,6 +24,7 @@ namespace Data.App.Models.Repositories.Games
 
         public async Task<Game> FindAsync(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return await _internalRepository.FindAsync(guid);
         }
 
@@ -39,6 +40,7 @@ namespace Data.App.Models.Repositories.Games
 
         public Game Find(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return _internalRepository.Find(guid);
         }
 
@@ -49,6 +51,7 @@ namespace Data.App.Models.Repositories.Games
 
         public void Delete(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             _internalRepository.Delete(guid);
         }
 

@@ -43,7 +43,7 @@ namespace Data.App.Models.Builders.TeamBuilders
             return this;
         }
 
-        public ITeamBuilder TeamGuid(Guid guid)
+        public ITeamBuilder SetTeamGuid(Guid guid)
         {
             _team.TeamGuid = guid;
             return this;

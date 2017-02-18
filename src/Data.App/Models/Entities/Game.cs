@@ -11,7 +11,7 @@ namespace Data.App.Models.Entities
     {
         private Game() { }
 
-        public static GameBuilder Builder()
+        public static IGameBuilder Builder()
         {
             return new GameBuilder(new Game());
         }
