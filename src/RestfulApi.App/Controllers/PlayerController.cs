@@ -35,9 +35,9 @@ namespace RestfulApi.App.Controllers
         [HttpGet(Name = GetPlayers)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<Player> players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
+            var players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
             if (players == null) return NotFound();
-            IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
+            var playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
         }
 

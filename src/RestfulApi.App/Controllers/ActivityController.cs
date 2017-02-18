@@ -16,8 +16,10 @@ namespace RestfulApi.App.Controllers
     public class ActivityController : Controller
     {
         private readonly IActivityRepository _activityRepository;
-        private readonly ILogger<ActivityController> _logger;
+
+//        private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
+
         private const string GetActivity = "GetActivity";
         private const string GetActivities = "GetActivities";
         private const string UpdateActivity = "UpdateActivity";
@@ -28,7 +30,7 @@ namespace RestfulApi.App.Controllers
             IMapper mapper)
         {
             _activityRepository = activityRepository;
-            _logger = logger;
+//            _logger = logger;
             _mapper = mapper;
         }
 
@@ -49,7 +51,7 @@ namespace RestfulApi.App.Controllers
             if (activity == null) return NotFound();
             var activityDto = _mapper.Map<ActivityDto>(activity);
             return Json(activityDto);
-         }
+        }
 
         [HttpPost(Name = CreateActivity)]
         public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
@@ -62,13 +64,11 @@ namespace RestfulApi.App.Controllers
 
             _activityRepository.Insert(activity);
 
-            if (await _activityRepository.SaveAsync())
-            {
-                var activityResultDto = _mapper.Map<ActivityDto>(activity);
-                return CreatedAtRoute(GetActivity, new {Id = activity.ActivityGuid}, activityResultDto);
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+            if (!await _activityRepository.SaveAsync())
+                return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
 
+            var activityResultDto = _mapper.Map<ActivityDto>(activity);
+            return CreatedAtRoute(GetActivity, new {Id = activity.ActivityGuid}, activityResultDto);
         }
 
         [HttpPut("{id}", Name = UpdateActivity)]
@@ -76,18 +76,17 @@ namespace RestfulApi.App.Controllers
         {
             if (activityDto == null || Guid.Empty == id || activityDto.ActivityGuid != id) return BadRequest();
 
-            var _ = await _activityRepository.FindAsync(id);
-            if (_ == null) return NotFound();
+            if (await _activityRepository.FindAsync(id) == null) return NotFound();
 
-            Activity activity = _mapper.Map<Activity>(activityDto);
+            var activity = _mapper.Map<Activity>(activityDto);
             _activityRepository.Update(activity);
-            if (await _activityRepository.SaveAsync())
-            {
-                var result = Ok(_mapper.Map<ActivityDto>(activity));
-                result.StatusCode = 200;
-                return result;
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+
+            if (!await _activityRepository.SaveAsync())
+                return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+
+            var result = Ok(_mapper.Map<ActivityDto>(activity));
+            result.StatusCode = 200;
+            return result;
         }
 
         [HttpDelete("{id}", Name = DeleteActivity)]
@@ -101,7 +100,7 @@ namespace RestfulApi.App.Controllers
             {
                 return new NoContentResult();
             }
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
     }
 }

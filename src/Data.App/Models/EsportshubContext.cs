@@ -1,3 +1,6 @@
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Data.App.Models.Entities;
 using Data.App.Models.Entities.Mappings;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +28,13 @@ namespace Data.App.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
-                    .AddJsonFile("appsettings.Development.json")
-                    .Build();
-                var connString = config["ConnectionStrings:DefaultConnection"];
-                optionsBuilder.UseSqlServer(connString);
-            }
+            if (optionsBuilder.IsConfigured) return;
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + "/Data.App")
+                .AddJsonFile("appsettings.Development.json")
+                .Build();
+            var connString = config["ConnectionStrings:DefaultConnection"];
+            optionsBuilder.UseSqlServer(connString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -118,7 +120,6 @@ namespace Data.App.Models
                 .ValueGeneratedOnAddOrUpdate();
 
 
-
             //role
             modelBuilder.Entity<Group.Roles>()
                 .Property(r => r.Created)
@@ -129,6 +130,5 @@ namespace Data.App.Models
                 .HasDefaultValueSql("getutcdate()")
                 .ValueGeneratedOnAddOrUpdate();
         }
-
     }
 }

@@ -26,20 +26,5 @@ namespace RestfulApi.App.Dtos.PlayerDtos
         public List<ActivityDto> Activities { get; set; }
         public List<PlayerGroupsDto> PlayerGroups { get; set; }
 
-        public override bool Equals (object obj)
-        {
-            PlayerDto objPlayer = (PlayerDto)obj;
-
-            if (this.CompareEntities(obj))
-                return objPlayer.PlayerGuid == PlayerGuid;
-
-            return false;
-        }
-
-        /**@TODO: Test if this hashcode works in hashmap */
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

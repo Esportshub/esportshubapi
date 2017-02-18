@@ -58,7 +58,7 @@ namespace RestfulApi.App
                 cfg.CreateMap<SocialMedia, SocialMediaDto>().ReverseMap();
                 cfg.CreateMap<Team, TeamDto>().ReverseMap();
             });
-            services.AddDbContext<EsportshubContext>();
+            services.TryAddScoped<EsportshubContext>();
 
             services.TryAddScoped<IRepository<Player>, InternalRepository<Player>>();
             services.TryAddScoped<IRepository<Group>, InternalRepository<Group>>();
