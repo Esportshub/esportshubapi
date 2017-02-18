@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Constant;
 using RestfulApi.App.Dtos.ActivitiesDtos;
-using RestfulApi.App.Dtos.ErrorDtos;
 
 namespace RestfulApi.App.Controllers
 {

@@ -24,7 +24,7 @@ using RestfulApi.App;
 using RestfulApi.App.Dtos.PlayerDtos;
 using Xunit;
 
-namespace IntegrationTest.RestfulApi.IntegrationTest
+namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
 {
     public class PlayerControllerIntegrationTest
     {

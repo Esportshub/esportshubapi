@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Dtos.PlayerDtos;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Constant;
-using RestfulApi.App.Dtos.ErrorDtos;
 
 namespace RestfulApi.App.Controllers
 {

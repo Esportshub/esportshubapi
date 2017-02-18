@@ -60,13 +60,13 @@ namespace RestfulApi.App
             });
             services.AddDbContext<EsportshubContext>();
 
-            services.TryAddScoped<IRepository<Player>, GenericRepository<Player>>();
-            services.TryAddScoped<IRepository<Group>, GenericRepository<Group>>();
-            services.TryAddScoped<IRepository<Game>, GenericRepository<Game>>();
-            services.TryAddScoped<IRepository<Activity>, GenericRepository<Activity>>();
-            services.TryAddScoped<IRepository<Team>, GenericRepository<Team>>();
-            services.TryAddScoped<IRepository<Integration>, GenericRepository<Integration>>();
-            services.TryAddScoped<IRepository<EsportshubEvent>, GenericRepository<EsportshubEvent>>();
+            services.TryAddScoped<IRepository<Player>, InternalRepository<Player>>();
+            services.TryAddScoped<IRepository<Group>, InternalRepository<Group>>();
+            services.TryAddScoped<IRepository<Game>, InternalRepository<Game>>();
+            services.TryAddScoped<IRepository<Activity>, InternalRepository<Activity>>();
+            services.TryAddScoped<IRepository<Team>, InternalRepository<Team>>();
+            services.TryAddScoped<IRepository<Integration>, InternalRepository<Integration>>();
+            services.TryAddScoped<IRepository<EsportshubEvent>, InternalRepository<EsportshubEvent>>();
 
             services.TryAddScoped<IPlayerRepository, PlayerRepository>();
             services.TryAddScoped<IGameRepository, GameRepository>();

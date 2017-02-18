@@ -375,5 +375,10 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<NotFoundResult>(result);
             }
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

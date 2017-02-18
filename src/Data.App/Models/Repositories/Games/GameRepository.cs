@@ -11,11 +11,10 @@ namespace Data.App.Models.Repositories.Games
     {
         private readonly IRepository<Game> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public GameRepository(EsportshubContext context, IRepository<Game> internalRepository)
+        public GameRepository(IRepository<Game> internalRepository)
         {
-            _esportshubContext = context;
             _internalRepository = internalRepository;
-            _internalRepository.SetEsportshubContext(context);
+            _esportshubContext = internalRepository.Context;
         }
 
         public async Task<IEnumerable<Game>> FindByAsync(Expression<Func<Game, bool>> filter, string includeProperties)

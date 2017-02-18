@@ -10,10 +10,11 @@ namespace Data.App.Models.Repositories.Activities
     {
         private readonly IRepository<Activity> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public ActivityRepository(EsportshubContext context, IRepository<Activity> internalRepository)
+        public ActivityRepository(IRepository<Activity> internalRepository)
         {
-            _esportshubContext = context;
+
             _internalRepository = internalRepository;
+            _esportshubContext = internalRepository.Context;
         }
 
         public async Task<IEnumerable<Activity>> FindByAsync(Expression<Func<Activity, bool>> filter, string includeProperties)

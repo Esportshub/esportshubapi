@@ -8,22 +8,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.App.Models.Repositories
 {
-    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEsportshubEntity
+    public class InternalRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEsportshubEntity
     {
-        private EsportshubContext _context;
+        public EsportshubContext Context { get; set; }
         private DbSet<TEntity> _dbSet;
 
-        public GenericRepository()
+        public InternalRepository()
         {
+        }
+
+        public InternalRepository(EsportshubContext context)
+        {
+            Context = context;
+            _dbSet = Context.Set<TEntity>();
         }
 
         public void SetEsportshubContext(EsportshubContext context)
         {
-            _context = context;
-            _dbSet = _context.Set<TEntity>();
+            Context = context;
+            _dbSet = Context.Set<TEntity>();
         }
 
-        //@TODO: Should be handled explicit
+
         public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> filter, string includeProperties)
         {
             IQueryable<TEntity> query = _dbSet;
@@ -33,9 +39,9 @@ namespace Data.App.Models.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity> FindAsync(Guid guid) => await _dbSet.SingleAsync(x => x.Guid.Equals(guid));
+        public async Task<TEntity> FindAsync(Guid guid) => await _dbSet.SingleAsync(x => x.Guid == guid);
 
-        public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() >= 0;
+        public async Task<bool> SaveAsync() => await Context.SaveChangesAsync() >= 0;
 
         public IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> filter = null, string includeProperties = "")
         {
@@ -54,16 +60,30 @@ namespace Data.App.Models.Repositories
         public void Update(TEntity entityToUpdate)
         {
             _dbSet.Attach(entityToUpdate);
-            _context.Entry(entityToUpdate).State = EntityState.Modified;
+            Context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
-        public async void Delete(Guid guid)
+        public async Task DeleteAsync(Guid guid)
         {
+            if (guid == Guid.Empty)
+            {
+                throw new ArgumentException();
+            }
             var entityToDelete = await FindAsync(guid);
             Delete(entityToDelete);
         }
 
-        public bool Save() => _context.SaveChanges() >= 0;
+        public void Delete(Guid guid)
+        {
+            if (guid == Guid.Empty)
+            {
+                throw new ArgumentException();
+            }
+            var entityToDelete = Find(guid);
+            Delete(entityToDelete);
+        }
+
+        public bool Save() => Context.SaveChanges() >= 0;
 
 
         public void OnCompleted(Action continuation)
@@ -73,7 +93,7 @@ namespace Data.App.Models.Repositories
 
         private void Delete(TEntity entityToDelete)
         {
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
+            if (Context.Entry(entityToDelete).State == EntityState.Detached)
                 _dbSet.Attach(entityToDelete);
             _dbSet.Remove(entityToDelete);
         }

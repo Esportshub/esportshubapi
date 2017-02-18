@@ -15,6 +15,7 @@ namespace Data.App.Models.Repositories.Players
         Player Find(Guid guid);
         void Insert(Player entity);
         void Delete(Guid guid);
+        Task DeleteAsync(Guid guid);
         void Update(Player entity);
         bool Save();
     }

@@ -10,11 +10,10 @@ namespace Data.App.Models.Repositories.EsportshubEvents
     {
         private readonly IRepository<EsportshubEvent> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public EsportshubEventRepository(EsportshubContext context, IRepository<EsportshubEvent> internalRepository)
+        public EsportshubEventRepository(IRepository<EsportshubEvent> internalRepository)
         {
-            _esportshubContext = context;
             _internalRepository = internalRepository;
-            _internalRepository.SetEsportshubContext(context);
+            _esportshubContext = internalRepository.Context;
         }
 
         public async Task<IEnumerable<EsportshubEvent>> FindByAsync(Expression<Func<EsportshubEvent, bool>> filter, string includeProperties)

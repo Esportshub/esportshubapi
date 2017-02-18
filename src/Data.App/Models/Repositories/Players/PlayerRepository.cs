@@ -11,11 +11,10 @@ namespace Data.App.Models.Repositories.Players
         private readonly IRepository<Player> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
 
-        public PlayerRepository(EsportshubContext context, IRepository<Player> internalRepository)
+        public PlayerRepository(IRepository<Player> internalRepository)
         {
-            _esportshubContext = context;
             _internalRepository = internalRepository;
-            _internalRepository.SetEsportshubContext(context);
+            _esportshubContext = internalRepository.Context;
         }
 
         public virtual async Task<IEnumerable<Player>> FindByAsync(Expression<Func<Player, bool>> filter, string includeProperties)
@@ -51,6 +50,11 @@ namespace Data.App.Models.Repositories.Players
         public virtual void Delete(Guid guid)
         {
             _internalRepository.Delete(guid);
+        }
+
+        public virtual Task DeleteAsync(Guid guid)
+        {
+            return _internalRepository.DeleteAsync(guid);
         }
 
         public virtual void Update(Player entity)

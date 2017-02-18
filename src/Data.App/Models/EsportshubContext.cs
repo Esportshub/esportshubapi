@@ -25,11 +25,14 @@ namespace Data.App.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
-                .AddJsonFile("appsettings.Development.json")
-                .Build();
-            var connString = config["ConnectionStrings:DefaultConnection"];
-            optionsBuilder.UseSqlServer(connString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
+                    .AddJsonFile("appsettings.Development.json")
+                    .Build();
+                var connString = config["ConnectionStrings:DefaultConnection"];
+                optionsBuilder.UseSqlServer(connString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

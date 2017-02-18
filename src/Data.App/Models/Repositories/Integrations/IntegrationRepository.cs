@@ -10,11 +10,10 @@ namespace Data.App.Models.Repositories.Integrations
     {
         private readonly IRepository<Integration> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public IntegrationRepository(EsportshubContext context, IRepository<Integration> internalRepository)
+        public IntegrationRepository(IRepository<Integration> internalRepository)
         {
-            _esportshubContext = context;
             _internalRepository = internalRepository;
-            _internalRepository.SetEsportshubContext(context);
+            _esportshubContext = internalRepository.Context;
         }
 
         public virtual async Task<IEnumerable<Integration>> FindByAsync(Expression<Func<Integration, bool>> filter, string includeProperties)

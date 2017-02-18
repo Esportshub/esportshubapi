@@ -10,11 +10,10 @@ namespace Data.App.Models.Repositories.Groups
     {
         private readonly IRepository<Group> _internalRepository;
         private readonly EsportshubContext _esportshubContext;
-        public GroupRepository(EsportshubContext context, IRepository<Group> internalRepository)
+        public GroupRepository(IRepository<Group> internalRepository)
         {
-            _esportshubContext = context;
             _internalRepository = internalRepository;
-            _internalRepository.SetEsportshubContext(context);
+            _esportshubContext = internalRepository.Context;
         }
 
         public async Task<IEnumerable<Group>> FindByAsync(Expression<Func<Group, bool>> filter, string includeProperties)
