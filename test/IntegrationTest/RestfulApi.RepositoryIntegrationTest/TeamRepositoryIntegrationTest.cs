@@ -47,6 +47,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Add_7_teams_to_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var teams = GetTeams(7);
@@ -70,6 +71,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeams(3);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -94,6 +96,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Insert(team);
@@ -116,6 +119,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Add_null_to_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<ArgumentNullException>(() => teamRepository.Insert(null));
@@ -132,6 +136,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).SetName("Sjuften").Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Insert(team);
@@ -164,6 +169,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Update_null_team_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<ArgumentNullException>(() => teamRepository.Update(null));
@@ -177,6 +183,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).SetName("Sjuften").Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Update(team);
@@ -194,6 +201,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<InvalidOperationException>(() => teamRepository.Delete(team.TeamGuid));
@@ -206,6 +214,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Delete_team_with_empty_guid_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<ArgumentException>(() => teamRepository.Delete(Guid.Empty));
@@ -219,6 +228,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Insert(team);
@@ -251,6 +261,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Insert(team);
@@ -272,6 +283,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Find_team_with_empty_guid_in_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<ArgumentException>(() => teamRepository.Find(Guid.Empty));
@@ -285,6 +297,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     Throws<InvalidOperationException>(() => teamRepository.Find(team.Guid));
@@ -301,6 +314,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teamRepository.Insert(team);
@@ -322,6 +336,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "FindAsync_team_with_empty_guid_in_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     await ThrowsAsync<ArgumentException>(async () => await teamRepository.FindAsync(Guid.Empty));
@@ -335,6 +350,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     await ThrowsAsync<InvalidOperationException>(async () => await teamRepository.FindAsync(team.Guid));
@@ -352,6 +368,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeamsWithEsportshubEvents(amountOfTeams: 7, amountOfTeamsWithoutEsportshubEvents: 3, esportshubEvents: esportshubEvents);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -373,6 +390,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Find_team_with_empty_guid_in_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var teams = GetTeams(5);
@@ -396,6 +414,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var teams = teamRepository.FindBy(x => x.TeamGuid == team.Guid, string.Empty);
@@ -414,6 +433,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeamsWithEsportshubEvents(amountOfTeams: 7, amountOfTeamsWithoutEsportshubEvents: 3, esportshubEvents: esportshubEvents);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -435,6 +455,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var options = new DbContextOptionsBuilder<EsportshubContext>().UseInMemoryDatabase(databaseName: "Find_team_with_empty_guid_in_database").Options;
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var teams = GetTeams(5);
@@ -458,6 +479,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var team = Team.Builder().SetTeamGuid(Guid.NewGuid()).Build();
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = await teamRepository.FindByAsync(x => x.TeamGuid == team.Guid, string.Empty);
@@ -475,6 +497,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeams(7);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -497,6 +520,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeams(7);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -524,6 +548,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeams(7);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
@@ -546,6 +571,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                 var teams = GetTeams(7);
                 using (var context = new EsportshubContext(options))
                 {
+                    context.Database.EnsureDeleted();
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     teams.ForEach(teamRepository.Insert);
