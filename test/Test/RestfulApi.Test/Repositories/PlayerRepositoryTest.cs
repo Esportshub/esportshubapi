@@ -16,7 +16,6 @@ namespace Test.RestfulApi.Test.Repositories
         {
             private readonly Mock<IRepository<Player>> _internalPlayerRepository = new Mock<IRepository<Player>>();
 
-
             private List<Player> GetPlayers(IEnumerable<Guid> playerIds)
             {
                 var players = new List<Player>();
