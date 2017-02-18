@@ -62,6 +62,10 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
             private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
             private static readonly Mock<ILogger> Logger = new Mock<ILogger>();
 
+
+
+
+
             [Theory]
             [InlineData("?filter[ids]=1,2,3,4,5")]
             public async Task GetPlayersWithCorrectIds(string inputQueryString)
@@ -72,7 +76,7 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
                 var queryStringValues = splittedQueryResult[1].Split(new char[] {','}).Select(id =>
                         {
                             int parsedId;
-                            bool success = int.TryParse(id, out parsedId);
+                            var success = int.TryParse(id, out parsedId);
                             return new {success, parsedId};
                         }).Where(pair => pair.success).Select(pair => pair.parsedId);
                 var players = GetPlayers(queryStringValues);

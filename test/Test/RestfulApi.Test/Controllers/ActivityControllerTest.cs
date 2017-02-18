@@ -73,7 +73,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
 
                 var id = Guid.NewGuid();
-                var instance = (Activity)Activator.CreateInstance(typeof(Activity), nonPublic: true);
+                var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 instance.ActivityGuid = id;
 
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
@@ -83,7 +83,7 @@ namespace Test.RestfulApi.Test.Controllers
                 var result = await ActivityController.Delete(id) as ObjectResult;
                 Assert.NotNull(result);
                 Assert.IsType<ObjectResult>(result);
-                Assert.Equal(result.StatusCode, (int)HttpStatusCode.InternalServerError);
+                Assert.Equal(result.StatusCode, (int) HttpStatusCode.InternalServerError);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Test.RestfulApi.Test.Controllers
                 MockExtensions.ResetAll(Mocks());
                 var id = Guid.NewGuid();
 
-                var result = await ActivityController.Update(Guid.Empty, new ActivityDto() { ActivityGuid = id});
+                var result = await ActivityController.Update(Guid.Empty, new ActivityDto() {ActivityGuid = id});
 
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -216,7 +216,7 @@ namespace Test.RestfulApi.Test.Controllers
                 var id = Guid.NewGuid();
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 instance.ActivityGuid = id;
-                var activityDto = new ActivityDto() { ActivityGuid = id};
+                var activityDto = new ActivityDto() {ActivityGuid = id};
 
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
@@ -224,8 +224,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Mapper.Setup(m => m.Map<ActivityDto>(instance)).Returns(activityDto);
 
                 var result = await ActivityController.Create(activityDto) as CreatedAtRouteResult;
-                Assert.NotNull(result);
-                Assert.Equal(id, result.RouteValues["Id"]);
+                Assert.Equal(id, result?.RouteValues["Id"]);
             }
 
             [Fact]
@@ -236,7 +235,7 @@ namespace Test.RestfulApi.Test.Controllers
                 var id = Guid.NewGuid();
                 var instance = (Activity) Activator.CreateInstance(typeof(Activity), nonPublic: true);
                 instance.ActivityGuid = id;
-                var activityDto = new ActivityDto() { ActivityGuid = id};
+                var activityDto = new ActivityDto() {ActivityGuid = id};
 
                 ActivityRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 ActivityRepository.Setup(x => x.Insert(instance));
@@ -244,8 +243,7 @@ namespace Test.RestfulApi.Test.Controllers
                 Mapper.Setup(m => m.Map<ActivityDto>(instance)).Returns(activityDto);
 
                 var result = await ActivityController.Create(activityDto) as CreatedAtRouteResult;
-                Assert.NotNull(result);
-                var routeObject = result.Value as ActivityDto;
+                var routeObject = result?.Value as ActivityDto;
                 Assert.IsType<ActivityDto>(routeObject);
             }
         }
@@ -281,9 +279,8 @@ namespace Test.RestfulApi.Test.Controllers
                 ActivityRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
 
                 var result = await ActivityController.Get(id) as JsonResult;
-                Assert.NotNull(result);
-                var value = result.Value as ActivityDto;
-                Assert.NotNull(value);
+
+                var value = result?.Value as ActivityDto;
                 Assert.IsType<ActivityDto>(value);
             }
 
@@ -317,7 +314,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var activitiesIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var activities = GetActivities(activitiesIds: activitiesIds);
 
                 ActivityRepository.Setup(
@@ -339,7 +336,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsJsonResultWithIEnumerableActivityDtoAsValueWhenItFindsSomethingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var activitiesIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 var activities = GetActivities(activitiesIds: activitiesIds);
 
                 ActivityRepository.Setup(
@@ -354,12 +351,10 @@ namespace Test.RestfulApi.Test.Controllers
                 }
 
                 var result = await ActivityController.Get() as JsonResult;
-                Assert.NotNull(result);
-                var activityDtos = result.Value as IEnumerable<ActivityDto>;
+                var activityDtos = result?.Value as IEnumerable<ActivityDto>;
 
-                Assert.NotNull(activityDtos);
 
-                foreach (var activityDto in activityDtos)
+                foreach (var activityDto in activityDtos.ToList())
                 {
                     Assert.True(activitiesIds.Contains(activityDto.ActivityGuid));
                 }
@@ -369,7 +364,7 @@ namespace Test.RestfulApi.Test.Controllers
             public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
             {
                 MockExtensions.ResetAll(Mocks());
-                var activitiesIds = new [] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var activitiesIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
                 ActivityRepository.Setup(
                         x => x.FindByAsync(It.IsAny<Expression<Func<Activity, bool>>>(), It.IsAny<string>()))
                     .ReturnsAsync(null);
@@ -385,6 +380,5 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<NotFoundResult>(result);
             }
         }
-
     }
 }
