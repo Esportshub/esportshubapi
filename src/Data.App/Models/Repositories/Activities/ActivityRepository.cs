@@ -22,9 +22,10 @@ namespace Data.App.Models.Repositories.Activities
             return await _internalRepository.FindByAsync(filter, includeProperties);
         }
 
-        public async Task<Activity> FindAsync(Guid id)
+        public async Task<Activity> FindAsync(Guid guid)
         {
-            return await _internalRepository.FindAsync(id);
+            if(guid == Guid.Empty) throw new ArgumentException();
+            return await _internalRepository.FindAsync(guid);
         }
 
         public async Task<bool> SaveAsync()
@@ -39,6 +40,7 @@ namespace Data.App.Models.Repositories.Activities
 
         public Activity Find(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return _internalRepository.Find(guid);
         }
 
@@ -49,6 +51,7 @@ namespace Data.App.Models.Repositories.Activities
 
         public void Delete(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             _internalRepository.Delete(guid);
         }
 

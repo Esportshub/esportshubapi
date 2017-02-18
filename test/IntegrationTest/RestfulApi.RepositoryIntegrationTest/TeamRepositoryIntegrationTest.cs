@@ -363,7 +363,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = teamRepository.FindBy(team => team.EsportshubEvents.All(esportshubEvent => esportshubEvents.Contains(esportshubEvent)), string.Empty);
-                    Equal(teams.Count(), foundTeams.Count());
+                    Equal(expected: teams.Count, actual: foundTeams.Count());
                 }
             }
 
@@ -425,7 +425,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = await teamRepository.FindByAsync(team => team.EsportshubEvents.All(esportshubEvent => esportshubEvents.Contains(esportshubEvent)) , string.Empty);
-                    Equal(teams.Count(), foundTeams.Count());
+                    Equal(teams.Count, foundTeams.Count());
                 }
             }
 
@@ -486,7 +486,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = teamRepository.FindBy(null, string.Empty);
-                    Equal(teams.Count(), foundTeams.Count());
+                    Equal(teams.Count, foundTeams.Count());
                 }
             }
 
@@ -509,8 +509,8 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = teamRepository.FindBy(null, string.Empty);
                     var foundTeamsCount = foundTeams.Count();
-                    NotEqual(teams.Count() - 1, foundTeamsCount);
-                    NotEqual(teams.Count() + 1, foundTeamsCount);
+                    NotEqual(teams.Count - 1, foundTeamsCount);
+                    NotEqual(teams.Count + 1, foundTeamsCount);
                 }
             }
         }
@@ -535,7 +535,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var internalRepository = new InternalRepository<Team>(context);
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = teamRepository.FindBy(null, string.Empty);
-                    Equal(teams.Count(), foundTeams.Count());
+                    Equal(teams.Count, foundTeams.Count());
                 }
             }
 
@@ -558,8 +558,8 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var teamRepository = new TeamRepository(internalRepository);
                     var foundTeams = teamRepository.FindBy(null, string.Empty);
                     var foundTeamsCount = foundTeams.Count();
-                    NotEqual(teams.Count() - 1, foundTeamsCount);
-                    NotEqual(teams.Count() + 1, foundTeamsCount);
+                    NotEqual(teams.Count - 1, foundTeamsCount);
+                    NotEqual(teams.Count + 1, foundTeamsCount);
                 }
             }
         }

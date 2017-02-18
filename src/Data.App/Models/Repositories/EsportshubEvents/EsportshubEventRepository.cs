@@ -23,6 +23,7 @@ namespace Data.App.Models.Repositories.EsportshubEvents
 
         public async Task<EsportshubEvent> FindAsync(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return await _internalRepository.FindAsync(guid);
         }
 
@@ -38,6 +39,7 @@ namespace Data.App.Models.Repositories.EsportshubEvents
 
         public EsportshubEvent Find(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return _internalRepository.Find(guid);
         }
 
@@ -48,6 +50,7 @@ namespace Data.App.Models.Repositories.EsportshubEvents
 
         public void Delete(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             _internalRepository.Delete(guid);
         }
 

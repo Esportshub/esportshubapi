@@ -23,6 +23,7 @@ namespace Data.App.Models.Repositories.Groups
 
         public async Task<Group> FindAsync(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return await _internalRepository.FindAsync(guid);
         }
 
@@ -39,6 +40,7 @@ namespace Data.App.Models.Repositories.Groups
 
         public Group Find(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             return _internalRepository.Find(guid);
         }
 
@@ -49,6 +51,7 @@ namespace Data.App.Models.Repositories.Groups
 
         public void Delete(Guid guid)
         {
+            if(guid == Guid.Empty) throw new ArgumentException();
             _internalRepository.Delete(guid);
         }
 
