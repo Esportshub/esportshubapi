@@ -18,6 +18,7 @@ namespace Data.App.Models
         public DbSet<EsportshubEvent> EsportshubEvents { get; set; }
         public DbSet<Group> Groups { get; set; }
 
+        private const string Path= "/Data.App";
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options)
         {
         }
@@ -30,7 +31,7 @@ namespace Data.App.Models
         {
             if (optionsBuilder.IsConfigured) return;
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + "/Data.App")
+                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + Path)
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             var connString = config["ConnectionStrings:DefaultConnection"];
