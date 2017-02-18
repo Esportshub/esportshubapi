@@ -1,9 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Games;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Constant;
+using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
+using RestfulApi.App.Dtos.GameDtos;
 
 namespace RestfulApi.App.Controllers
 {
@@ -13,6 +21,11 @@ namespace RestfulApi.App.Controllers
         private readonly IGameRepository _gameRepository;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        private const string GetGame = "GetGame";
+        private const string GetGames = "GetGames";
+        private const string UpdateGame = "UpdateGame";
+        private const string CreateGame = "CreateGame";
+        private const string DeleteGame = "DeleteGame";
 
         public GameController(IGameRepository gameRepository, ILogger logger, IMapper mapper)
         {
@@ -21,51 +34,74 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get() => Json(await _gameRepository.FindByAsync(null, ""));
-
-        [HttpGet("{id:int:min(1)}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet(Name = GetGames)]
+        public async Task<IActionResult> Get()
         {
-            var game = await _gameRepository.FindAsync(id);
-            return Json(game);
+            var games = await _gameRepository.FindByAsync(game => game.GameGuid == Guid.Empty , "");
+            if (games == null) return NotFound();
+            IEnumerable<GameDto> gameDtos = games.Select(_mapper.Map<GameDto>);
+            return Json(gameDtos);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Game game)
+        [HttpGet("{id}", Name = GetGame)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (game == null) return BadRequest();
+            if (Guid.Empty == id)
+            {
+                return BadRequest(new InvalidRangeOnInputDto());
+            }
+            var game = await _gameRepository.FindAsync(id);
+            if (game == null) return NotFound();
+            var gameDto = _mapper.Map<EsportshubEventDto>(game);
+            return Json(gameDto);
+        }
+
+        [HttpPost(Name = CreateGame)]
+        public async Task<IActionResult> Create([FromBody] GameDto gameDto)
+        {
+            if (gameDto == null) return BadRequest();
+            Game game = _mapper.Map<Game>(gameDto);
 
             _gameRepository.Insert(game);
-            return await _gameRepository.SaveAsync()
-                ? CreatedAtRoute("GetGame", new {Id = game.GameId}, game)
-                : StatusCode(500, "Error while processing");
+            if (await _gameRepository.SaveAsync())
+            {
+                var gameDtoResult = _mapper.Map<GameDto>(game);
+                return CreatedAtRoute(GetGame, new {Id = game.GameGuid}, gameDtoResult);
+            }
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpPut("{id:int:min(1)}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Game game)
+        [HttpPut("{id}", Name = UpdateGame)]
+        public async Task<IActionResult> Update(Guid id, [FromBody] GameDto gameDto)
         {
-            if (game == null || game.GameId != id) return BadRequest();
+            if (gameDto == null || gameDto.GameGuid != id) return BadRequest();
 
-            var _game = await _gameRepository.FindAsync(id);
-            if (_game == null) return NotFound();
+            var _ = await _gameRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Game game = _mapper.Map<Game>(gameDto);
 
             _gameRepository.Update(game);
-            return await _gameRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _gameRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<EsportshubEventDto>(game));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpDelete("{id:int:min(1)}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{id}", Name = DeleteGame)]
+        public async Task<IActionResult> Delete(Guid id)
         {
             var game = await _gameRepository.FindAsync(id);
 
             if (game == null) return NotFound();
             _gameRepository.Delete(id);
-            return await _gameRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _gameRepository.SaveAsync())
+            {
+                return new NoContentResult();
+            }
+            return StatusCode((int) HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
     }
 }

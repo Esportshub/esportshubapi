@@ -10,18 +10,6 @@ namespace Data.App
     {
         public static void Main(string[] args)
         {
-            using (var db = new EsportshubContext())
-            {
-                var context = new PlayerRepository(db);
-                db.EnsureSeedData();
-
-
-                foreach (var player in db.Players.AsNoTracking())
-                {
-                    Console.WriteLine("Name: " + player.Nickname);
-                    Console.WriteLine("Type: " + player.Created);
-                }
-            }
         }
     }
 }

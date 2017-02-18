@@ -17,15 +17,15 @@ namespace Data.App.Models.Builders.IntegrationBuilders
         }
 
 
-        public IIntegrationBuilder SetIntegrationGuid(Guid input)
+        public IIntegrationBuilder SetIntegrationGuid(Guid integrationGuid)
         {
-            _integration.IntegrationGuid = input;
+            _integration.IntegrationGuid = integrationGuid;
             return this;
         }
 
-        public IIntegrationBuilder SetSocialMedia(SocialMedia input)
+        public IIntegrationBuilder SetSocialMedia(SocialMedia socialMedia)
         {
-            _integration.SocialMedia = input;
+            _integration.SocialMedia = socialMedia;
             return this;
         }
 

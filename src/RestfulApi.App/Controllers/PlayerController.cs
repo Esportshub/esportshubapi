@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -9,7 +9,7 @@ using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Mvc;
 using RestfulApi.App.Dtos.PlayerDtos;
 using Microsoft.Extensions.Logging;
-using RestfulApi.App.Dtos.ErrorDtos;
+using RestfulApi.App.Constant;
 
 namespace RestfulApi.App.Controllers
 {
@@ -19,6 +19,11 @@ namespace RestfulApi.App.Controllers
         private readonly IPlayerRepository _playerRepository;
         private readonly ILogger<PlayerController> _logger;
         private readonly IMapper _mapper;
+        private const string GetPlayer = "GetPlayer";
+        private const string GetPlayers = "GetPlayers";
+        private const string UpdatePlayer = "UpdatePlayer";
+        private const string CreatePlayer = "CreatePlayer";
+        private const string DeletePlayer = "DeletePlayer";
 
         public PlayerController(IPlayerRepository playerRepository, ILogger<PlayerController> logger, IMapper mapper)
         {
@@ -27,62 +32,64 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet(Name = GetPlayers)]
         public async Task<IActionResult> Get()
         {
-            //IEnumerable<Player> players = await _playerRepository.FindByAsync(player => playerIds.Contains(player.PlayerId), "");
             IEnumerable<Player> players = await _playerRepository.FindByAsync(player => player.PlayerId == 1 , "");
             if (players == null) return NotFound();
             IEnumerable<PlayerDto> playerDtos = players.Select(_mapper.Map<PlayerDto>);
             return Json(playerDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id}", Name = GetPlayer)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (!(id > 0))
-            {
-                return BadRequest(new InvalidRangeOnInputDto());
-            }
+            if (Guid.Empty == id) return BadRequest();
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
             var result = _mapper.Map<PlayerDto>(player);
             return Json(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Player player)
+        [HttpPost(Name = CreatePlayer)]
+        public async Task<IActionResult> Create([FromBody] PlayerDto playerDto)
         {
-            if (player == null) return BadRequest();
+            if (playerDto == null) return BadRequest();
+            var player = _mapper.Map<Player>(playerDto);
             _playerRepository.Insert(player);
-            return await _playerRepository.SaveAsync()
-                ? CreatedAtRoute("GetPlayer", new {Id = player.PlayerId}, player)
-                : StatusCode(500, "Error while processing");
+            if (!await _playerRepository.SaveAsync()) return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+            var playerResultDto = _mapper.Map<PlayerDto>(player);
+            return CreatedAtRoute(GetPlayer, new {Id = player.PlayerGuid}, playerResultDto);
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Update([FromBody] Player inputPlayer, int id)
+        [HttpPatch("{id}", Name = UpdatePlayer)]
+        public async Task<IActionResult> Update(Guid id, [FromBody] PlayerDto playerDto)
         {
-            if (inputPlayer == null) return BadRequest();
-            if (!(id > 0)) return BadRequest(new InvalidRangeOnInputDto());
-            var player = await _playerRepository.FindAsync(id);
-            if (player == null) return NotFound();
+            if (playerDto == null || Guid.Empty == id || playerDto.PlayerGuid != id) return BadRequest();
+
+            var _ = await _playerRepository.FindAsync(id);
+            if (_ == null) return NotFound();
+            Player player = _mapper.Map<Player>(playerDto);
             _playerRepository.Update(player);
-            return await _playerRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _playerRepository.SaveAsync())
+            {
+                return Ok(_mapper.Map<PlayerDto>(player));
+            }
+            return StatusCode(500, ErrorConstants.InternalServerError);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{id}", Name = DeletePlayer)]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (!(id > 0)) return BadRequest(new InvalidInputTypeErrorDto());
+            if (Guid.Empty == id) return BadRequest();
             var player = await _playerRepository.FindAsync(id);
             if (player == null) return NotFound();
             _playerRepository.Delete(id);
-            return await _playerRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _playerRepository.SaveAsync())
+            {
+                return new NoContentResult();
+            }
+            return StatusCode(500, ErrorConstants.InternalServerError);
         }
     }
 }

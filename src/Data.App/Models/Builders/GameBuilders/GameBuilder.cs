@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Builders.GameBuilders
 {
     public class GameBuilder : IGameBuilder
     {
-        private Game _game;
+        private readonly Game _game;
 
         public GameBuilder(Game game)
         {
@@ -20,38 +19,33 @@ namespace Data.App.Models.Builders.GameBuilders
             return _game;
         }
 
-        public IGameBuilder SetGameEvents(List<Event> input)
+        public IGameBuilder SetEsportshubEvents(List<EsportshubEvent> events)
         {
-            throw new NotImplementedException();
-        }
-
-        public IGameBuilder SetGameEvents(List<GameEvent> input)
-        {
-            _game.GameEvents = input;
+            _game.EsportshubEvents = events;
             return this;
         }
 
-        public IGameBuilder SetGameGuid(Guid input)
+        public IGameBuilder SetGameGuid(Guid gameGuid)
         {
-            _game.GameGuid = input;
+            _game.GameGuid = gameGuid;
             return this;
         }
 
-        public IGameBuilder SetName(string input)
+        public IGameBuilder SetName(string name)
         {
-            _game.Name = input;
+            _game.Name = name;
             return this;
         }
 
-        public IGameBuilder SetPlayerGames(List<PlayerGames> input)
+        public IGameBuilder SetPlayerGames(List<PlayerGames> playerGames)
         {
-            _game.PlayerGames = input;
+            _game.PlayerGames = playerGames;
             return this;
         }
 
-        public IGameBuilder SetTeams(List<Team> input)
+        public IGameBuilder SetTeams(List<Team> teams)
         {
-            _game.Teams = input;
+            _game.Teams = teams;
             return this;
         }
     }

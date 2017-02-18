@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Integrations;
-using Data.App.Models.Repositories.Teams;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using RestfulApi.App.Controllers;
 using RestfulApi.App.Dtos.IntegrationsDtos;
-using RestfulApi.App.Dtos.TeamDtos;
 using Xunit;
 
 namespace Test.RestfulApi.Test.Controllers
@@ -39,14 +39,11 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class DeleteIntegrationTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfIntegrationDosentExist(int id)
+            [Fact]
+            public async void ReturnsNotFoundResultIfIntegrationDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
 
@@ -55,29 +52,26 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<NotFoundResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfAIntegrationIsDeletedWithValidData(int id)
+            [Fact]
+            public async void ReturnsNoContentResultIfAIntegrationIsDeletedWhenIdIsValid()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                instance.IntegrationGuid = id;
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Delete(id));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Delete(id);
                 Assert.IsType<NoContentResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfIntegrationIsNotDeleteWithValidTeamId(int id)
+            [Fact]
+            public async void GetObjectResultIfIntegrationIsNotDeletedWithValidTeamId()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Delete(id));
@@ -85,91 +79,141 @@ namespace Test.RestfulApi.Test.Controllers
 
                 var result = await IntegrationController.Delete(id);
                 Assert.IsType<ObjectResult>(result);
+            }
+
+            [Fact]
+            public async void GetObjectResultWithStatusCode500IfIntegrationIsNotDeletedWithValidTeamId()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+                var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                IntegrationRepository.Setup(x => x.Delete(id));
+                IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+
+                var result = await IntegrationController.Delete(id) as ObjectResult;
+                Assert.NotNull(result);
+                Assert.NotNull(result.StatusCode);
+                Assert.Equal(500, result.StatusCode.Value );
             }
         }
 
         public class UpdateIntegrationTest
         {
             [Fact]
-            public async void GetBadRequestTypeOfIntegrationDtoIsNull()
+            public async void ReturnsBadRequestResultTypeIfIntegrationDtoIsNullTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                IntegrationDto integreationDto = null;
-
-                var result = await IntegrationController.Update(integreationDto);
+                var result = await IntegrationController.Update(new Guid(), null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfIntegrationDosentExist(int id)
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndIntegrationDtoIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var result = await IntegrationController.Update(Guid.Empty, new IntegrationDto() { IntegrationGuid = id});
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndIntegrationDtoIsValidButEmptyGuidTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
+                var result = await IntegrationController.Update(Guid.Empty, new IntegrationDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsNotFoundIfIntegrationDoesntExistTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() { IntegrationGuid = id });
 
                 Assert.IsType<NotFoundResult>(result);
             }
 
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfDataIsNotUpdateWithValidIntegrationDto(int id)
+            [Fact]
+            public async void ReturnsObjectResultIfIntegrationIsNotUpdatedWithValidIntegrationDtoTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Update(instance));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
+                var result = await IntegrationController.Update(id, new IntegrationDto() { IntegrationGuid = id });
                 Assert.IsType<ObjectResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfAIntegrationIsUpdateWithValidData(int id)
+            [Fact]
+            public async void ReturnsObjectResultWithStatusCode500IfIntegrationIsNotUpdatedWithValidIntegrationDtoTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                IntegrationRepository.Setup(x => x.Update(instance));
+                IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+
+                var result = await IntegrationController.Update(id, new IntegrationDto() {IntegrationGuid = id}) as ObjectResult;
+                Assert.NotNull(result);
+                Assert.NotNull(result.StatusCode);
+                Assert.Equal(500, result.StatusCode.Value);
+            }
+
+            [Fact]
+            public async void GetNoContentResultIfAIntegrationIsUpdatedWithValidIdTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 IntegrationRepository.Setup(x => x.Update(instance));
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await IntegrationController.Update(new IntegrationDto() {IntegrationId = id});
-                Assert.IsType<NoContentResult>(result);
+                var result = await IntegrationController.Update(id, new IntegrationDto() { IntegrationGuid = id});
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
         public class PostIntegrationTest
         {
             [Fact]
-            public async void GetCreateAtRouteResultIfDataIsValid()
+            public async void ReturnsCreatedAtRouteResultIfDataIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+                var integrationDto = new IntegrationDto() { IntegrationGuid = id};
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                instance.IntegrationGuid = id;
 
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
                 var result = await IntegrationController.Create(new IntegrationDto());
                 Assert.IsType<CreatedAtRouteResult>(result);
             }
 
             [Fact]
-            public async void GetObjectResultIfValiddDataIsNotSaved()
+            public async void ReturnsObjectResultIfValidIntegrationDtoIsNotSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -182,48 +226,52 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void GetBadRequestTypeIfIntegrationDtoIsNull()
+            public async void ReturnsBadRequestResultTypeIfIntegrationDtoIsNullTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                IntegrationDto integrationDto = null;
-
-                var result = await IntegrationController.Create(integrationDto);
+                var result = await IntegrationController.Create(null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void CheckIfCreateAtRouteIsCreatedWithRightValuesWhenAValidIntegrationIsCreated(int id)
+            [Fact]
+            public async void IfCreatedAtRouteResultIsCreatedWithRightValuesWhenAValidIntegrationIsCreatedTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
-                instance.IntegrationId = id;
+                instance.IntegrationGuid = id;
+                var integrationDto = new IntegrationDto {IntegrationGuid = id};
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Integration>(integrationDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
-                var result = await IntegrationController.Create(new IntegrationDto()) as CreatedAtRouteResult;
-                var routeValue = (int) result.RouteValues["Id"];
-                Assert.Equal(routeValue, id);
+                var result = await IntegrationController.Create(integrationDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
+                Guid guid;
+                Assert.Equal(id, result.RouteValues["Id"]);
             }
 
             [Fact]
-            public async void CheckIfCreatedAtRouteObjectIsTeamWhenAValidIntegrationIsSaved()
+            public async void IfCreatedAtRouteObjectIsIntegrationDtoWhenAValidIntegrationIsSavedTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                instance.IntegrationGuid = id;
+                var integrationDto = new IntegrationDto() { IntegrationGuid = id};
+
                 IntegrationRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 IntegrationRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Integration>(It.IsAny<IntegrationDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Integration>(integrationDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<IntegrationDto>(instance)).Returns(integrationDto);
 
-                var result = await IntegrationController.Create(new IntegrationDto()) as CreatedAtRouteResult;
+                var result = await IntegrationController.Create(integrationDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
                 var routeObject = result.Value as IntegrationDto;
                 Assert.IsType<IntegrationDto>(routeObject);
             }
@@ -231,14 +279,11 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class GetIntegrationTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void ReturnJsonAsResultWithIdInputTest(int id)
+            [Fact]
+            public async void ReturnJsonAsResultWithIdInputTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
 
@@ -248,24 +293,13 @@ namespace Test.RestfulApi.Test.Controllers
                 var result = await IntegrationController.Get(id) as JsonResult;
                 Assert.IsType<JsonResult>(result);
             }
+
 
             [Fact]
-            public async void ReturnJsonAsResultTest()
+            public async void IsTypeOfIntegrationDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
-
-                var result = await IntegrationController.Get();
-                Assert.IsType<JsonResult>(result);
-            }
-
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void IsTypeOfIntegrationDtoTest(int id)
-            {
-                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
 
@@ -273,21 +307,98 @@ namespace Test.RestfulApi.Test.Controllers
 
                 IntegrationRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 var result = await IntegrationController.Get(id) as JsonResult;
+                Assert.NotNull(result);
                 var teamDto = result.Value as IntegrationDto;
                 Assert.IsType<IntegrationDto>(teamDto);
             }
 
-            [Theory]
-            [InlineData(0)]
-            [InlineData(-1)]
-            [InlineData(-50)]
-            [InlineData(-100000)]
-            public async void InvalidInputTest(int id)
+            [Fact]
+            public async void ReturnsBadRequestObjectResultWhenInvalidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.Empty;
+
                 var result = await IntegrationController.Get(id) as BadRequestObjectResult;
 
                 Assert.IsType<BadRequestObjectResult>(result);
+            }
+        }
+
+        public class GetIntegrationsTest
+        {
+            private IEnumerable<Integration> GetIntegrations(Guid[] integrationIds)
+            {
+                IEnumerable<Integration> integrations = new List<Integration>();
+                foreach (var integrationId in integrationIds)
+                {
+                    var integration = (Integration) Activator.CreateInstance(typeof(Integration), true);
+                    integration.IntegrationGuid = integrationId;
+                    integrations.Append(integration);
+                }
+                return integrations;
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWhenItFindsSomethingTest()
+            {
+
+                MockExtensions.ResetAll(Mocks());
+                var integrationIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var integrations = GetIntegrations(integrationIds);
+
+                IntegrationRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Integration, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(integrations);
+                foreach (var integrationId in integrationIds)
+                {
+                    var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                    instance.IntegrationGuid = integrationId;
+                    var integrationDto = new IntegrationDto {IntegrationGuid = integrationId};
+                    Mapper.Setup(x => x.Map<IntegrationDto>(instance)).Returns(integrationDto);
+                }
+
+                var integrationDtos = await IntegrationController.Get() as JsonResult;
+                Assert.IsType<JsonResult>(integrationDtos);
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWithIEnumerableIntegrationDtoAsValueWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var integrationIds = new[] { Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid() };
+                var integrations = GetIntegrations(integrationIds);
+
+                IntegrationRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Integration, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(integrations);
+                foreach (var integrationId in integrationIds)
+                {
+                    var instance = (Integration) Activator.CreateInstance(typeof(Integration), nonPublic: true);
+                    instance.IntegrationGuid = integrationId;
+                    var integrationDto = new IntegrationDto {IntegrationGuid = integrationId};
+                    Mapper.Setup(x => x.Map<IntegrationDto>(instance)).Returns(integrationDto);
+                }
+
+                var result = await IntegrationController.Get() as JsonResult;
+                Assert.NotNull(result);
+                var integrationDtos = result.Value as IEnumerable<IntegrationDto>;
+                Assert.NotNull(integrationDtos);
+
+                foreach (var integrationDto in integrationDtos)
+                {
+                    Assert.True(integrationIds.Contains(integrationDto.IntegrationGuid));
+                }
+            }
+
+            [Fact]
+            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
+            {
+                IntegrationRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Integration, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(null);
+
+                var result = await IntegrationController.Get() as NotFoundResult;
+                Assert.IsType<NotFoundResult>(result);
             }
         }
     }

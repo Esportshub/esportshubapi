@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Teams;
@@ -34,14 +36,11 @@ namespace Test.RestfulApi.Test.Controllers
 
         public class DeleteTeamTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfTeamDosentExist(int id)
+            [Fact]
+            public async void ReturnsNotFoundIfTeamDosentExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.Empty;
 
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
 
@@ -50,30 +49,31 @@ namespace Test.RestfulApi.Test.Controllers
                 Assert.IsType<NotFoundResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfATeamIsDeletedWithValidData(int id)
+            [Fact]
+            public async void ReturnsNoContentResultTypeIfATeamIsDeletedWithValidIdTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 TeamRepository.Setup(x => x.Delete(id));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
-                Assert.IsType<NoContentResult>(result);
+                var result = await TeamController.Update(id, new TeamDto() {TeamGuid = id});
+                Assert.IsType<OkObjectResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfDataIsNotDeleteWithValidTeamId(int id)
+            [Fact]
+            public async void ReturnsObjectResultIfDataIsNotDeleteWithValidTeamIdTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 TeamRepository.Setup(x => x.Delete(id));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
@@ -86,85 +86,84 @@ namespace Test.RestfulApi.Test.Controllers
         public class UpdateTeamTest
         {
             [Fact]
-            public async void GetBadRequestTypeIfTeamDtoIsNull()
+            public async void ReturnsBadRequestResultTypeIfTeamDtoIsNullTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                TeamDto teamDto = null;
-
-                var result = await TeamController.Update(teamDto);
+                var result = await TeamController.Update(new Guid(), null);
 
                 Assert.IsType<BadRequestResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNotFoundIfTeamDosentExist(int id)
+            [Fact]
+            public async void ReturnsNotFoundIfTeamDoesntExistTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() { TeamGuid = id });
 
                 Assert.IsType<NotFoundResult>(result);
             }
 
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetObjectResultIfDataIsNotUpdateWithValidTeamDto(int id)
+            [Fact]
+            public async void ReturnsObjectResultIfTeamIsNotUpdatedWithValidTeamDtoTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 TeamRepository.Setup(x => x.Update(instance));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
+                var result = await TeamController.Update(id, new TeamDto() {TeamGuid = id});
+
                 Assert.IsType<ObjectResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(22)]
-            [InlineData(5032)]
-            [InlineData(100000)]
-            public async void GetNoContentResultIfATeamIsUpdateWithValidData(int id)
+            [Fact]
+            public async void GetNoContentResultIfATeamIsUpdatedWithValidTeamDtoTest()
             {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 TeamRepository.Setup(x => x.Update(instance));
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
 
-                var result = await TeamController.Update(new TeamDto() {TeamId = id});
-                Assert.IsType<NoContentResult>(result);
+                var result = await TeamController.Update(id, new TeamDto() {TeamGuid = id});
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
-        public class PostTeamTest
+        public class CreateTeamTest
         {
             [Fact]
-            public async void GetCreateAtRouteResultIfDataIsValid()
+            public async void ReturnsCreatedAtRouteResultIfTeamDtoIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
+                var id = Guid.NewGuid();
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+
+                var teamDto = new TeamDto() { TeamGuid = id};
 
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
                 Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
                 var result = await TeamController.Create(new TeamDto());
                 Assert.IsType<CreatedAtRouteResult>(result);
             }
 
             [Fact]
-            public async void GetObjectResultIfValiddDataIsNotSaved()
+            public async void ReturnsObjectResultIfValidTeamIsNotSavedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
@@ -177,65 +176,81 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void GetBadRequestTypeIfTeamDtoIsNull()
+            public async void ReturnsStatusCodeResultWithStatusCode500IfValidTeamIsNotSavedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
 
-                TeamDto teamDto = null;
+                var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+                TeamRepository.Setup(x => x.Insert(instance));
 
-                var result = await TeamController.Create(teamDto);
+                var result = await TeamController.Create(new TeamDto()) as ObjectResult;
+                Assert.NotNull(result);
+                Assert.NotNull(result.StatusCode);
+                Assert.Equal(500, result.StatusCode.Value);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultTypeIfTeamDtoIsNullTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await TeamController.Create(null);
 
                 Assert.IsType<BadRequestObjectResult>(result);
             }
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void CheckIfCreateAtRouteIsCreatedWithRightValuesWhenAValidTeamIsCreated(int id)
+            [Fact]
+            public async void ReturnsCreatedAtRouteResultTypeWhenValidTeamIsSavedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
-                instance.TeamId = id;
+                var teamDto = new TeamDto() { TeamGuid = id};
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Team>(teamDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
-                var result = await TeamController.Create(new TeamDto()) as CreatedAtRouteResult;
-                var routeValue = (int) result.RouteValues["Id"];
-                Assert.Equal(routeValue, id);
+                var result = await TeamController.Create(teamDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
+                var routeObject = result.Value as TeamDto;
+                Assert.IsType<TeamDto>(routeObject);
             }
 
             [Fact]
-            public async void CheckIfCreatedAtRouteObjectIsTeamWhenAValidTeamIsSaved()
+            public async void ReturnsCorrectCreatedAtRouteResultWhenAValidTeamIsCreatedWithValidTeamDtoTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+
+                var teamDto = new TeamDto { TeamGuid = id};
+
                 TeamRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
                 TeamRepository.Setup(x => x.Insert(instance));
-                Mapper.Setup(m => m.Map<Team>(It.IsAny<TeamDto>())).Returns(instance);
+                Mapper.Setup(m => m.Map<Team>(teamDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
 
-                var result = await TeamController.Create(new TeamDto()) as CreatedAtRouteResult;
-                var routeObject = result.Value as TeamDto;
-                Assert.IsType<TeamDto>(routeObject);
+                var result = await TeamController.Create(teamDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
+                Assert.Equal(id, result.RouteValues["Id"]);
             }
         }
 
         public class GetTeamTest
         {
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void ReturnJsonAsResultWithIdInputTest(int id)
+            [Fact]
+            public async void ReturnsJsonResultWithValidIdTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
 
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
 
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 Mapper.Setup(m => m.Map<TeamDto>(It.IsAny<Team>())).Returns(new TeamDto());
@@ -245,43 +260,132 @@ namespace Test.RestfulApi.Test.Controllers
             }
 
             [Fact]
-            public async void ReturnJsonAsResultTest()
+            public async void ReturnsJsonResultWithValueOfTypeTeamDtoWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
-
-                var result = await TeamController.Get();
-                Assert.IsType<JsonResult>(result);
-            }
-
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void IsTypeOfTeamDtoTest(int id)
-            {
-                MockExtensions.ResetAll(Mocks());
-
-                Mapper.Setup(m => m.Map<TeamDto>(It.IsAny<Team>())).Returns(new TeamDto());
-
+                var id = Guid.NewGuid();
                 var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+
+                var teamDto = new TeamDto {TeamGuid = id};
+
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
+
                 TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
                 var result = await TeamController.Get(id) as JsonResult;
-                var teamDto = result.Value as TeamDto;
-                Assert.IsType<TeamDto>(teamDto);
+                Assert.NotNull(result);
+                var value = result.Value as TeamDto;
+                Assert.IsType<TeamDto>(value);
             }
 
-            [Theory]
-            [InlineData(0)]
-            [InlineData(-1)]
-            [InlineData(-50)]
-            [InlineData(-100000)]
-            public async void InvalidInputTest(int id)
+            [Fact]
+            public async void ReturnsJsonResultWithCorrectTeamDtoValuesWhenIdIsValidTest()
             {
                 MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                instance.TeamGuid = id;
+                var teamDto = new TeamDto {TeamGuid = id};
+
+                TeamRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                Mapper.Setup(m => m.Map<TeamDto>(instance)).Returns(teamDto);
+
+                var result = await TeamController.Get(id) as JsonResult;
+                Assert.NotNull(result);
+                var resultTeamDto = result.Value as TeamDto;
+                Assert.NotNull(resultTeamDto);
+                Assert.True(id == resultTeamDto.TeamGuid);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestObjectResultWhenIdIsInvalidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.Empty;
+
                 var result = await TeamController.Get(id) as BadRequestObjectResult;
 
                 Assert.IsType<BadRequestObjectResult>(result);
+            }
+        }
+
+        public class GetTeamsTest
+        {
+            private IEnumerable<Team> GetTeams(Guid[] teamIds)
+            {
+                IEnumerable<Team> teams = new List<Team>();
+                foreach (var teamId in teamIds)
+                {
+                    var team = (Team) Activator.CreateInstance(typeof(Team), true);
+                    team.TeamGuid = teamId;
+                    teams.Append(team);
+                }
+                return teams;
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var teamIds = new[] {new Guid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
+                var teams = GetTeams(teamIds);
+
+                TeamRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Team, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(teams);
+                foreach (var teamId in teamIds)
+                {
+                    var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                    instance.TeamGuid = teamId;
+                    var teamDto = new TeamDto {TeamGuid = teamId};
+                    Mapper.Setup(x => x.Map<TeamDto>(instance)).Returns(teamDto);
+                }
+
+                var teamDtos = await TeamController.Get() as JsonResult;
+                Assert.IsType<JsonResult>(teamDtos);
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWithIEnumerableTeamDtoAsValueWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var teamIds = new[] {new Guid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
+                var teams = GetTeams(teamIds);
+
+                TeamRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Team, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(teams);
+                foreach (var teamId in teamIds)
+                {
+                    var instance = (Team) Activator.CreateInstance(typeof(Team), nonPublic: true);
+                    instance.TeamGuid = teamId;
+                    var teamDto = new TeamDto {TeamGuid = teamId};
+                    Mapper.Setup(x => x.Map<TeamDto>(instance)).Returns(teamDto);
+                }
+
+                var result = await TeamController.Get() as JsonResult;
+                Assert.NotNull(result);
+                var teamDtos = result.Value as IEnumerable<TeamDto>;
+
+                Assert.NotNull(teamDtos);
+
+                foreach (var teamDto in teamDtos)
+                {
+                    Assert.True(teamIds.Contains(teamDto.TeamGuid));
+                }
+            }
+
+            [Fact]
+            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                TeamRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Team, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(null);
+
+                var result = await TeamController.Get() as NotFoundResult;
+                Assert.IsType<NotFoundResult>(result);
             }
         }
     }

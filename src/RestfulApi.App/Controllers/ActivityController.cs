@@ -1,10 +1,13 @@
+using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
 using Data.App.Models.Repositories.Activities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestfulApi.App.Constant;
 using RestfulApi.App.Dtos.ActivitiesDtos;
 
 namespace RestfulApi.App.Controllers
@@ -15,6 +18,11 @@ namespace RestfulApi.App.Controllers
         private readonly IActivityRepository _activityRepository;
         private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
+        private const string GetActivity = "GetActivity";
+        private const string GetActivities = "GetActivities";
+        private const string UpdateActivity = "UpdateActivity";
+        private const string CreateActivity = "CreateActivity";
+        private const string DeleteActivity = "DeleteActivity";
 
         public ActivityController(IActivityRepository activityRepository, ILogger<ActivityController> logger,
             IMapper mapper)
@@ -24,64 +32,76 @@ namespace RestfulApi.App.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> Get()
-
+        [HttpGet(Name = GetActivities)]
+        public async Task<IActionResult> Get()
         {
-            var activities = await _activityRepository.FindByAsync(null, "");
-            var activitiesDto = activities.Select(_mapper.Map<ActivityDto>);
-
-            return Json(activitiesDto);
+            var activities = await _activityRepository.FindByAsync(activity => activity.ActivityGuid == Guid.Empty, "");
+            if (activities == null) return new NotFoundResult();
+            var activityDtos = activities.Select(_mapper.Map<ActivityDto>);
+            return Json(activityDtos);
         }
 
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id}", Name = GetActivity)]
+        public async Task<IActionResult> Get(Guid id)
         {
-            if (id <= 0) return BadRequest("Invalid input");
+            if (Guid.Empty == id) return BadRequest();
             var activity = await _activityRepository.FindAsync(id);
+            if (activity == null) return NotFound();
             var activityDto = _mapper.Map<ActivityDto>(activity);
             return Json(activityDto);
-        }
+         }
 
-        [HttpPost]
+        [HttpPost(Name = CreateActivity)]
         public async Task<IActionResult> Create([FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null) return BadRequest();
-
+            if (activityDto == null)
+            {
+                return new BadRequestResult();
+            }
             var activity = _mapper.Map<Activity>(activityDto);
 
             _activityRepository.Insert(activity);
 
-            return await _activityRepository.SaveAsync()
-                ? CreatedAtRoute("GetActivity", new {Id = activity.ActivityId}, activityDto)
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                var activityResultDto = _mapper.Map<ActivityDto>(activity);
+                return CreatedAtRoute(GetActivity, new {Id = activity.ActivityGuid}, activityResultDto);
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] ActivityDto activityDto)
+        [HttpPut("{id}", Name = UpdateActivity)]
+        public async Task<IActionResult> Update(Guid id, [FromBody] ActivityDto activityDto)
         {
-            if (activityDto == null) return BadRequest();
+            if (activityDto == null || Guid.Empty == id || activityDto.ActivityGuid != id) return BadRequest();
 
-            var activity = await _activityRepository.FindAsync(activityDto.ActivityId);
-            if (activity == null) return NotFound();
+            var _ = await _activityRepository.FindAsync(id);
+            if (_ == null) return NotFound();
 
+            Activity activity = _mapper.Map<Activity>(activityDto);
             _activityRepository.Update(activity);
-            return await _activityRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                var result = Ok(_mapper.Map<ActivityDto>(activity));
+                result.StatusCode = 200;
+                return result;
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{id}", Name = DeleteActivity)]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var game = await _activityRepository.FindAsync(id);
+            var activity = await _activityRepository.FindAsync(id);
 
-            if (game == null) return NotFound();
+            if (activity == null) return NotFound();
             _activityRepository.Delete(id);
-            return await _activityRepository.SaveAsync()
-                ? (IActionResult) new NoContentResult()
-                : StatusCode(500, "Error while processing");
+            if (await _activityRepository.SaveAsync())
+            {
+                return new NoContentResult();
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorConstants.InternalServerError);
         }
     }
 }

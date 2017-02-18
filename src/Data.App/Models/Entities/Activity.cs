@@ -14,7 +14,7 @@ namespace Data.App.Models.Entities
             return new ActivityBuilder(new Activity());
         }
 
-        public int ActivityId { get;  set; }
+        public int ActivityId { get; set; }
 
         public Guid ActivityGuid { get; set; }
 
@@ -32,6 +32,9 @@ namespace Data.App.Models.Entities
 
         [NotMapped]
         public int Id => ActivityId;
+
+        [NotMapped]
+        public Guid Guid => ActivityGuid;
 
         public override bool Equals(object obj)
         {

@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Builders.GroupBuilders
 {
     public class GroupBuilder : IGroupBuilder
     {
-        private Group _group;
+        private readonly Group _group;
 
         public GroupBuilder (Group group)
         {
@@ -21,39 +20,39 @@ namespace Data.App.Models.Builders.GroupBuilders
         }
 
 
-        public IGroupBuilder SetPlayerGroups(List<PlayerGroups> input)
+        public IGroupBuilder SetPlayerGroups(List<PlayerGroups> playerGroups)
         {
-           _group.PlayerGroups = input;
+           _group.PlayerGroups = playerGroups;
            return this;
         }
 
-        public IGroupBuilder SetGroupEvents(List<GroupEvent> input)
+        public IGroupBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents)
         {
-            _group.GroupEvents = input;
+            _group.EsportshubEvents = esportshubEvents;
             return this;
         }
 
-        public IGroupBuilder SetGroupGuid(Guid input)
+        public IGroupBuilder SetGroupGuid(Guid groupGuid)
         {
-           _group.GroupGuid = input;
+           _group.GroupGuid = groupGuid;
            return this;
         }
 
-        public IGroupBuilder SetName(string input)
+        public IGroupBuilder SetName(string name)
         {
-            _group.Name = input;
+            _group.Name = name;
             return this;
         }
 
-        public IGroupBuilder SetRole(Group.Roles input)
+        public IGroupBuilder SetRole(Group.Roles role)
         {
-            _group.Role = input;
+            _group.Role = role;
             return this;
         }
 
-        public IGroupBuilder SetVisibilty(Group.Visibilties input)
+        public IGroupBuilder SetVisibilty(Group.Visibilties visibility)
         {
-            _group.Visibilty = input;
+            _group.Visibilty = visibility;
             return this;
         }
     }

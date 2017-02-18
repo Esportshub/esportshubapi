@@ -1,12 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Data.App.Models.Entities;
 
 namespace Data.App.Models.Repositories.Players
 {
-    public class PlayerRepository : GenericRepository<Player>, IPlayerRepository
+    public class PlayerRepository : IPlayerRepository
     {
-        public PlayerRepository(EsportshubContext context) : base(context)
+        private readonly IRepository<Player> _internalRepository;
+        private readonly EsportshubContext _esportshubContext;
+
+        public PlayerRepository(IRepository<Player> internalRepository)
         {
-            
+            _internalRepository = internalRepository;
+            _esportshubContext = internalRepository.Context;
+        }
+
+        public virtual async Task<IEnumerable<Player>> FindByAsync(Expression<Func<Player, bool>> filter, string includeProperties)
+        {
+            return await _internalRepository.FindByAsync(filter, includeProperties);
+        }
+
+        public virtual async Task<Player> FindAsync(Guid guid)
+        {
+            return await _internalRepository.FindAsync(guid);
+        }
+
+        public virtual async Task<bool> SaveAsync()
+        {
+            return await _internalRepository.SaveAsync();
+        }
+
+        public virtual IEnumerable<Player> FindBy(Expression<Func<Player, bool>> filter, string includeProperties)
+        {
+            return _internalRepository.FindBy(filter, includeProperties);
+        }
+
+        public virtual Player Find(Guid guid)
+        {
+            return _internalRepository.Find(guid);
+        }
+
+        public virtual void Insert(Player entity)
+        {
+            _internalRepository.Insert(entity);
+        }
+
+        public virtual void Delete(Guid guid)
+        {
+            _internalRepository.Delete(guid);
+        }
+
+        public virtual Task DeleteAsync(Guid guid)
+        {
+            return _internalRepository.DeleteAsync(guid);
+        }
+
+        public virtual void Update(Player entity)
+        {
+            _internalRepository.Update(entity);
+        }
+
+        public virtual bool Save()
+        {
+            return _internalRepository.Save();
         }
     }
 }

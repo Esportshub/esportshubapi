@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 
 namespace Data.App.Models.Builders.TeamBuilders
 {
     public class TeamBuilder : ITeamBuilder
     {
-        private Team _team;
+        private readonly Team _team;
 
         public TeamBuilder(Team team)
         {
@@ -20,33 +19,33 @@ namespace Data.App.Models.Builders.TeamBuilders
             return _team;
         }
 
-        public ITeamBuilder SetTeamEvents(List<TeamEvent> input)
+        public ITeamBuilder SetEsportshubEvents(List<EsportshubEvent> esportshubEvents)
         {
-            _team.TeamEvents = input;
+            _team.EsportshubEvents = esportshubEvents;
             return this;
         }
 
-        public ITeamBuilder SetGame(Game input)
+        public ITeamBuilder SetGame(Game game)
         {
-            _team.Game = input;
+            _team.Game = game;
             return this;
         }
 
-        public ITeamBuilder SetName(string input)
+        public ITeamBuilder SetName(string name)
         {
-            _team.Name = input;
+            _team.Name = name;
             return this;
         }
 
-        public ITeamBuilder SetPlayerTeams(List<PlayerTeams> input)
+        public ITeamBuilder SetPlayerTeams(List<PlayerTeams> playerTeams)
         {
-            _team.PlayerTeams = input;
+           _team.PlayerTeams = playerTeams;
             return this;
         }
 
-        public ITeamBuilder TeamGuid(Guid input)
+        public ITeamBuilder TeamGuid(Guid guid)
         {
-            _team.TeamGuid = input;
+            _team.TeamGuid = guid;
             return this;
         }
     }

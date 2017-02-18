@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data.App.Models.Entities;
@@ -14,107 +18,367 @@ namespace Test.RestfulApi.Test.Controllers
 {
     public class PlayerControllerTest : IDisposable
     {
-
         private static readonly Mock<IPlayerRepository> PlayerRepository = new Mock<IPlayerRepository>();
         private static readonly Mock<ILogger<PlayerController>> Logger = new Mock<ILogger<PlayerController>>();
         private static readonly Mock<IMapper> Mapper = new Mock<IMapper>();
 
+        private static readonly PlayerController PlayerController =
+            new PlayerController(PlayerRepository.Object, Logger.Object, Mapper.Object);
+
+        public static List<Mock> Mocks()
+        {
+            return new List<Mock>
+            {
+                PlayerRepository,
+                Logger,
+                Mapper
+            };
+        }
+
         public class GetPlayerTest
         {
 
-            [Theory]
-            [InlineData(1)]
-            [InlineData(37)]
-            [InlineData(50000)]
-            [InlineData(100000)]
-            public async void ReturnCorrectType(int id)
+            [Fact]
+            public async void ReturnsJsonResultWhenIdIsValidTest()
             {
-                Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
-                player.PlayerId = id;
+                MockExtensions.ResetAll(Mocks());
+
+                var id = Guid.NewGuid();
+                var player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                player.PlayerGuid = id;
+
+                var playerDto = new PlayerDto() { PlayerGuid = id};
+
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
-                PlayerController playerController = new PlayerController(PlayerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
-                var jsonResult = await playerController.Get(id);
+                Mapper.Setup(x => x.Map<PlayerDto>(player)).Returns(playerDto);
+
+                var jsonResult = await PlayerController.Get(id);
 
                 Assert.IsType<JsonResult>(jsonResult);
             }
 
-            public PlayerDto CreatePlayerDto(int id, string nickName)
+            [Fact]
+            public async void ReturnsJsonResultWithValuePlayerDtoWithCorrectValuesWhenCorrectIdTest()
             {
-                PlayerDto playerDto = new PlayerDto();
-                playerDto.PlayerId = id;
-                playerDto.Nickname = nickName;
-                return playerDto;
-            }
+                MockExtensions.ResetAll(Mocks());
 
-            [Theory]
-            [InlineData(1, "Sjuften")]
-            [InlineData(37, "DenLilleMand")]
-            [InlineData(50000, "Killer")]
-            [InlineData(100000, "")]
-            public async void CorrectIdTest(int id, string nickName)
-            {
-                Player player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
-                PlayerDto playerDto = CreatePlayerDto(id, nickName);
+                var player = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                var id = Guid.NewGuid();
+                const string nickname = "DenLilleMand";
+                player.PlayerGuid = id;
+                var playerDto = new PlayerDto() { PlayerGuid = id, Nickname = nickname};
 
-                Mapper.Setup(mapper => mapper.Map<PlayerDto>(It.IsAny<Player>())).Returns(playerDto);
+                Mapper.Setup(mapper => mapper.Map<PlayerDto>(player)).Returns(playerDto);
                 PlayerRepository.Setup(x => x.FindAsync(id)).Returns(Task.FromResult(player));
-                PlayerController playerController = new PlayerController(PlayerRepository.Object, Logger.Object, Mapper.Object);
-                JsonResult jsonResult = await playerController.Get(id) as JsonResult;
+                var jsonResult = await PlayerController.Get(id) as JsonResult;
                 Assert.NotNull(jsonResult);
-                PlayerDto playerDtoResult = jsonResult.Value as PlayerDto;
+                var playerDtoResult = jsonResult.Value as PlayerDto;
 
                 Assert.NotNull(playerDtoResult);
-                Assert.Equal(id, playerDtoResult.PlayerId);
-                Assert.Equal("DenLilleMand", playerDtoResult.Nickname);
+                Assert.True(id == playerDtoResult.PlayerGuid);
+                Assert.Equal(nickname, playerDtoResult.Nickname);
             }
 
-            [Theory]
-            [InlineData(0)]
-            [InlineData(-1)]
-            [InlineData(-50)]
-            [InlineData(-100000)]
-            public async void ZeroAndBelowIdTest(int id)
+            [Fact]
+            public async void ReturnsBadRequestResultWhenIdIsInvalidTest()
             {
-                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.Empty;
 
-                playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object,
-                    new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
-
-                var result = await playerController.Get(id) as BadRequestObjectResult;
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
+                var result = await PlayerController.Get(id) as BadRequestResult;
 
                 Assert.NotNull(result);
-                Assert.IsType<BadRequestObjectResult>(result);
+                Assert.IsType<BadRequestResult>(result);
+            }
+        }
+
+
+        public class CreatePlayerTest
+        {
+            [Fact]
+            public async void ReturnsCreateAtRouteResultIfDataIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                instance.PlayerGuid = id;
+                var playerDto = new PlayerDto {PlayerGuid = id};
+
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+                PlayerRepository.Setup(x => x.Insert(instance));
+                Mapper.Setup(m => m.Map<Player>(playerDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<PlayerDto>(instance)).Returns(playerDto);
+
+                var result = await PlayerController.Create(playerDto);
+                Assert.IsType<CreatedAtRouteResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsObjectResultIfValidDataIsNotSavedTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+                PlayerRepository.Setup(x => x.Insert(instance));
+                Mapper.Setup(m => m.Map<Player>(It.IsAny<PlayerDto>())).Returns(instance);
+
+                var result = await PlayerController.Create(new PlayerDto());
+                Assert.IsType<ObjectResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestTypeIfPlayerDtoIsNullTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await PlayerController.Create(null);
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void IfCreatedAtRouteResultIsCreatedWithCorrectValuesWhenAValidPlayerIsCreatedTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var id = Guid.NewGuid();
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                instance.PlayerGuid = id;
+                var playerDto = new PlayerDto() { PlayerGuid = id};
+
+                PlayerRepository.Setup(x => x.Insert(instance));
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+                Mapper.Setup(m => m.Map<Player>(playerDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<PlayerDto>(instance)).Returns(playerDto);
+
+                var result = await PlayerController.Create(playerDto) as CreatedAtRouteResult;
+                Assert.NotNull(result);
+                Assert.Equal(id, result.RouteValues["Id"]);
+            }
+
+            [Fact]
+            public async void IfCreatedAtRouteResultIsPlayerWhenAValidPlayerIsSavedTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var id = Guid.NewGuid();
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                instance.PlayerGuid = id;
+                var playerDto = new PlayerDto() { PlayerGuid = id};
+
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+                PlayerRepository.Setup(x => x.Insert(instance));
+                Mapper.Setup(m => m.Map<Player>(playerDto)).Returns(instance);
+                Mapper.Setup(m => m.Map<PlayerDto>(instance)).Returns(playerDto);
+
+                var result = await PlayerController.Create(playerDto) as CreatedAtRouteResult;
+
+                Assert.NotNull(result);
+                var routeObject = result.Value as PlayerDto;
+                Assert.IsType<PlayerDto>(routeObject);
+            }
+        }
+
+        public class DeletePlayerTest
+        {
+            [Fact]
+            public async void ReturnsNotFoundResultIfPlayerDoesntExistTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(null);
+
+                var result = await PlayerController.Delete(id);
+
+                Assert.IsType<NotFoundResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsNoContentResultIfPlayerIsDeletedWithValidDataTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                PlayerRepository.Setup(x => x.Delete(id));
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+                Mapper.Setup(x => x.Map<Player>(It.IsAny<PlayerDto>())).Returns(instance);
+
+
+                var result = await PlayerController.Delete(id);
+                Assert.IsType<NoContentResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsStatusCodeResultWithStatusCode500IfDataIsNotDeletedWithValidPlayerGuidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var id = Guid.NewGuid();
+                var instance = (Player)Activator.CreateInstance(typeof(Player), nonPublic: true);
+                instance.PlayerGuid = id;
+
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                PlayerRepository.Setup(x => x.Delete(id));
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+
+                var result = await PlayerController.Delete(id) as ObjectResult;
+                Assert.NotNull(result);
+                Assert.IsType<ObjectResult>(result);
+                Assert.Equal(result.StatusCode, (int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public class UpdatePlayerTest
+        {
+            [Fact]
+            public async void ReturnsBadRequestResultTypeIfPlayerDtoIsNullTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await PlayerController.Update(new Guid(), null);
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndPlayerDtoIsValidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+
+                var result = await PlayerController.Update(Guid.Empty, new PlayerDto() { PlayerGuid = id});
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsBadRequestResultIfIdIsEmptyAndPlayerDtoIsValidButEmptyGuidTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                var result = await PlayerController.Update(Guid.Empty, new PlayerDto());
+
+                Assert.IsType<BadRequestResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsObjectResultWithStatusCode500IfDataIsNotUpdatedWithValidPlayerDtoTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                PlayerRepository.Setup(x => x.Update(instance));
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(false);
+
+                var result = await PlayerController.Update(id, new PlayerDto() {PlayerGuid = id});
+                Assert.IsType<ObjectResult>(result);
+            }
+
+            [Fact]
+            public async void ReturnsNoContentResultIfPlayerIsUpdatedWithValidDataTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var id = Guid.NewGuid();
+                var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                PlayerRepository.Setup(x => x.FindAsync(id)).ReturnsAsync(instance);
+                PlayerRepository.Setup(x => x.Update(instance));
+                PlayerRepository.Setup(x => x.SaveAsync()).ReturnsAsync(true);
+
+                var result = await PlayerController.Update(id, new PlayerDto() {PlayerGuid = id});
+                Assert.IsType<OkObjectResult>(result);
             }
         }
 
         public class GetPlayersTest
         {
-            [Theory]
-            [InlineData(0)]
-            [InlineData(-1)]
-            [InlineData(-50)]
-            [InlineData(-100000)]
-            public async void ZeroAndBelowIdTest(int id)
+            private static IEnumerable<Player> GetPlayers(IEnumerable<Guid> playerIds)
             {
-                Mock<IPlayerRepository> playerRepository = new Mock<IPlayerRepository>();
-
-                playerRepository.Setup(x => x.FindAsync(id)).Throws<Exception>();
-                PlayerController playerController = new PlayerController(playerRepository.Object, new Logger<PlayerController>(new LoggerFactory()), Mapper.Object);
-
-                var result = await playerController.Get(id) as BadRequestObjectResult;
-
-                Assert.NotNull(result);
-                Assert.IsType<BadRequestObjectResult>(result);
+                IEnumerable<Player> players = new List<Player>();
+                foreach (var playerId in playerIds)
+                {
+                    var player = (Player) Activator.CreateInstance(typeof(Player), true);
+                    player.PlayerGuid = playerId;
+                    players.Append(player);
+                }
+                return players;
             }
-        }
 
-        public class CreatePlayerTest
-        {
+            [Fact]
+            public async void ReturnsJsonResultWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var playerIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
+                var players = GetPlayers(playerIds);
+
+                PlayerRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(players);
+                foreach (var playerId in playerIds)
+                {
+                    var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                    instance.PlayerGuid = playerId;
+                    var playerDto = new PlayerDto {PlayerGuid = playerId};
+                    Mapper.Setup(x => x.Map<PlayerDto>(instance)).Returns(playerDto);
+                }
+
+                var playerDtos = await PlayerController.Get() as JsonResult;
+                Assert.IsType<JsonResult>(playerDtos);
+            }
+
+            [Fact]
+            public async void ReturnsJsonResultWithIEnumerablePlayerDtoAsValueWhenItFindsSomethingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+                var playerIds = new[] {Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()};
+                var players = GetPlayers(playerIds);
+
+                PlayerRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(players);
+                foreach (var playerId in playerIds)
+                {
+                    var instance = (Player) Activator.CreateInstance(typeof(Player), nonPublic: true);
+                    instance.PlayerGuid = playerId;
+                    var playerDto = new PlayerDto {PlayerGuid = playerId};
+                    Mapper.Setup(x => x.Map<PlayerDto>(instance)).Returns(playerDto);
+                }
+
+                var result = await PlayerController.Get() as JsonResult;
+                Assert.NotNull(result);
+                var playerDtos = result.Value as IEnumerable<PlayerDto>;
+
+                Assert.NotNull(playerDtos);
+                foreach (var playerDto in playerDtos)
+                {
+                    Assert.True(playerIds.Contains(playerDto.PlayerGuid));
+                }
+            }
+
+            [Fact]
+            public async void ReturnsNotFoundResultWhenItDoesntFindAnythingTest()
+            {
+                MockExtensions.ResetAll(Mocks());
+
+                PlayerRepository.Setup(
+                        x => x.FindByAsync(It.IsAny<Expression<Func<Player, bool>>>(), It.IsAny<string>()))
+                    .ReturnsAsync(null);
+
+                var result = await PlayerController.Get() as NotFoundResult;
+
+                Assert.IsType<NotFoundResult>(result);
+            }
         }
 
         public void Dispose()
         {
+
         }
     }
 }

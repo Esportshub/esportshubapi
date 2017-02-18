@@ -2,10 +2,10 @@ using AutoMapper;
 using Data.App.Extensions;
 using Data.App.Models;
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
+using Data.App.Models.Repositories;
 using Data.App.Models.Repositories.Activities;
-using Data.App.Models.Repositories.Events;
+using Data.App.Models.Repositories.EsportshubEvents;
 using Data.App.Models.Repositories.Games;
 using Data.App.Models.Repositories.Groups;
 using Data.App.Models.Repositories.Integrations;
@@ -16,9 +16,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using RestfulApi.App.Dtos.ActivitiesDtos;
-using RestfulApi.App.Dtos.EventsDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.GameDtos;
 using RestfulApi.App.Dtos.GroupDtos;
 using RestfulApi.App.Dtos.IntegrationsDtos;
@@ -46,10 +47,7 @@ namespace RestfulApi.App
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<Activity, ActivityDto>().ReverseMap();
-                cfg.CreateMap<Event, EventDto>().ReverseMap();
-                cfg.CreateMap<GameEvent, GameEventDto>().ReverseMap();
-                cfg.CreateMap<GroupEvent, GroupEventDto>().ReverseMap();
-                cfg.CreateMap<TeamEvent, TeamEventDto>().ReverseMap();
+                cfg.CreateMap<EsportshubEvent, EsportshubEventDto>().ReverseMap();
                 cfg.CreateMap<Game, GameDto>().ReverseMap();
                 cfg.CreateMap<Group, GroupDto>().ReverseMap();
                 cfg.CreateMap<Integration, IntegrationDto>().ReverseMap();
@@ -61,13 +59,22 @@ namespace RestfulApi.App
                 cfg.CreateMap<Team, TeamDto>().ReverseMap();
             });
             services.AddDbContext<EsportshubContext>();
-            services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
-            services.AddScoped<IGroupRepository, GroupRepository>();
-            services.AddScoped<IActivityRepository, ActivityRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IIntegrationRepository, IntegrationRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>();
+
+            services.TryAddScoped<IRepository<Player>, InternalRepository<Player>>();
+            services.TryAddScoped<IRepository<Group>, InternalRepository<Group>>();
+            services.TryAddScoped<IRepository<Game>, InternalRepository<Game>>();
+            services.TryAddScoped<IRepository<Activity>, InternalRepository<Activity>>();
+            services.TryAddScoped<IRepository<Team>, InternalRepository<Team>>();
+            services.TryAddScoped<IRepository<Integration>, InternalRepository<Integration>>();
+            services.TryAddScoped<IRepository<EsportshubEvent>, InternalRepository<EsportshubEvent>>();
+
+            services.TryAddScoped<IPlayerRepository, PlayerRepository>();
+            services.TryAddScoped<IGameRepository, GameRepository>();
+            services.TryAddScoped<IGroupRepository, GroupRepository>();
+            services.TryAddScoped<IActivityRepository, ActivityRepository>();
+            services.TryAddScoped<IEsportshubEventRepository, EsportshubEventRepository>();
+            services.TryAddScoped<IIntegrationRepository, IntegrationRepository>();
+            services.TryAddScoped<ITeamRepository, TeamRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

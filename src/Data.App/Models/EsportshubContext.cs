@@ -1,5 +1,4 @@
 using Data.App.Models.Entities;
-using Data.App.Models.Entities.Events;
 using Data.App.Models.Entities.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,11 +12,8 @@ namespace Data.App.Models
         public DbSet<Group> Games { get; set; }
         public DbSet<Integration> Integrations { get; set; }
         public DbSet<Activity> Activities { get; set; }
-        public DbSet<Event> Events { get; set; }
+        public DbSet<EsportshubEvent> EsportshubEvents { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<GroupEvent> GroupEvents { get; set; }
-        public DbSet<TeamEvent> TeamEvents { get; set; }
-        public DbSet<GameEvent> GameEvent { get; set; }
 
         public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options)
         {
@@ -29,11 +25,14 @@ namespace Data.App.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
-                .AddJsonFile("appsettings.Development.json")
-                .Build();
-            var connString = config["ConnectionStrings:DefaultConnection"];
-            optionsBuilder.UseSqlServer(connString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                var config = new ConfigurationBuilder().SetBasePath("/home/denlillemand/Documents/esportshub/esportshubapi/src/Data.App")
+                    .AddJsonFile("appsettings.Development.json")
+                    .Build();
+                var connString = config["ConnectionStrings:DefaultConnection"];
+                optionsBuilder.UseSqlServer(connString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,9 +40,6 @@ namespace Data.App.Models
             base.OnModelCreating(modelBuilder);
             //One-to-one
             modelBuilder.Entity<Group>().HasOne(g => g.Role);
-            modelBuilder.Entity<GameEvent>().HasOne(e => e.Game);
-            modelBuilder.Entity<TeamEvent>().HasOne(e => e.Team);
-            modelBuilder.Entity<GroupEvent>().HasOne(e => e.Group);
             modelBuilder.Entity<SocialMedia>()
                 .HasOne(sm => sm.Integration)
                 .WithOne(i => i.SocialMedia)
@@ -54,10 +50,7 @@ namespace Data.App.Models
             modelBuilder.Entity<Player>().HasMany(p => p.Integrations).WithOne(i => i.Player);
             modelBuilder.Entity<Player>().HasMany(p => p.Followers);
             modelBuilder.Entity<Player>().HasMany(p => p.Activities).WithOne(a => a.Player);
-            modelBuilder.Entity<Game>().HasMany(g => g.GameEvents).WithOne(ge => ge.Game);
             modelBuilder.Entity<Game>().HasMany(g => g.Teams).WithOne(t => t.Game);
-            modelBuilder.Entity<Team>().HasMany(t => t.TeamEvents).WithOne(te => te.Team);
-            modelBuilder.Entity<Group>().HasMany(g => g.GroupEvents);
 
             //many to many
             modelBuilder.Entity<PlayerGames>().HasKey(pg => new {pg.PlayerId, pg.GameId});
@@ -135,13 +128,6 @@ namespace Data.App.Models
                 .Property(r => r.Updated)
                 .HasDefaultValueSql("getutcdate()")
                 .ValueGeneratedOnAddOrUpdate();
-
-            //discriminator values
-            modelBuilder.Entity<Event>()
-                .HasDiscriminator<string>("Type")
-                .HasValue<GameEvent>("GameEvent")
-                .HasValue<GroupEvent>("GroupEvent")
-                .HasValue<TeamEvent>("TeamEvent");
         }
 
     }

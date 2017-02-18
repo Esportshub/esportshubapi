@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Data.App.Models.Entities;
 
 namespace RestfulApi.App.Dtos.PlayerDtos
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using RestfulApi.App.Dtos.EventsDtos;
+using RestfulApi.App.Dtos.EsportshubEventsDtos;
 using RestfulApi.App.Dtos.GameDtos;
 using RestfulApi.App.Dtos.PlayerDtos;
 
@@ -9,12 +9,9 @@ namespace RestfulApi.App.Dtos.TeamDtos
 
     public class TeamDto
     {
-
-        public int TeamId { get;set; }
+        public Guid TeamGuid { get; set; }
 
         public string Name { get; set; }
-
-        public Guid TeamGuid { get; set; }
 
         public DateTime Created { get;set; }
 
@@ -22,7 +19,7 @@ namespace RestfulApi.App.Dtos.TeamDtos
 
         public GameDto Game { get; set; }
 
-        public List<TeamEventDto> TeamEvents { get; set; }
+        public List<EsportshubEventDto> EsportshubEvents { get; set; }
 
         public List<PlayerTeamsDto> PlayerTeams { get; set; }
     }

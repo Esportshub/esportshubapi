@@ -8,8 +8,6 @@ namespace RestfulApi.App.Dtos.PlayerDtos
 {
     public sealed class PlayerDto
     {
-        public int PlayerId { get; set; }
-
         public Guid PlayerGuid { get; set; }
 
         public string Nickname { get; set; }
@@ -33,7 +31,7 @@ namespace RestfulApi.App.Dtos.PlayerDtos
             PlayerDto objPlayer = (PlayerDto)obj;
 
             if (this.CompareEntities(obj))
-                return objPlayer.PlayerId == PlayerId;
+                return objPlayer.PlayerGuid == PlayerGuid;
 
             return false;
         }
