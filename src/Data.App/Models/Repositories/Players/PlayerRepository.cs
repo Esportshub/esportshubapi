@@ -24,6 +24,10 @@ namespace Data.App.Models.Repositories.Players
 
         public virtual async Task<Player> FindAsync(Guid guid)
         {
+            if (guid == Guid.Empty)
+            {
+                throw new ArgumentException();
+            }
             return await _internalRepository.FindAsync(guid);
         }
 
@@ -39,6 +43,10 @@ namespace Data.App.Models.Repositories.Players
 
         public virtual Player Find(Guid guid)
         {
+            if (guid == Guid.Empty)
+            {
+                throw new ArgumentException();
+            }
             return _internalRepository.Find(guid);
         }
 

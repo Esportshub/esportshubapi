@@ -93,7 +93,6 @@ namespace Test.RestfulApi.Test.Controllers
             }
         }
 
-
         public class CreatePlayerTest
         {
             [Fact]

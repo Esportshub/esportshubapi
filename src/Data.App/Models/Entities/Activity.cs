@@ -38,10 +38,10 @@ namespace Data.App.Models.Entities
 
         public override bool Equals(object obj)
         {
-            Activity activity = (Activity)obj;
+            var activity = (Activity)obj;
 
             if (this.CompareEntities(obj))
-                return activity.ActivityId == this.ActivityId;
+                return activity.ActivityGuid == ActivityGuid;
 
             return false;
         }
