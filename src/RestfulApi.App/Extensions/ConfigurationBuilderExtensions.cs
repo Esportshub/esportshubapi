@@ -7,14 +7,12 @@ namespace RestfulApi.App.Extensions
 {
     public static class ConfigurationBuilderExtensions
     {
-        private const string Path = "/Data.App";
-
         public static ConfigurationBuilder SetStartUpConfiguration(this ConfigurationBuilder builder,
             IHostingEnvironment env)
         {
-            return (ConfigurationBuilder) builder
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + Path)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+            builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+            builder.AddUserSecrets();
+            return builder;
         }
     }
 }

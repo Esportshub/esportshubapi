@@ -10,6 +10,7 @@ namespace RestfulApi.App
         {
            var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
+                .AddUserSecrets<Startup>()
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
                 .Build();
 

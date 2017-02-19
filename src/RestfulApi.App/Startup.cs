@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,7 @@ using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.SocialMediaDtos;
 using RestfulApi.App.Dtos.TeamDtos;
 using RestfulApi.App.Extensions;
-
+[assembly: UserSecretsId("30e9c7d59c6def6cc6da4983a21fd987")]
 
 namespace RestfulApi.App
 {

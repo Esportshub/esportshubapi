@@ -1,5 +1,6 @@
 {
   "version": "1.0.0-*",
+  "userSecretsId":"30e9c7d59c6def6cc6da4983a21fd987",
   "buildOptions": {
     "debugType": "portable",
       "copyToOutput": {
@@ -23,7 +24,9 @@
     "Microsoft.EntityFrameworkCore.Relational": "1.1.0",
     "Microsoft.Extensions.Configuration": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
-    "Microsoft.EntityFrameworkCore": "1.1.0"
+    "Microsoft.EntityFrameworkCore": "1.1.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.1.0",
+    "Microsoft.Extensions.SecretManager.Tools" :"1.1.0-preview4-final"
   },
   "testRunner": "xunit",
   "frameworks": {

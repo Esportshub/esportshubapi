@@ -1,4 +1,3 @@
-
 namespace Data.App
 {
     public class Program
