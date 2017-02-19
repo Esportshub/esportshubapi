@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace RestfulApi.App.Controllers
     public class PlayerController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
-        private readonly ILogger<PlayerController> _logger;
+//        private readonly ILogger<PlayerController> _logger;
         private readonly IMapper _mapper;
         private const string GetPlayer = "GetPlayer";
         private const string GetPlayers = "GetPlayers";
@@ -28,7 +27,7 @@ namespace RestfulApi.App.Controllers
         public PlayerController(IPlayerRepository playerRepository, ILogger<PlayerController> logger, IMapper mapper)
         {
             _playerRepository = playerRepository;
-            _logger = logger;
+//            _logger = logger;
             _mapper = mapper;
         }
 
