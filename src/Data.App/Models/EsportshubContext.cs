@@ -45,17 +45,13 @@ namespace Data.App.Models
             base.OnModelCreating(modelBuilder);
             //One-to-one
             modelBuilder.Entity<Group>().HasOne(g => g.Role);
-            modelBuilder.Entity<SocialMedia>()
-                .HasOne(sm => sm.Integration)
-                .WithOne(i => i.SocialMedia)
-                .HasForeignKey<Integration>(i => i.SocialMediaForeignKey);
-
 
             //one-to-many
             modelBuilder.Entity<Player>().HasMany(p => p.Integrations).WithOne(i => i.Player);
             modelBuilder.Entity<Player>().HasMany(p => p.Followers);
             modelBuilder.Entity<Player>().HasMany(p => p.Activities).WithOne(a => a.Player);
             modelBuilder.Entity<Game>().HasMany(g => g.Teams).WithOne(t => t.Game);
+            modelBuilder.Entity<SocialMedia>().HasMany(sm => sm.Integrations).WithOne(i => i.SocialMedia);
 
             //many to many
             modelBuilder.Entity<PlayerGames>().HasKey(pg => new {pg.PlayerId, pg.GameId});

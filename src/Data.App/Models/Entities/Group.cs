@@ -39,7 +39,7 @@ namespace Data.App.Models.Entities
 
         private Group() { }
 
-        public static GroupBuilder Build()
+        public static GroupBuilder Builder()
         {
             return new GroupBuilder(new Group());
         }

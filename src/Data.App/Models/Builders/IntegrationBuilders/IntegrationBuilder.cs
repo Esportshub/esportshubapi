@@ -5,7 +5,7 @@ namespace Data.App.Models.Builders.IntegrationBuilders
 {
     public class IntegrationBuilder : IIntegrationBuilder
     {
-        private Integration _integration;
+        private readonly Integration _integration;
         public IntegrationBuilder (Integration integration)
         {
            _integration = integration;
@@ -13,7 +13,7 @@ namespace Data.App.Models.Builders.IntegrationBuilders
 
         public Integration Build()
         {
-            throw new NotImplementedException();
+            return _integration;
         }
 
 
