@@ -22,10 +22,10 @@ namespace Data.App.Models.Entities
 
         public Guid GameGuid { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; private  set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
         public List<Team> Teams { get; set; }
