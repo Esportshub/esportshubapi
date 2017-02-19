@@ -13,7 +13,7 @@ namespace RestfulApi.App.Extensions
             IHostingEnvironment env)
         {
             return (ConfigurationBuilder) builder
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + Path)
+//                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + Path)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
         }
     }

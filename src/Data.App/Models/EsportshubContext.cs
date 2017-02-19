@@ -19,7 +19,7 @@ namespace Data.App.Models
         public DbSet<Group> Groups { get; set; }
 
         private const string Path= "/Data.App";
-        public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options)
+        public EsportshubContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -29,9 +29,10 @@ namespace Data.App.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            const string path = "~/realProjects/esportshub/src/Data.App";
             if (optionsBuilder.IsConfigured) return;
             var config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(Directory.GetCurrentDirectory()) + Path)
+                .SetBasePath(path)
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             var connString = config["ConnectionStrings:DefaultConnection"];
