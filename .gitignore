@@ -18,3 +18,5 @@ artifacts/
 **/appsettings.Development.json
 **/appsettings.Production.json
 **/azure.txt
+**/SetSecrets.sh
+SetSecrets.sh

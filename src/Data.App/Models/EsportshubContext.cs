@@ -1,10 +1,11 @@
+using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using Data.App.Models.Entities;
 using Data.App.Models.Entities.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
+[assembly: UserSecretsId("30e9c7d59c6def6cc6da4983a21fd987")]
 
 namespace Data.App.Models
 {
@@ -18,8 +19,7 @@ namespace Data.App.Models
         public DbSet<EsportshubEvent> EsportshubEvents { get; set; }
         public DbSet<Group> Groups { get; set; }
 
-        private const string Path= "/Data.App";
-        public EsportshubContext(DbContextOptions options) : base(options)
+        public EsportshubContext(DbContextOptions<EsportshubContext> options) : base(options)
         {
         }
 
@@ -29,13 +29,14 @@ namespace Data.App.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string path = "~/realProjects/esportshub/src/Data.App";
             if (optionsBuilder.IsConfigured) return;
             var config = new ConfigurationBuilder()
-                .SetBasePath(path)
-                .AddJsonFile("appsettings.Development.json")
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddUserSecrets<EsportshubContext>()
+                .AddJsonFile("appsettings.Development.json", true, true)
                 .Build();
-            var connString = config["ConnectionStrings:DefaultConnection"];
+            var connString = config["DefaultConnection"];
+            Console.WriteLine(connString);
             optionsBuilder.UseSqlServer(connString);
         }
 
