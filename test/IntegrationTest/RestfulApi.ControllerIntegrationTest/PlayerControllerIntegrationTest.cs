@@ -40,7 +40,6 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
                     .ConfigureServices(
                         services => { services.AddScoped(provider => _context); });
             }
-
             [Fact]
             public async Task GetPlayers()
             {
