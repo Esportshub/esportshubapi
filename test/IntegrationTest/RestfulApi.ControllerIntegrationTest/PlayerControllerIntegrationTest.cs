@@ -56,6 +56,9 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
                 _client = new TestServer(_webHostBuilder).CreateClient();
                 var result = await _client.GetAsync(PlayerEndpoint).Result.Content.ReadAsStringAsync();
                 var playerDtos = JsonConvert.DeserializeObject<List<PlayerDto>>(result);
+
+
+
                 //assert
                 Assert.Equal(nickname, playerDtos.FirstOrDefault().Nickname);
             }
