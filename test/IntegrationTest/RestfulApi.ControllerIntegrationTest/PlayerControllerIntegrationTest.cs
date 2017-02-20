@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Data.App.Models;
 using Data.App.Models.Entities;
@@ -23,7 +24,7 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
 
         public class GetPlayersIntegrationTest
         {
-            private readonly DbContextOptions _options;
+            private readonly DbContextOptions<EsportshubContext> _options;
             private readonly WebHostBuilder _webHostBuilder;
 
             public GetPlayersIntegrationTest()
@@ -36,27 +37,29 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
             }
 
             [Fact]
-            public async Task GetPlayers()
+            public void GetPlayers()
             {
                 const string nickname = "Sjuften";
 
-                _webHostBuilder.ConfigureServices(services => { services.TryAddScoped(provider => new EsportshubContext(_options)); });
-                using (var testServer = new TestServer(_webHostBuilder))
+                using (var context = new EsportshubContext(_options))
                 {
-                    using (var context = new EsportshubContext(_options))
+                    _webHostBuilder.ConfigureServices(services => { services.TryAddScoped(provider => context); });
+                    var inter = new InternalRepository<Player>(context);
+                    var playerRepo = new PlayerRepository(inter);
+                    playerRepo.Insert(Player.Builder().SetNickname(nickname).Build());
+                    playerRepo.Save();
+                    using (var testServer = new TestServer(_webHostBuilder))
                     {
-                        var inter = new InternalRepository<Player>(context);
-                        var playerRepo = new PlayerRepository(inter);
-                        playerRepo.Insert(Player.Builder().SetNickname(nickname).Build());
-                        playerRepo.Save();
-
                         using (var client = testServer.CreateClient())
                         {
-                            var response = await client.GetAsync(PlayerEndpoint);
-                            Console.WriteLine(response.Content.ReadAsStringAsync().Result);
-                            var playerDtos =
-                                JsonConvert.DeserializeObject<List<PlayerDto>>(response.Content.ReadAsStringAsync()
-                                    .Result);
+                            Task<HttpResponseMessage> message = client.GetAsync(PlayerEndpoint);
+                            message.Wait();
+                            Task<string> answer = message.Result.Content.ReadAsStringAsync();
+                            answer.Wait();
+                            Console.WriteLine(message.Result.Content.ReadAsStringAsync().Result + "HEEEEEEEEEey ");
+                            Console.WriteLine(answer.Result + "----------");
+                            var final = answer.Result;
+                            var playerDtos = JsonConvert.DeserializeObject<List<PlayerDto>>(final);
                             //assert
                             Assert.Equal(nickname, playerDtos.FirstOrDefault().Nickname);
                         }

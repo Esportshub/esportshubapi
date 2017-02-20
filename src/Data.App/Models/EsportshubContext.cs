@@ -36,7 +36,6 @@ namespace Data.App.Models
                 .AddJsonFile("appsettings.Development.json", true, true)
                 .Build();
             var connString = config["DefaultConnection"];
-            Console.WriteLine(connString);
             optionsBuilder.UseSqlServer(connString);
         }
 

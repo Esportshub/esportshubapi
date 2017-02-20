@@ -27,7 +27,6 @@ using RestfulApi.App.Dtos.IntegrationsDtos;
 using RestfulApi.App.Dtos.PlayerDtos;
 using RestfulApi.App.Dtos.SocialMediaDtos;
 using RestfulApi.App.Dtos.TeamDtos;
-using RestfulApi.App.Extensions;
 [assembly: UserSecretsId("30e9c7d59c6def6cc6da4983a21fd987")]
 
 namespace RestfulApi.App
@@ -38,7 +37,7 @@ namespace RestfulApi.App
 
         public Startup(IHostingEnvironment env)
         {
-            Configuration = new ConfigurationBuilder().SetStartUpConfiguration(env).Build();
+//            Configuration = new ConfigurationBuilder().SetStartUpConfiguration(env).Build();
         }
 
         public void ConfigureServices(IServiceCollection services)

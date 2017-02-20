@@ -51,7 +51,7 @@ namespace IntegrationTest.RestfulApi.RepositoryIntegrationTest
                     var playerRepository = new PlayerRepository(internalRepository);
                     var players = GetPlayers(7);
                     players.ForEach(playerRepository.Insert);
-                    context.SaveChanges();
+                    playerRepository.Save();
                 }
 
                 using (var context = new EsportshubContext(options))
