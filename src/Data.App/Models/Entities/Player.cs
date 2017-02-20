@@ -22,10 +22,10 @@ namespace Data.App.Models.Entities
 
         public string Nickname { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; private set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
         public string AccountForeignKey { get; set; }

@@ -9,8 +9,9 @@ using Data.App.Models.Repositories;
 using Data.App.Models.Repositories.Players;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RestfulApi.App;
 using RestfulApi.App.Dtos.PlayerDtos;
@@ -22,49 +23,52 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
     {
         protected static readonly string PlayerEndpoint = "/api/players";
 
-        public class GetPlayersIntegrationTest
+        public class GetPlayersIntegrationTest : IDisposable
         {
-            private readonly DbContextOptions<EsportshubContext> _options;
+            private readonly SqliteConnection _connection;
             private readonly WebHostBuilder _webHostBuilder;
+            private readonly EsportshubContext _context;
+            private HttpClient _client;
 
             public GetPlayersIntegrationTest()
             {
-                _options = new DbContextOptionsBuilder<EsportshubContext>()
-                    .UseInMemoryDatabase(databaseName: "memory")
-                    .Options;
+                _context = new EsportshubContext(new DbContextOptionsBuilder<EsportshubContext>()
+                    .UseSqlite(_connection = new SqliteConnection("DataSource=:memory:"))
+                    .Options);
 
                 _webHostBuilder = (WebHostBuilder) new WebHostBuilder().UseStartup<Startup>();
             }
 
             [Fact]
-            public void GetPlayers()
+            public async Task GetPlayers()
             {
+                _connection.Open();
                 const string nickname = "Sjuften";
 
-                using (var context = new EsportshubContext(_options))
-                {
-                    _webHostBuilder.ConfigureServices(services => { services.TryAddScoped(provider => context); });
-                    var inter = new InternalRepository<Player>(context);
-                    var playerRepo = new PlayerRepository(inter);
-                    playerRepo.Insert(Player.Builder().SetNickname(nickname).Build());
-                    playerRepo.Save();
-                    using (var testServer = new TestServer(_webHostBuilder))
-                    {
-                        using (var client = testServer.CreateClient())
-                        {
-                            Task<HttpResponseMessage> message = client.GetAsync(PlayerEndpoint);
-                            message.Wait();
-                            Task<string> answer = message.Result.Content.ReadAsStringAsync();
-                            answer.Wait();
-                            Console.WriteLine(message.Result.Content.ReadAsStringAsync().Result + "HEEEEEEEEEey ");
-                            Console.WriteLine(answer.Result + "----------");
-                            var final = answer.Result;
-                            var playerDtos = JsonConvert.DeserializeObject<List<PlayerDto>>(final);
-                            //assert
-                            Assert.Equal(nickname, playerDtos.FirstOrDefault().Nickname);
-                        }
-                    }
-                }
+                _context.Database.EnsureCreated();
+                _webHostBuilder.ConfigureServices(services => { services.AddScoped(provider => _context); });
+
+                var playerRepo = new PlayerRepository(new InternalRepository<Player>(_context));
+                playerRepo.Insert(Player.Builder().SetNickname(nickname).Build());
+                playerRepo.Save();
+
+                _client = new TestServer(_webHostBuilder).CreateClient();
+                Console.WriteLine("playerendpoint: {0}, client base address: {1}", PlayerEndpoint,
+                    _client.BaseAddress);
+                var result = await _client.GetAsync(PlayerEndpoint).Result.Content.ReadAsStringAsync();
+                var playerDtos = JsonConvert.DeserializeObject<List<PlayerDto>>(result);
+
+                //assert
+                Assert.Equal(nickname, playerDtos.FirstOrDefault().Nickname);
+            }
+
+            public void Dispose()
+            {
+                _connection.Dispose();
+                _client.Dispose();
+                _context.Dispose();
+                GC.SuppressFinalize(this);
+                Console.WriteLine("Disposing context");
             }
         }
     }

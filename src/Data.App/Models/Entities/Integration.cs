@@ -24,10 +24,10 @@ namespace Data.App.Models.Entities
 
         public int SocialMediaForeignKey { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Created { get; private set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Updated { get; private set; }
 
         [NotMapped]

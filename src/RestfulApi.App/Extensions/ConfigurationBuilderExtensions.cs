@@ -10,7 +10,7 @@ namespace RestfulApi.App.Extensions
         public static ConfigurationBuilder SetStartUpConfiguration(this ConfigurationBuilder builder,
             IHostingEnvironment env)
         {
-             builder.SetBasePath(Directory.GetCurrentDirectory())
+            builder.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
                 .AddUserSecrets();
             return builder;

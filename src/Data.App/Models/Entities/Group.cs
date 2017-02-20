@@ -24,10 +24,10 @@ namespace Data.App.Models.Entities
 
             public Guid RolesGuid { get; set; }
 
-            [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//            [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
             public  DateTime Created { get; private set; }
 
-            [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+//            [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
             public DateTime Updated { get; private set; }
         }
 
@@ -39,7 +39,7 @@ namespace Data.App.Models.Entities
 
         private Group() { }
 
-        public static GroupBuilder Build()
+        public static GroupBuilder Builder()
         {
             return new GroupBuilder(new Group());
         }

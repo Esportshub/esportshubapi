@@ -30,7 +30,9 @@ namespace Data.App.Models.Repositories.Players
 
         public virtual async Task<bool> SaveAsync()
         {
-            return await _internalRepository.SaveAsync();
+
+            var result = _internalRepository.SaveAsync();
+            return await result;
         }
 
         public virtual IEnumerable<Player> FindBy(Expression<Func<Player, bool>> filter, string includeProperties)
