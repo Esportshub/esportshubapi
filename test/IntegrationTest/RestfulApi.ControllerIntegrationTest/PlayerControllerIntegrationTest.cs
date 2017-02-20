@@ -36,25 +36,26 @@ namespace IntegrationTest.RestfulApi.ControllerIntegrationTest
                     .UseSqlite(_connection = new SqliteConnection("DataSource=:memory:"))
                     .Options);
 
-                _webHostBuilder = (WebHostBuilder) new WebHostBuilder().UseStartup<Startup>();
+                _webHostBuilder = (WebHostBuilder) new WebHostBuilder().UseStartup<Startup>()
+                    .ConfigureServices(
+                        services => { services.AddScoped(provider => _context); });
             }
 
             [Fact]
             public async Task GetPlayers()
             {
-                _connection.Open();
                 const string nickname = "Sjuften";
 
+                _connection.Open();
                 _context.Database.EnsureCreated();
-                _webHostBuilder.ConfigureServices(services => { services.AddScoped(provider => _context); });
 
-                var playerRepo = new PlayerRepository(new InternalRepository<Player>(_context));
-                playerRepo.Insert(Player.Builder().SetNickname(nickname).Build());
-                playerRepo.Save();
+                var repo = new PlayerRepository(new InternalRepository<Player>(_context));
+
+                repo.Insert(Player.Builder().SetNickname(nickname).Build());
+                repo.Save();
 
                 _client = new TestServer(_webHostBuilder).CreateClient();
-                Console.WriteLine("playerendpoint: {0}, client base address: {1}", PlayerEndpoint,
-                    _client.BaseAddress);
+
                 var result = await _client.GetAsync(PlayerEndpoint).Result.Content.ReadAsStringAsync();
                 var playerDtos = JsonConvert.DeserializeObject<List<PlayerDto>>(result);
 
