@@ -17,7 +17,7 @@ namespace RestfulApi.App.Controllers
     {
         private readonly IActivityRepository _activityRepository;
 
-//        private readonly ILogger<ActivityController> _logger;
+        private readonly ILogger<ActivityController> _logger;
         private readonly IMapper _mapper;
 
         private const string GetActivity = "GetActivity";
@@ -30,7 +30,7 @@ namespace RestfulApi.App.Controllers
             IMapper mapper)
         {
             _activityRepository = activityRepository;
-//            _logger = logger;
+            _logger = logger;
             _mapper = mapper;
         }
 
